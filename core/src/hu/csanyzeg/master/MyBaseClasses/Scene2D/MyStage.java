@@ -13,6 +13,7 @@ import com.badlogic.gdx.utils.TimeUtils;
 import com.badlogic.gdx.utils.viewport.ExtendViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
+import hu.csanyzeg.master.MyBaseClasses.Assets.LoadingStage;
 import hu.csanyzeg.master.MyBaseClasses.Game.InitableInterface;
 import hu.csanyzeg.master.MyBaseClasses.Game.MyGame;
 import hu.csanyzeg.master.MyBaseClasses.Timers.TickTimer;
@@ -96,23 +97,8 @@ abstract public class MyStage extends Stage implements InitableInterface, IZinde
         if(game.debug){
             addTimer(new TickTimer(2f, true, new TickTimerListener() {
                 @Override
-                public void onRepeat(TickTimer sender) {
-
-                }
-
-                @Override
                 public void onTick(Timer sender, float correction) {
                     Gdx.app.log("stage","Stage (" + this.hashCode() +") \tfps: " + 1f / Gdx.graphics.getDeltaTime() + ". \tActor count: " + getActors().size + ". \tDraw DT: " + drawTime + " ms. Act DT: " + actTime + " ms");
-                }
-
-                @Override
-                public void onStop(Timer sender) {
-
-                }
-
-                @Override
-                public void onStart(Timer sender) {
-
                 }
             }));
         }
@@ -144,6 +130,17 @@ abstract public class MyStage extends Stage implements InitableInterface, IZinde
             @Override
             public void backKeyDown() {
                 game.setScreenBackByStackPop();
+            }
+        });
+    }
+
+
+
+    public void addBackButtonScreenBackByStackPopListenerWithPreloadedAssets(final LoadingStage loadingStage) {
+        addBackButtonListener(new BackButtonListener() {
+            @Override
+            public void backKeyDown() {
+                game.setScreenBackByStackPopWithPreloadAssets(loadingStage);
             }
         });
     }

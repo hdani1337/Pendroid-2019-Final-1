@@ -44,27 +44,12 @@ public class SimpleWorldStage extends MyStage {
                 public void onRepeat(TickTimer sender) {
                     Gdx.app.log("world", "DT world step: " + (lastWorldMs / 1000000f) +" ms; ET world & SWstage: " + elapsedTime + " \tWorld iterations per delta: " + iterations);
                 }
-
-                @Override
-                public void onTick(Timer sender, float correction) {
-
-                }
-
-                @Override
-                public void onStop(Timer sender) {
-
-                }
-
-                @Override
-                public void onStart(Timer sender) {
-
-                }
             }));
         };
 
         world.setContactListener(new SimpleWorldContactListener() {
             @Override
-            public void beginContact(SimpleContact contact) {
+            public void beginContact(SimpleWorld world, SimpleContact contact) {
                 if (contact.bodyA.userData instanceof SimpleWorldHelper && contact.bodyB.userData instanceof SimpleWorldHelper) {
                     SimpleWorldHelper helperA = ((SimpleWorldHelper) contact.bodyA.userData);
                     SimpleWorldHelper helperB = ((SimpleWorldHelper) contact.bodyB.userData);
@@ -78,7 +63,7 @@ public class SimpleWorldStage extends MyStage {
             }
 
             @Override
-            public void endContact(SimpleContact contact) {
+            public void endContact(SimpleWorld world, SimpleContact contact) {
                 if (contact.bodyA.userData instanceof SimpleWorldHelper && contact.bodyB.userData instanceof SimpleWorldHelper) {
                     SimpleWorldHelper helperA = ((SimpleWorldHelper) contact.bodyA.userData);
                     SimpleWorldHelper helperB = ((SimpleWorldHelper) contact.bodyB.userData);
@@ -96,6 +81,9 @@ public class SimpleWorldStage extends MyStage {
     @Override
     public void act(float delta) {
         long m = TimeUtils.nanoTime();
+        if (delta > 0.1f){
+            delta = 0.1f;
+        }
         iterations = 1 + (int)(delta*iterationPerSec);
         world.step(delta, iterations, 10);
         lastWorldMs = TimeUtils.nanoTime() - m;

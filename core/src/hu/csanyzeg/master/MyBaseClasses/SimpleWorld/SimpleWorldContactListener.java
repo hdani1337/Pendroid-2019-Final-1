@@ -1,6 +1,20 @@
 package hu.csanyzeg.master.MyBaseClasses.SimpleWorld;
 
-public abstract class SimpleWorldContactListener {
-    public abstract void beginContact(SimpleContact contact);
-    public abstract void endContact(SimpleContact contact);
+
+public class SimpleWorldContactListener {
+    public void beginContact(SimpleWorld sender, SimpleContact contact){
+
+    }
+    public void endContact(SimpleWorld sender, SimpleContact contact){
+
+    }
+
+    public void beforeIteration(SimpleWorld sender, float deltaTime){
+
+    }
+
+    public void afterIteration(SimpleWorld sender, float deltaTime) {
+
+    }
+
 }
