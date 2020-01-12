@@ -17,7 +17,7 @@ public class MenuStage extends MyStage {
     }
 
     public MenuStage(MyGame game) {
-        super(new ResponseViewport(1080), game);
+        super(new ResponseViewport(900), game);
         addBackButtonScreenBackByStackPopListener();
         addActor(new MyLabel("Elindultam", new Label.LabelStyle(game.getMyAssetManager().getFont(trebuc), Color.WHITE)) {
             @Override
