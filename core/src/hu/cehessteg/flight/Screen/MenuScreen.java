@@ -22,9 +22,6 @@ public class MenuScreen extends MyScreen {
     public AssetList getAssetList() {
         AssetList assetList = new AssetList();
         assetList.collectAssetDescriptor(MenuStage.class, assetList);
-        assetList.collectAssetDescriptor(InfoStage.class, assetList);
-        assetList.collectAssetDescriptor(OptionsStage.class, assetList);
-        assetList.collectAssetDescriptor(ShopStage.class, assetList);
         return assetList;
     }
 
