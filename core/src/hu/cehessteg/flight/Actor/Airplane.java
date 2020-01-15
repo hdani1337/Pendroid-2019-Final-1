@@ -13,7 +13,10 @@ public class Airplane extends OneSpriteStaticActor {
         assetList.addTexture(AIRPLANE_TEXTURE);
     }
 
+    public byte hp;//Életerő
+
     public Airplane(MyGame game) {
         super(game, AIRPLANE_TEXTURE);
+        hp = 100;
     }
 }

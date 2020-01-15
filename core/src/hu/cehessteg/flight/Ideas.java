@@ -24,5 +24,6 @@ public class Ideas {
      *  - Nehézségi fokozatok
      *  - Esetleg easter eggek, 9/11?
      *  - Boss?
+     *  - Repülőgépnek életerő, hogy ne egy ütközés után haljon meg
      *  */
 }
