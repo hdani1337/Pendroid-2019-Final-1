@@ -60,8 +60,8 @@ public class HudStage extends MyStage {
             }
         };
 
-        down.setPosition(getViewport().getWorldWidth()-150, getViewport().getWorldHeight()*0.4f);
-        up.setPosition(getViewport().getWorldWidth()-150, getViewport().getWorldHeight()*0.6f);
+        down.setPosition(getViewport().getWorldWidth()-250, getViewport().getWorldHeight()*0.2f);
+        up.setPosition(getViewport().getWorldWidth()-250, getViewport().getWorldHeight()*0.7f);
 
         addActor(down);
         addActor(up);
