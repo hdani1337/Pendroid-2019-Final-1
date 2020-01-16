@@ -45,7 +45,7 @@ public class HudStage extends MyStage {
 
         direction = Direction.NULL;//Kezdetben lenullázzuk az irányt, ekkor nem megy semerre se a repülőgép
 
-        down = new MyLabel("Le", new Label.LabelStyle(game.getMyAssetManager().getFont(trebuc), Color.WHITE)) {
+        down = new MyLabel("Le", new Label.LabelStyle(game.getMyAssetManager().getFont(trebuc), Color.WHITE), game) {
             //Új MyLabel "Le" szöveggel
             @Override
             public void init() {
@@ -53,7 +53,7 @@ public class HudStage extends MyStage {
             }
         };
 
-        up = new MyLabel("Fel",  new Label.LabelStyle(game.getMyAssetManager().getFont(trebuc), Color.WHITE)) {
+        up = new MyLabel("Fel",  new Label.LabelStyle(game.getMyAssetManager().getFont(trebuc), Color.WHITE), game) {
             @Override
             public void init() {
                 addListener(controlListener(Direction.UP));//Új DragListener hozzáadása "FEL" iránnyal

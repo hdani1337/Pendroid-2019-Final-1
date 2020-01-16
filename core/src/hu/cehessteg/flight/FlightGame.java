@@ -13,7 +13,7 @@ public class FlightGame extends MyGame{
 	@Override
 	public void create() {
 		super.create();
-		setScreen(new GameScreen(this));
 		setLoadingStage(new LoadingStage(this));
+		setScreen(new MenuScreen(this));
 	}
 }

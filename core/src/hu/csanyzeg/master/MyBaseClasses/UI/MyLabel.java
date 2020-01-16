@@ -17,28 +17,33 @@ public abstract class MyLabel extends Label implements IZindex, InitableInterfac
 
     protected MyGame game;
 
-    public MyLabel(CharSequence text, Skin skin) {
+    public MyLabel(CharSequence text, Skin skin, MyGame game) {
         super(text, skin);
+        this.game = game;
         init();
     }
 
-    public MyLabel(CharSequence text, Skin skin, String styleName) {
+    public MyLabel(CharSequence text, Skin skin, String styleName, MyGame game) {
         super(text, skin, styleName);
+        this.game = game;
         init();
     }
 
-    public MyLabel(CharSequence text, Skin skin, String fontName, Color color) {
+    public MyLabel(CharSequence text, Skin skin, String fontName, Color color, MyGame game) {
         super(text, skin, fontName, color);
+        this.game = game;
         init();
     }
 
-    public MyLabel(CharSequence text, Skin skin, String fontName, String colorName) {
+    public MyLabel(CharSequence text, Skin skin, String fontName, String colorName, MyGame game) {
         super(text, skin, fontName, colorName);
+        this.game = game;
         init();
     }
 
-    public MyLabel(CharSequence text, LabelStyle style) {
+    public MyLabel(CharSequence text, LabelStyle style, MyGame game) {
         super(text, style);
+        this.game = game;
         init();
     }
 
