@@ -22,7 +22,7 @@ public class MenuStage extends MyStage {
     public MenuStage(MyGame game) {
         super(new ResponseViewport(900), game);
         addBackButtonScreenBackByStackPopListener();
-        addActor(new MyLabel("Elindultam", new Label.LabelStyle(game.getMyAssetManager().getFont(trebuc), Color.WHITE), game) {
+        addActor(new MyLabel(game, "Elindultam", new Label.LabelStyle(game.getMyAssetManager().getFont(trebuc), Color.WHITE)) {
             @Override
             public void init() {
                 setAlignment(0);
