@@ -7,6 +7,11 @@ import hu.cehessteg.flight.FlightGame;
 public class DesktopLauncher {
 	public static void main (String[] arg) {
 		LwjglApplicationConfiguration config = new LwjglApplicationConfiguration();
-		new LwjglApplication(new FlightGame(true), config);
+		new LwjglApplication(new FlightGame(false), config);
+
+		config.width = 1280;
+		config.height = 720;
 	}
+
+
 }

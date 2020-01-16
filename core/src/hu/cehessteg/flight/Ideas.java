@@ -15,7 +15,7 @@ public class Ideas {
      *  - Options (némítás, ide még kellenek ötletek)
      *  - Info (általános információ a játékról és a készítőkről)
      *  - Shop (bolt, itt lehetne vásárolni több típusú repülőt, fegyvereket)
-     * Képernyőbáltáskor repülőajtó becsukódik oldalról, LoadingStagen egyhelyben marad, betöltés után pedig kimegy a képből
+     * Képernyőváltáskor repülőajtó becsukódik oldalról, LoadingStagen egyhelyben marad, betöltés után pedig kimegy a képből
      *
      * Egyéb ötletek
      *  - Pénzrendszer kialakítása

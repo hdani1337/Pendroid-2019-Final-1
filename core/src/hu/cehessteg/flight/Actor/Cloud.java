@@ -6,6 +6,8 @@ import hu.csanyzeg.master.MyBaseClasses.Assets.AssetList;
 import hu.csanyzeg.master.MyBaseClasses.Game.MyGame;
 import hu.csanyzeg.master.MyBaseClasses.Scene2D.OneSpriteStaticActor;
 
+import static hu.cehessteg.flight.Stage.GameStage.isAct;
+
 public class Cloud extends OneSpriteStaticActor {
     public static final String cloud3 = "cloud3.png";
     public static final String cloud4 = "cloud4.png";
@@ -29,10 +31,12 @@ public class Cloud extends OneSpriteStaticActor {
     @Override
     public void act(float delta) {
         super.act(delta);
-        if(getX() > -getWidth()) setX(getX()-5);
-        else {
-            setX((float) Math.random() * 500 + viewport.getWorldWidth());
-            setY((float) Math.random() * viewport.getWorldHeight());
+        if (isAct) {
+            if (getX() > -getWidth()) setX(getX() - 5);
+            else {
+                setX((float) Math.random() * 500 + viewport.getWorldWidth());
+                setY((float) Math.random() * viewport.getWorldHeight());
+            }
         }
     }
 }

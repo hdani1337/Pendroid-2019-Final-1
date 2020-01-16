@@ -27,14 +27,16 @@ public class MenuStage extends MyStage {
             public void init() {
                 setAlignment(0);
                 setPosition(getViewport().getWorldWidth()/2-this.getWidth()/2,getViewport().getWorldHeight()/2-this.getHeight()/2);
-                addListener(new ClickListener(){
+                addListener(new ClickListener()
+                {
                     @Override
                     public void clicked(InputEvent event, float x, float y) {
                         super.clicked(event, x, y);
-                        //Ez a game a MyLabelből származott. Ezért volt null. Majd módosítom a mester projektben az ilyen konstruktorokat.
                         game.setScreen(new GameScreen(game));
                     }
                 });
+
+
             }
         });
     }
