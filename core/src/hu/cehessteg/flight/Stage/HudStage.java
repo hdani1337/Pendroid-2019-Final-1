@@ -5,6 +5,7 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.utils.DragListener;
 
+import hu.cehessteg.flight.Actor.Airplane;
 import hu.csanyzeg.master.MyBaseClasses.Assets.AssetList;
 import hu.csanyzeg.master.MyBaseClasses.Game.MyGame;
 import hu.csanyzeg.master.MyBaseClasses.Scene2D.MyStage;
@@ -19,13 +20,16 @@ public class HudStage extends MyStage {
         assetList.addFont(trebuc, trebuc, 120, Color.WHITE, AssetList.CHARS);
     }
 
-    MyLabel down;
-    MyLabel up;
+    private MyLabel down;
+    private MyLabel up;
+    private MyLabel shoot;
+    public static MyLabel hp;
 
     private enum Direction
     {
         DOWN,
         UP,
+        SHOOT,
         NULL
 
         /**
@@ -53,6 +57,13 @@ public class HudStage extends MyStage {
             }
         };
 
+        hp = new MyLabel(game, "HP: undefined", new Label.LabelStyle(game.getMyAssetManager().getFont(trebuc), Color.WHITE)) {
+            @Override
+            public void init() {
+                setAlignment(0);
+            }
+        };
+
         up = new MyLabel(game, "Fel",  new Label.LabelStyle(game.getMyAssetManager().getFont(trebuc), Color.WHITE)) {
             @Override
             public void init() {
@@ -60,11 +71,21 @@ public class HudStage extends MyStage {
             }
         };
 
-        down.setPosition(getViewport().getWorldWidth()-250, getViewport().getWorldHeight()*0.2f);
-        up.setPosition(getViewport().getWorldWidth()-250, getViewport().getWorldHeight()*0.7f);
+        shoot = new MyLabel(game, "Lövés",  new Label.LabelStyle(game.getMyAssetManager().getFont(trebuc), Color.WHITE)) {
+            @Override
+            public void init() {
+                addListener(controlListener(Direction.SHOOT));//Új DragListener hozzáadása "LÖVÉS" iránnyal
+            }
+        };
+
+        down.setPosition(getViewport().getWorldWidth()-300, 0);
+        up.setPosition(getViewport().getWorldWidth()-300, getViewport().getWorldHeight()-up.getHeight());
+        shoot.setPosition(getViewport().getWorldWidth()-300, getViewport().getWorldHeight()*0.5f-shoot.getHeight()/2);
 
         addActor(down);
         addActor(up);
+        addActor(shoot);
+        addActor(hp);
     }
 
     /**
@@ -118,6 +139,29 @@ public class HudStage extends MyStage {
                 };
             }
 
+            case SHOOT:
+            {
+                //Ha a lövés irányítónak kell, ezt kapja meg
+                return new DragListener()
+                {
+
+                    //Ekkor tartjuk nyomva
+                    @Override
+                    public boolean touchDown(InputEvent event, float x, float y, int pointer, int button) {
+                        direction = Direction.SHOOT;//Az irány "LÖVÉS" értékre vált
+                        return super.touchDown(event, x, y, pointer, button);
+                    }
+
+                    @Override
+                    public void touchUp(InputEvent event, float x, float y, int pointer, int button) {
+                        direction = Direction.NULL;//Az irány "NULLA" értékre vált
+                        super.touchUp(event, x, y, pointer, button);
+                    }
+
+                };
+            }
+
+
             default:
             {
                 //Egyéb esetben egy sima DragListenert kap
@@ -140,6 +184,12 @@ public class HudStage extends MyStage {
             case DOWN: {
                 //Ha "LE", akkor lefele mozdul a gép egészen a ,,padlóig"
                 GameStage.moveDown();
+                break;
+            }
+
+            case SHOOT: {
+                //Ha "LÖVÉS", akkor lő a gép
+                GameStage.isShoot = true;
                 break;
             }
 

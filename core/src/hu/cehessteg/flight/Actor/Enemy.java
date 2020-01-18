@@ -10,7 +10,7 @@ import static hu.cehessteg.flight.Stage.GameStage.isAct;
 
 public class Enemy extends OneSpriteStaticActor {
 
-    public static final String ENEMY_TEXTURE = "airplane.png";
+    public static final String ENEMY_TEXTURE = "vadaszgep.png";
     public static AssetList assetList = new AssetList();
     static{
 
@@ -19,29 +19,32 @@ public class Enemy extends OneSpriteStaticActor {
     }
 
     private Viewport viewport;
+    public byte hp;
 
     public Enemy(MyGame game, Viewport viewport) {
         super(game,ENEMY_TEXTURE);
         this.viewport = viewport;
+        this.setZIndex(2);
         addBaseCollisionRectangleShape();
-
+        hp = 100;
     }
-
-
 
     @Override
     public void act(float delta) {
         if (isAct) {
             if (getX() > -getWidth()) {
-
-                setX(getX() - 15);
-
+                setX(getX() - 10);
             } else {
-
-                setX((float) Math.random() * 500 + 1500);
-                setY((float) Math.random() * (viewport.getWorldHeight() - getHeight()));
-
+                replace();
             }
         }
+        System.out.println("enemy " + hp);
+    }
+
+    public void replace()
+    {
+        hp = 100;
+        setX((float) Math.random() * 750 + 2000);
+        setY((float) Math.random() * (viewport.getWorldHeight() - getHeight()));
     }
 }
