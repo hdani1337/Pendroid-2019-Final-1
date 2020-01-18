@@ -25,5 +25,7 @@ public class Ideas {
      *  - Esetleg easter eggek, 9/11?
      *  - Boss?
      *  - Repülőgépnek életerő, hogy ne egy ütközés után haljon meg
+     *  - Üzemanyag
+     *  - több játékstíklus: bombázás, légicsata, random, vízi egységek kiiktatása, stb.
      *  */
 }
