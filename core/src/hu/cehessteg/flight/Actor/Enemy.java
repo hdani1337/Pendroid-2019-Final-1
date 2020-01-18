@@ -1,5 +1,6 @@
 package hu.cehessteg.flight.Actor;
 
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
 import hu.csanyzeg.master.MyBaseClasses.Assets.AssetList;
@@ -25,6 +26,7 @@ public class Enemy extends OneSpriteStaticActor {
         super(game,ENEMY_TEXTURE);
         this.viewport = viewport;
         this.setZIndex(2);
+        this.setColor(Color.RED);
         addBaseCollisionRectangleShape();
         hp = 100;
     }

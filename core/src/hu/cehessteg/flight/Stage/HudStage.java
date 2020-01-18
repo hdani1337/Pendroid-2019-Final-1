@@ -17,13 +17,12 @@ import static hu.cehessteg.flight.Stage.MenuStage.trebuc;
 public class HudStage extends MyStage {
     public static AssetList assetList = new AssetList();
     static {
-        assetList.addFont(trebuc, trebuc, 120, Color.WHITE, AssetList.CHARS);
+        assetList.addFont(trebuc, trebuc, 100, Color.WHITE, AssetList.CHARS);
     }
 
     private MyLabel down;
     private MyLabel up;
     private MyLabel shoot;
-    public static MyLabel hp;
 
     private enum Direction
     {
@@ -57,13 +56,6 @@ public class HudStage extends MyStage {
             }
         };
 
-        hp = new MyLabel(game, "HP: undefined", new Label.LabelStyle(game.getMyAssetManager().getFont(trebuc), Color.WHITE)) {
-            @Override
-            public void init() {
-                setAlignment(0);
-            }
-        };
-
         up = new MyLabel(game, "Fel",  new Label.LabelStyle(game.getMyAssetManager().getFont(trebuc), Color.WHITE)) {
             @Override
             public void init() {
@@ -85,7 +77,6 @@ public class HudStage extends MyStage {
         addActor(down);
         addActor(up);
         addActor(shoot);
-        addActor(hp);
     }
 
     /**

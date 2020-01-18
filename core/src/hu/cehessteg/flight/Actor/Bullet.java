@@ -20,13 +20,12 @@ public class Bullet extends OneSpriteStaticActor {
 
     public Bullet(MyGame game, Airplane airplane, GameStage stage) {
         super(game, BULLET_TEXTURE);
-        damage = (byte) (Math.random() * 3);
+        damage = (byte) (Math.random() * 10);
         addBaseCollisionRectangleShape();
-        this.setZIndex(1);
         this.stage = stage;
         stage.addBullet(this);
-        setSize(getWidth()*0.1f, getHeight()*0.1f);
-        setPosition(airplane.getX()+airplane.getWidth(), airplane.getY()+airplane.getHeight()/2-this.getHeight()/2);
+        setSize(getWidth()*0.07f, getHeight()*0.07f);
+        setPosition(airplane.getX()+airplane.getWidth()*0.65f, airplane.getY()+7);
     }
 
     @Override
@@ -38,7 +37,13 @@ public class Bullet extends OneSpriteStaticActor {
         }
         else {
             this.remove();
-            this.removeBaseCollisionRectangleShape();
+            stage.removeBullet(this);
         }
+    }
+
+    @Override
+    public boolean remove() {
+        this.removeBaseCollisionRectangleShape();
+        return super.remove();
     }
 }
