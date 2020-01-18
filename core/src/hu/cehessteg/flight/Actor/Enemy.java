@@ -40,7 +40,6 @@ public class Enemy extends OneSpriteStaticActor {
                 replace();
             }
         }
-        System.out.println("enemy " + hp);
     }
 
     public void replace()
