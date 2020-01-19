@@ -16,11 +16,13 @@ public class Airplane extends OneSpriteStaticActor {
     }
 
     public byte hp;//Életerő
+    public byte fuel;//Üzemanyag
     private static MyGame game;
 
     public Airplane(MyGame game) {
         super(game, AIRPLANE_TEXTURE);
         hp = 100;
+        fuel = 100;
         this.game = game;
         addBaseCollisionRectangleShape();
     }
@@ -29,6 +31,7 @@ public class Airplane extends OneSpriteStaticActor {
     {
         try {
             stage.addActor(new Bullet(game, this, stage));
+            stage.addActor(new Bomb(game, this, stage));
             System.out.println("PUFF");
         }catch (NullPointerException e)
         {

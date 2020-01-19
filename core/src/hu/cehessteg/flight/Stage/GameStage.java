@@ -10,6 +10,7 @@ import org.omg.IOP.ENCODING_CDR_ENCAPS;
 import java.util.ArrayList;
 
 import hu.cehessteg.flight.Actor.Airplane;
+import hu.cehessteg.flight.Actor.Bomb;
 import hu.cehessteg.flight.Actor.Bullet;
 import hu.cehessteg.flight.Actor.Cloud;
 import hu.cehessteg.flight.Actor.Enemy;
@@ -24,6 +25,11 @@ import static hu.cehessteg.flight.Stage.MenuStage.trebuc;
 import static hu.csanyzeg.master.MyBaseClasses.Scene2D.MyActor.overlaps;
 
 public class GameStage extends MyStage {
+
+    /**TODO
+     * Minden játékmódnak külön stage kell majd!!
+     * */
+
     public static AssetList assetList = new AssetList();
     static {
         assetList.collectAssetDescriptor(Airplane.class, assetList);
@@ -31,6 +37,7 @@ public class GameStage extends MyStage {
         assetList.collectAssetDescriptor(Sky.class, assetList);
         assetList.collectAssetDescriptor(Enemy.class,assetList);
         assetList.collectAssetDescriptor(Bullet.class,assetList);
+        assetList.collectAssetDescriptor(Bomb.class,assetList);
         assetList.addFont(trebuc, trebuc, 30, Color.WHITE, AssetList.CHARS);
     }
 
@@ -41,6 +48,7 @@ public class GameStage extends MyStage {
     public static boolean isShoot;
     private ArrayList<Cloud> clouds;
     private ArrayList<Bullet> bullets;
+    private ArrayList<Bomb> bombs;
     private static Direction direction;
     private MyLabel enemyHP;
     private MyLabel playerHP;
@@ -67,6 +75,7 @@ public class GameStage extends MyStage {
         enemy = new Enemy(game,getViewport());
         clouds = new ArrayList<>();
         bullets = new ArrayList<>();
+        bombs = new ArrayList<>();
         for (int i = 0; i < 18; i++) clouds.add(new Cloud(game, getViewport()));
         setHpLabels();
     }
@@ -153,6 +162,16 @@ public class GameStage extends MyStage {
     public void removeBullet(Bullet bullet)
     {
         bullets.remove(bullet);
+    }
+
+    public void addBomb(Bomb bomb)
+    {
+        bombs.add(bomb);
+    }
+
+    public void removeBomb(Bomb bomb)
+    {
+        bombs.remove(bomb);
     }
 
     @Override
