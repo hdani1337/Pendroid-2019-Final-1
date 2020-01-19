@@ -1,6 +1,5 @@
 package hu.cehessteg.flight;
 
-import hu.cehessteg.flight.Screen.GameScreen;
 import hu.cehessteg.flight.Screen.MenuScreen;
 import hu.cehessteg.flight.Stage.LoadingStage;
 import hu.csanyzeg.master.MyBaseClasses.Game.MyGame;

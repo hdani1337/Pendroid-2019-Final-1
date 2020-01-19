@@ -24,7 +24,7 @@ import hu.csanyzeg.master.MyBaseClasses.UI.MyLabel;
 import static hu.cehessteg.flight.Stage.MenuStage.trebuc;
 import static hu.csanyzeg.master.MyBaseClasses.Scene2D.MyActor.overlaps;
 
-public class GameStage extends MyStage {
+public class GameStageCombat extends MyStage {
 
     /**TODO
      * Minden játékmódnak külön stage kell majd!!
@@ -37,7 +37,6 @@ public class GameStage extends MyStage {
         assetList.collectAssetDescriptor(Sky.class, assetList);
         assetList.collectAssetDescriptor(Enemy.class,assetList);
         assetList.collectAssetDescriptor(Bullet.class,assetList);
-        assetList.collectAssetDescriptor(Bomb.class,assetList);
         assetList.addFont(trebuc, trebuc, 30, Color.WHITE, AssetList.CHARS);
     }
 
@@ -58,7 +57,7 @@ public class GameStage extends MyStage {
         UP, DOWN, NULL
     }
 
-    public GameStage(MyGame game) {
+    public GameStageCombat(MyGame game) {
         super(new ResponseViewport(900), game);//Ha lesz Box2D, akkor 900 helyett mondjuk 9 lesz
         assignment();
         setSizesAndPositions();
@@ -162,16 +161,6 @@ public class GameStage extends MyStage {
     public void removeBullet(Bullet bullet)
     {
         bullets.remove(bullet);
-    }
-
-    public void addBomb(Bomb bomb)
-    {
-        bombs.add(bomb);
-    }
-
-    public void removeBomb(Bomb bomb)
-    {
-        bombs.remove(bomb);
     }
 
     @Override

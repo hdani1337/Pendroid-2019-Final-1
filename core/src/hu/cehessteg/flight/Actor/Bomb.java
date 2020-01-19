@@ -1,6 +1,7 @@
 package hu.cehessteg.flight.Actor;
 
-import hu.cehessteg.flight.Stage.GameStage;
+import hu.cehessteg.flight.Stage.GameStageBombing;
+import hu.cehessteg.flight.Stage.GameStageCombat;
 import hu.csanyzeg.master.MyBaseClasses.Assets.AssetList;
 import hu.csanyzeg.master.MyBaseClasses.Game.MyGame;
 import hu.csanyzeg.master.MyBaseClasses.Scene2D.OneSpriteStaticActor;
@@ -15,10 +16,10 @@ public class Bomb extends OneSpriteStaticActor {
         assetList.addTexture(BOMB_TEXTURE);
     }
 
-    private GameStage stage;
+    private GameStageBombing stage;
     public byte damage;
 
-    public Bomb(MyGame game, Airplane airplane, GameStage stage) {
+    public Bomb(MyGame game, Airplane airplane, GameStageBombing stage) {
         super(game, BOMB_TEXTURE);
         damage = (byte) (Math.random() * 10);
         addBaseCollisionRectangleShape();

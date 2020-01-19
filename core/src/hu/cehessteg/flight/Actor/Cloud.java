@@ -6,7 +6,7 @@ import hu.csanyzeg.master.MyBaseClasses.Assets.AssetList;
 import hu.csanyzeg.master.MyBaseClasses.Game.MyGame;
 import hu.csanyzeg.master.MyBaseClasses.Scene2D.OneSpriteStaticActor;
 
-import static hu.cehessteg.flight.Stage.GameStage.isAct;
+import static hu.cehessteg.flight.Stage.GameStageCombat.isAct;
 
 public class Cloud extends OneSpriteStaticActor {
     public static final String cloud3 = "cloud3.png";

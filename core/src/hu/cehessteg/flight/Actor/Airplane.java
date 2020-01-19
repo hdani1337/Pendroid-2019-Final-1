@@ -1,6 +1,6 @@
 package hu.cehessteg.flight.Actor;
 
-import hu.cehessteg.flight.Stage.GameStage;
+import hu.cehessteg.flight.Stage.GameStageCombat;
 import hu.csanyzeg.master.MyBaseClasses.Assets.AssetList;
 import hu.csanyzeg.master.MyBaseClasses.Game.MyGame;
 import hu.csanyzeg.master.MyBaseClasses.Scene2D.OneSpriteStaticActor;
@@ -27,11 +27,10 @@ public class Airplane extends OneSpriteStaticActor {
         addBaseCollisionRectangleShape();
     }
 
-    public void shoot(GameStage stage)
+    public void shoot(GameStageCombat stage)
     {
         try {
             stage.addActor(new Bullet(game, this, stage));
-            stage.addActor(new Bomb(game, this, stage));
             System.out.println("PUFF");
         }catch (NullPointerException e)
         {

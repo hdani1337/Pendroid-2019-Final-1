@@ -5,7 +5,6 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.utils.DragListener;
 
-import hu.cehessteg.flight.Actor.Airplane;
 import hu.csanyzeg.master.MyBaseClasses.Assets.AssetList;
 import hu.csanyzeg.master.MyBaseClasses.Game.MyGame;
 import hu.csanyzeg.master.MyBaseClasses.Scene2D.MyStage;
@@ -168,19 +167,19 @@ public class HudStage extends MyStage {
         {//Folyamatosan figyeljük az irányt
             case UP: {
                 //Ha "FEL", akkor felfele mozdul a gép egészen a ,,plafonig"
-                GameStage.moveUp();
+                GameStageCombat.moveUp();
                 break;
             }
 
             case DOWN: {
                 //Ha "LE", akkor lefele mozdul a gép egészen a ,,padlóig"
-                GameStage.moveDown();
+                GameStageCombat.moveDown();
                 break;
             }
 
             case SHOOT: {
                 //Ha "LÖVÉS", akkor lő a gép
-                GameStage.isShoot = true;
+                GameStageCombat.isShoot = true;
                 break;
             }
 
