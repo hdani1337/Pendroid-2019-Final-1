@@ -29,6 +29,7 @@ public class Enemy extends OneSpriteStaticActor {
         this.setColor(Color.RED);
         addBaseCollisionRectangleShape();
         hp = 100;
+
     }
 
     @Override

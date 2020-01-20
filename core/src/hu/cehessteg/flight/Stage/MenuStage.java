@@ -7,8 +7,10 @@ import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 
 import hu.cehessteg.flight.Screen.GameScreenBombing;
 import hu.cehessteg.flight.Screen.GameScreenCombat;
+import hu.cehessteg.flight.Screen.InfoScreen;
 import hu.csanyzeg.master.MyBaseClasses.Assets.AssetList;
 import hu.csanyzeg.master.MyBaseClasses.Game.MyGame;
+import hu.csanyzeg.master.MyBaseClasses.Scene2D.MyScreen;
 import hu.csanyzeg.master.MyBaseClasses.Scene2D.MyStage;
 import hu.csanyzeg.master.MyBaseClasses.Scene2D.ResponseViewport;
 import hu.csanyzeg.master.MyBaseClasses.UI.MyLabel;
@@ -62,5 +64,26 @@ public class MenuStage extends MyStage {
                 });
             }
         });
+
+        addActor(new MyLabel(game, "InfoStage", new Label.LabelStyle(game.getMyAssetManager().getFont(trebuc), Color.WHITE)) {
+            @Override
+            public void init() {
+                setAlignment(0);
+                setPosition(getViewport().getWorldWidth()/2+this.getWidth()/2,getViewport().getWorldHeight()*0.7f);
+                addListener(new ClickListener()
+                {
+                    @Override
+                    public void clicked(InputEvent event, float x, float y) {
+                        super.clicked(event, x, y);
+                        game.setScreen(new InfoScreen(game));
+                    }
+                });
+            }
+        });
+
+
+
+
+
     }
 }
