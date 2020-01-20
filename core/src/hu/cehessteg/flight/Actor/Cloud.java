@@ -31,12 +31,15 @@ public class Cloud extends OneSpriteStaticActor {
     @Override
     public void act(float delta) {
         super.act(delta);
-        if (isAct) {
-            if (getX() > -getWidth()) setX(getX() - 5);
-            else {
-                setX((float) Math.random() * 500 + viewport.getWorldWidth());
-                setY((float) Math.random() * viewport.getWorldHeight());
-            }
+        if (isAct) move();
+    }
+
+    public void move()
+    {
+        if (getX() > -getWidth()) setX(getX() - 5);
+        else {
+            setX((float) Math.random() * 500 + viewport.getWorldWidth());
+            setY((float) Math.random() * viewport.getWorldHeight());
         }
     }
 }

@@ -4,6 +4,10 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
+import java.util.ArrayList;
+
+import hu.cehessteg.flight.Actor.Cloud;
+import hu.cehessteg.flight.Actor.Sky;
 import hu.csanyzeg.master.MyBaseClasses.Assets.AssetList;
 import hu.csanyzeg.master.MyBaseClasses.Game.MyGame;
 import hu.csanyzeg.master.MyBaseClasses.Scene2D.MyStage;
@@ -12,6 +16,8 @@ import hu.csanyzeg.master.MyBaseClasses.Scene2D.OneSpriteStaticActor;
 import hu.csanyzeg.master.MyBaseClasses.Scene2D.ResponseViewport;
 import hu.csanyzeg.master.MyBaseClasses.UI.MyLabel;
 
+import static hu.cehessteg.flight.Actor.Sky.SKY_TEXTURE;
+import static hu.cehessteg.flight.Stage.GameOverStage.BLANK_TEXTURE;
 import static hu.cehessteg.flight.Stage.MenuStage.trebuc;
 
 public class InfoStage extends MyStage {
@@ -19,56 +25,48 @@ public class InfoStage extends MyStage {
     public static final String BENCE_KEP = "bence.png";
     public static final String DANI_KEP = "dani.png";
     public static final String DAVID_KEP = "david.png";
-    public static final String BACKGROUND_KEP = "unity.png";
     public static AssetList assetList = new AssetList();
 
     static {
+        assetList.collectAssetDescriptor(Sky.class, assetList);
+        assetList.collectAssetDescriptor(Cloud.class, assetList);
         assetList.addTexture(ZOLI_KEP);
         assetList.addTexture(BENCE_KEP);
         assetList.addTexture(DANI_KEP);
         assetList.addTexture(DAVID_KEP);
-        assetList.addTexture(BACKGROUND_KEP);
+        assetList.addTexture(SKY_TEXTURE);
+        assetList.addTexture(BLANK_TEXTURE);
         assetList.addFont(trebuc, trebuc, 120, Color.WHITE, AssetList.CHARS);
-
     }
 
-    OneSpriteStaticActor zoli;
-    OneSpriteStaticActor bence;
-    OneSpriteStaticActor dani;
-    OneSpriteStaticActor david;
+    private OneSpriteStaticActor zoli;
+    private OneSpriteStaticActor bence;
+    private OneSpriteStaticActor dani;
+    private OneSpriteStaticActor david;
 
-    MyLabel zoliLabel;
-    MyLabel benceLabel;
-    MyLabel daniLabel;
-    MyLabel davidLabel;
+    private MyLabel zoliLabel;
+    private MyLabel benceLabel;
+    private MyLabel daniLabel;
+    private MyLabel davidLabel;
 
-    MyLabel zoliLabelTitle;
-    MyLabel benceLabelTitle;
-    MyLabel daniLabelTitle;
-    MyLabel davidLabelTitle;
+    private MyLabel zoliLabelTitle;
+    private MyLabel benceLabelTitle;
+    private MyLabel daniLabelTitle;
+    private MyLabel davidLabelTitle;
 
-    MyLabel infoText;
+    private MyLabel infoText;
 
-    OneSpriteStaticActor background;
-
-
-
-
+    private Sky sky;
+    private ArrayList<Cloud> clouds;
+    private OneSpriteStaticActor black;
 
     public InfoStage(MyGame game) {
         super(new ResponseViewport(900),game);
         assignment();
         labelStuff();
         setPositions();
-
         addActors();
-
-
-
-
     }
-
-
 
     void assignment()
     {
@@ -138,17 +136,35 @@ public class InfoStage extends MyStage {
 
             }
         };
-        infoText.setFontScale(0.33f);
-        background = new OneSpriteStaticActor(game,BACKGROUND_KEP);
-        background.setColor(1,1,1,1);
+
+        clouds = new ArrayList<>();
+        for (int i = 0; i < 18; i++) clouds.add(new Cloud(game, getViewport()));
+
+        sky = new Sky(game) {
+            @Override
+            public void init() {
+                super.init();
+                setSize(getViewport().getWorldWidth(),getViewport().getWorldHeight());
+            }
+        };
+
+        black = new OneSpriteStaticActor(game, BLANK_TEXTURE) {
+            @Override
+            public void init() {
+                super.init();
+                setSize(getViewport().getWorldWidth(), getViewport().getWorldHeight());
+                setAlpha(0.3f);
+            }
+        };
+
     }
 
     void labelStuff()
     {
-        zoliLabelTitle.setFontScale(0.33f);
-        benceLabelTitle.setFontScale(0.33f);
-        daniLabelTitle.setFontScale(0.33f);
-        davidLabelTitle.setFontScale(0.33f);
+        zoliLabelTitle.setFontScale(0.3f);
+        benceLabelTitle.setFontScale(0.3f);
+        daniLabelTitle.setFontScale(0.3f);
+        davidLabelTitle.setFontScale(0.3f);
 
         zoliLabel.setAlignment(0);
         benceLabel.setAlignment(0);
@@ -180,25 +196,16 @@ public class InfoStage extends MyStage {
         daniLabelTitle.setPosition((daniLabel.getX()+daniLabel.getWidth()/2)-daniLabelTitle.getWidth()/2,daniLabel.getY()-45);
         davidLabelTitle.setPosition((davidLabel.getX()+davidLabel.getWidth()/2)-davidLabelTitle.getWidth()/2,davidLabel.getY()-45);
 
-
-
         infoText.setPosition(getViewport().getWorldWidth()/2-infoText.getWidth()/1.66f,getViewport().getWorldHeight()*0.035f);
-
-        background.setPosition(0,0);
-        background.setSize(getViewport().getWorldWidth(),getViewport().getWorldHeight());
     }
 
 
 
     void addActors()
     {
-        background.setDebug(false);
-        zoli.setDebug(false);
-        bence.setDebug(false);
-        dani.setDebug(false);
-        david.setDebug(false);
-
-        addActor(background);
+        addActor(sky);
+        for (int i = 0; i < clouds.size(); i++) addActor(clouds.get(i));
+        addActor(black);
 
         addActor(zoli);
         addActor(bence);
@@ -215,9 +222,6 @@ public class InfoStage extends MyStage {
         addActor(daniLabelTitle);
         addActor(davidLabelTitle);
 
-
-
-
         addActor(infoText);
     }
 
@@ -226,5 +230,11 @@ public class InfoStage extends MyStage {
 
     }
 
-
+    @Override
+    public void act(float delta) {
+        super.act(delta);
+        for (Cloud c : clouds) {
+            c.move();
+        }
+    }
 }
