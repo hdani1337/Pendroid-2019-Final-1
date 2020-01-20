@@ -6,8 +6,8 @@ public class Ideas {
      *
      * Feladatok
      *  - Bence: Rajzok
-     *  - Dani: Menürendszer, hangok, zene
-     *  - Dávid és Zoli: Játékmenet kialakítása és leprogramozása
+     *  - Dani: Játékmenet kialakítása és leprogramozása
+     *  - Dávid és Zoli: Menürendszer, hangok, zene
      *
      *
      * Képernyők
