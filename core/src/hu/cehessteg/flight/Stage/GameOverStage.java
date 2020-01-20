@@ -5,6 +5,7 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 
+import hu.cehessteg.flight.Screen.GameScreenBombing;
 import hu.cehessteg.flight.Screen.GameScreenCombat;
 import hu.csanyzeg.master.MyBaseClasses.Assets.AssetList;
 import hu.csanyzeg.master.MyBaseClasses.Game.MyGame;
@@ -57,7 +58,8 @@ public class GameOverStage extends MyStage {
                     @Override
                     public void clicked(InputEvent event, float x, float y) {
                         super.clicked(event, x, y);
-                        game.setScreen(new GameScreenCombat(game), false);
+                        if(getScreen() instanceof GameScreenCombat) game.setScreen(new GameScreenCombat(game), false);
+                        else if (getScreen() instanceof GameScreenBombing) game.setScreen(new GameScreenBombing(game), false);
                     }
                 });
             }

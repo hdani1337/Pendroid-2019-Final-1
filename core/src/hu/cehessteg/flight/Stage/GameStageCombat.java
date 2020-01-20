@@ -48,20 +48,15 @@ public class GameStageCombat extends MyStage {
     private ArrayList<Cloud> clouds;
     private ArrayList<Bullet> bullets;
     private ArrayList<Bomb> bombs;
-    private static Direction direction;
     private MyLabel enemyHP;
     private MyLabel playerHP;
-
-    private enum Direction
-    {
-        UP, DOWN, NULL
-    }
 
     public GameStageCombat(MyGame game) {
         super(new ResponseViewport(900), game);//Ha lesz Box2D, akkor 900 helyett mondjuk 9 lesz
         assignment();
         setSizesAndPositions();
         addActors();
+        addBackButtonScreenBackByStackPopListener();
     }
 
     private void assignment()
@@ -69,7 +64,6 @@ public class GameStageCombat extends MyStage {
         isAct = true;
         isShoot = false;
         sky = new Sky(game);
-        direction = Direction.NULL;
         airplane = new Airplane(game);
         enemy = new Enemy(game,getViewport());
         clouds = new ArrayList<>();
@@ -138,16 +132,6 @@ public class GameStageCombat extends MyStage {
         addActor(enemyHP);
     }
 
-    public static void moveDown()
-    {
-        direction = Direction.DOWN;
-    }
-
-    public static void moveUp()
-    {
-        direction = Direction.UP;
-    }
-
     public void shoot()
     {
         airplane.shoot(this);
@@ -167,26 +151,7 @@ public class GameStageCombat extends MyStage {
     public void act(float delta) {
         super.act(delta);
         if (isAct) {
-            switch (direction)
-            {
-                case UP:{
-                    if(airplane.getY()+airplane.getHeight() < 900)//Így nem megy ki a képből
-                        airplane.setY(airplane.getY()+15); //15 pixellel feljebb helyezés
-                    direction = Direction.NULL;
-                    break;
-                }
-
-                case DOWN:{
-                    if(airplane.getY() > 0) //Így nem megy ki a képből
-                        airplane.setY(airplane.getY()-15); //15 pixellel lejjebb helyezés
-                    direction = Direction.NULL;
-                    break;
-                }
-
-                case NULL: {
-                    break;
-                }
-            }
+            airplane.setY(HudStageCombat.planeY);
 
             if (overlaps(airplane, enemy)) {
                 airplane.hp -= Math.random() * 20;

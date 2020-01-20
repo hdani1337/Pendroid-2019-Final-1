@@ -33,14 +33,8 @@ public class GameStageBombing extends MyStage {
     public static boolean isShoot;
     private ArrayList<Cloud> clouds;
     private ArrayList<Bomb> bombs;
-    private static Direction direction;
 
-    private enum Direction
-    {
-        UP, DOWN, NULL
-    }
-
-    public GameStageBombing(MyGame game) {
+    public GameStageBombing(final MyGame game) {
         super(new ResponseViewport(900), game);
         assignment();
         setSizesAndPositions();
@@ -52,7 +46,6 @@ public class GameStageBombing extends MyStage {
         GameStageCombat.isAct = true;//Ezen még csiszolni kell
         isShoot = false;
         sky = new Sky(game);
-        direction = Direction.NULL;
         airplane = new Airplane(game);
         clouds = new ArrayList<>();
         bombs = new ArrayList<>();
@@ -95,6 +88,15 @@ public class GameStageBombing extends MyStage {
             /**
              * ACT STUFF GOES HERE
              * */
+
+            airplane.setY(HudStageBombing.planeY - airplane.getHeight()/2);
+            airplane.setX(HudStageBombing.planeX - airplane.getWidth()/2);
+
+            if(isShoot)
+            {
+                airplane.bomb(this);
+                isShoot = false;
+            }
         }
     }
 }

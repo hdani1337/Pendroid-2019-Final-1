@@ -5,6 +5,7 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 
+import hu.cehessteg.flight.Screen.GameScreenBombing;
 import hu.cehessteg.flight.Screen.GameScreenCombat;
 import hu.csanyzeg.master.MyBaseClasses.Assets.AssetList;
 import hu.csanyzeg.master.MyBaseClasses.Game.MyGame;
@@ -27,6 +28,30 @@ public class MenuStage extends MyStage {
             public void init() {
                 setAlignment(0);
                 setPosition(getViewport().getWorldWidth()/2-this.getWidth()/2,getViewport().getWorldHeight()/2-this.getHeight()/2);
+            }
+        });
+
+        addActor(new MyLabel(game, "Bombázás", new Label.LabelStyle(game.getMyAssetManager().getFont(trebuc), Color.WHITE)) {
+            @Override
+            public void init() {
+                setAlignment(0);
+                setPosition(getViewport().getWorldWidth()/4-this.getWidth()/2,getViewport().getWorldHeight()/4-this.getHeight()/2);
+                addListener(new ClickListener()
+                {
+                    @Override
+                    public void clicked(InputEvent event, float x, float y) {
+                        super.clicked(event, x, y);
+                        game.setScreen(new GameScreenBombing(game));
+                    }
+                });
+            }
+        });
+
+        addActor(new MyLabel(game, "Légicsata", new Label.LabelStyle(game.getMyAssetManager().getFont(trebuc), Color.WHITE)) {
+            @Override
+            public void init() {
+                setAlignment(0);
+                setPosition(getViewport().getWorldWidth()/2+this.getWidth()/2,getViewport().getWorldHeight()/4-this.getHeight()/2);
                 addListener(new ClickListener()
                 {
                     @Override
@@ -35,8 +60,6 @@ public class MenuStage extends MyStage {
                         game.setScreen(new GameScreenCombat(game));
                     }
                 });
-
-
             }
         });
     }

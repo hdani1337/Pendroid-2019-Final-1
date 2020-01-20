@@ -20,7 +20,7 @@ public class Bullet extends OneSpriteStaticActor {
 
     public Bullet(MyGame game, Airplane airplane, GameStageCombat stage) {
         super(game, BULLET_TEXTURE);
-        damage = (byte) (Math.random() * 10);
+        damage = (byte) ((byte) (Math.random() * 50) + 30);
         addBaseCollisionRectangleShape();
         this.stage = stage;
         stage.addBullet(this);

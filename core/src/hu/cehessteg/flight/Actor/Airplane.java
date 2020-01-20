@@ -1,5 +1,7 @@
 package hu.cehessteg.flight.Actor;
 
+import hu.cehessteg.flight.Screen.GameScreenBombing;
+import hu.cehessteg.flight.Stage.GameStageBombing;
 import hu.cehessteg.flight.Stage.GameStageCombat;
 import hu.csanyzeg.master.MyBaseClasses.Assets.AssetList;
 import hu.csanyzeg.master.MyBaseClasses.Game.MyGame;
@@ -31,6 +33,21 @@ public class Airplane extends OneSpriteStaticActor {
     {
         try {
             stage.addActor(new Bullet(game, this, stage));
+            System.out.println("PUFF");
+        }catch (NullPointerException e)
+        {
+            System.out.println("STAGE NOT FOUND");
+            e.printStackTrace();
+        }catch (Exception e)
+        {
+            e.printStackTrace();
+        }
+    }
+
+    public void bomb(GameStageBombing stage)
+    {
+        try {
+            stage.addActor(new Bomb(game, this, stage));
             System.out.println("PUFF");
         }catch (NullPointerException e)
         {
