@@ -19,6 +19,14 @@ public class Ideas {
      *
      * Egyéb ötletek
      *  - Pénzrendszer kialakítása
+     *      -ha az ellenfél túléli 50$
+     *      -ha megsemmisíted 100$
+     *      -szint teljesítése stabil 75$
+     *      -bónusz (opcionális) 50$
+     *
+     *      -repair
+     *      -kerozin
+     *      -fejlesztések
      *  - Pontrendszer kialakítása
      *  - Harcrendszer kialakítása
      *  - Nehézségi fokozatok
