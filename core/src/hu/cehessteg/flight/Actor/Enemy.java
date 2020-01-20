@@ -11,7 +11,7 @@ import static hu.cehessteg.flight.Stage.GameStageCombat.isAct;
 
 public class Enemy extends OneSpriteStaticActor {
 
-    public static final String ENEMY_TEXTURE = "vadaszgep.png";
+    public static final String ENEMY_TEXTURE = "enemy.png";
     public static AssetList assetList = new AssetList();
     static{
 
