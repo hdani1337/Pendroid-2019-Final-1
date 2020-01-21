@@ -37,7 +37,7 @@ public class HudStageBombing extends MyStage {
         addListeners();
         setSizesAndPositions();
         addActors();
-        planeX = 200;
+        planeX = 250;
         planeY = getViewport().getWorldHeight()/2;
     }
 
@@ -71,9 +71,9 @@ public class HudStageBombing extends MyStage {
 
     private void setSizesAndPositions()
     {
-        PositionController.setSize(getViewport().getWorldWidth()/2, getViewport().getWorldHeight());
+        PositionController.setSize(getViewport().getWorldWidth()*0.7f, getViewport().getWorldHeight());
         PositionController.setAlpha(0.05f);
-        BombingController.setSize(getViewport().getWorldWidth()/2, getViewport().getWorldHeight());
+        BombingController.setSize(getViewport().getWorldWidth()*0.3f, getViewport().getWorldHeight());
         BombingController.setX(PositionController.getX() + PositionController.getWidth());
         BombingController.setAlpha(0.05f);
     }

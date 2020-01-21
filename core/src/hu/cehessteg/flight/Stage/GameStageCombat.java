@@ -151,7 +151,8 @@ public class GameStageCombat extends MyStage {
     public void act(float delta) {
         super.act(delta);
         if (isAct) {
-            airplane.setY(HudStageCombat.planeY);
+            airplane.setY(HudStageCombat.planeY - airplane.getHeight()/2);
+            airplane.setX(HudStageCombat.planeX - airplane.getWidth()/2);
 
             if (overlaps(airplane, enemy)) {
                 airplane.hp -= Math.random() * 20;

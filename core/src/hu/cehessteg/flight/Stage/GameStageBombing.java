@@ -39,6 +39,7 @@ public class GameStageBombing extends MyStage {
         assignment();
         setSizesAndPositions();
         addActors();
+        addBackButtonScreenBackByStackPopListener();
     }
 
     private void assignment()
