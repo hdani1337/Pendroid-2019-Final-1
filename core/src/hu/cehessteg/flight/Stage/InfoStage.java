@@ -238,7 +238,7 @@ public class InfoStage extends MyStage {
 
 
 
-        infoText.setPosition(getViewport().getWorldWidth()/2-infoText.getWidth()/2.0f,getViewport().getWorldHeight()/2-getViewport().getWorldHeight()/1.5f);
+        infoText.setPosition(getViewport().getWorldWidth()/2-infoText.getWidth()/2.0f,getViewport().getWorldHeight()/2-getViewport().getWorldHeight()/1.51f);
 
 
 
