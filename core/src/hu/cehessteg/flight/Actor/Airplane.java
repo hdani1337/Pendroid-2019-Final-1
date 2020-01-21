@@ -9,7 +9,7 @@ import hu.csanyzeg.master.MyBaseClasses.Scene2D.OneSpriteStaticActor;
 
 public class Airplane extends OneSpriteStaticActor {
 
-    public static final String AIRPLANE_TEXTURE = "vadaszgep.png";
+    public static final String AIRPLANE_TEXTURE = "planes/vadaszgep.png";
 
     public static AssetList assetList = new AssetList();
     static

@@ -9,8 +9,8 @@ import hu.csanyzeg.master.MyBaseClasses.Scene2D.OneSpriteStaticActor;
 import static hu.cehessteg.flight.Stage.GameStageCombat.isAct;
 
 public class Cloud extends OneSpriteStaticActor {
-    public static final String cloud3 = "cloud3.png";
-    public static final String cloud4 = "cloud4.png";
+    public static final String cloud3 = "sky/cloud3.png";
+    public static final String cloud4 = "sky/cloud4.png";
 
     public static AssetList assetList = new AssetList();
     static
@@ -34,8 +34,21 @@ public class Cloud extends OneSpriteStaticActor {
         if (isAct) move();
     }
 
+    float alpha = 0;
+
+    private void fadeIn()
+    {
+        if(alpha < 0.99) {
+            alpha += 0.01;
+            setAlpha(alpha);
+        }
+        else alpha = 1;
+
+    }
+
     public void move()
     {
+        fadeIn();
         if (getX() > -getWidth()) setX(getX() - 5);
         else {
             setX((float) Math.random() * 500 + viewport.getWorldWidth());

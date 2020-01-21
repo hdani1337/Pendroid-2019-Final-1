@@ -7,7 +7,7 @@ import hu.csanyzeg.master.MyBaseClasses.Game.MyGame;
 import hu.csanyzeg.master.MyBaseClasses.Scene2D.OneSpriteStaticActor;
 
 public class Bomb extends OneSpriteStaticActor {
-    public static final String BOMB_TEXTURE = "bomb.png";
+    public static final String BOMB_TEXTURE = "ammos/bomba.png";
 
     public static AssetList assetList;
     static
@@ -25,7 +25,8 @@ public class Bomb extends OneSpriteStaticActor {
         addBaseCollisionRectangleShape();
         this.stage = stage;
         stage.addBomb(this);
-        setSize(getWidth()*0.07f, getHeight()*0.07f);
+        setRotation(-90);
+        setSize(getWidth()*0.3f, getHeight()*0.3f);
         setPosition(airplane.getX()+airplane.getWidth()*0.5f, airplane.getY()+7);
     }
 

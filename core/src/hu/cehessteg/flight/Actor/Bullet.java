@@ -7,7 +7,7 @@ import hu.csanyzeg.master.MyBaseClasses.Scene2D.OneSpriteStaticActor;
 
 public class Bullet extends OneSpriteStaticActor {
 
-    public static final String BULLET_TEXTURE = "bullet.png";
+    public static final String BULLET_TEXTURE = "ammos/lovedek.png";
 
     public static AssetList assetList = new AssetList();
     static
@@ -24,7 +24,6 @@ public class Bullet extends OneSpriteStaticActor {
         addBaseCollisionRectangleShape();
         this.stage = stage;
         stage.addBullet(this);
-        setSize(getWidth()*0.07f, getHeight()*0.07f);
         setPosition(airplane.getX()+airplane.getWidth()*0.65f, airplane.getY()+7);
     }
 

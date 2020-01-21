@@ -1,7 +1,9 @@
 package hu.cehessteg.flight.Stage;
 
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
 import java.util.ArrayList;
@@ -21,10 +23,10 @@ import static hu.cehessteg.flight.Stage.GameOverStage.BLANK_TEXTURE;
 import static hu.cehessteg.flight.Stage.MenuStage.trebuc;
 
 public class InfoStage extends MyStage {
-    public static final String ZOLI_KEP = "zoli.png";
-    public static final String BENCE_KEP = "bence.png";
-    public static final String DANI_KEP = "dani.png";
-    public static final String DAVID_KEP = "david.png";
+    public static final String ZOLI_KEP = "portraits/zoli.png";
+    public static final String BENCE_KEP = "portraits/bence.png";
+    public static final String DANI_KEP = "portraits/dani.png";
+    public static final String DAVID_KEP = "portraits/david.png";
     public static AssetList assetList = new AssetList();
 
     static {
@@ -59,6 +61,8 @@ public class InfoStage extends MyStage {
     private Sky sky;
     private ArrayList<Cloud> clouds;
     private OneSpriteStaticActor black;
+
+    private MyLabel back;
 
     public InfoStage(MyGame game) {
         super(new ResponseViewport(900),game);
@@ -157,6 +161,22 @@ public class InfoStage extends MyStage {
             }
         };
 
+        back = new MyLabel(game, "Vissza a menübe", new Label.LabelStyle(game.getMyAssetManager().getFont(trebuc), Color.WHITE)) {
+            @Override
+            public void init() {
+                setFontScale(0.4f);
+                setAlignment(0);
+                setPosition(getViewport().getWorldWidth()-this.getWidth()*0.75f, 15);
+                addListener(new ClickListener()
+                {
+                    @Override
+                    public void clicked(InputEvent event, float x, float y) {
+                        super.clicked(event, x, y);
+                        game.setScreenBackByStackPop();
+                    }
+                });
+            }
+        };
     }
 
     void labelStuff()
@@ -223,6 +243,43 @@ public class InfoStage extends MyStage {
         addActor(davidLabelTitle);
 
         addActor(infoText);
+
+        addActor(back);
+    }
+
+
+    float alpha = 0;
+
+    void fadeIn()
+    {
+        if(alpha < 0.98) {
+            alpha += 0.02;
+            setAlphas();
+        }
+        else alpha = 1;
+
+    }
+
+    void setAlphas()
+    {
+        zoli.setAlpha(alpha);
+        bence.setAlpha(alpha);
+        dani.setAlpha(alpha);
+        david.setAlpha(alpha);
+
+        zoliLabel.setColor(1,1,1, alpha);
+        benceLabel.setColor(1,1,1, alpha);
+        daniLabel.setColor(1,1,1, alpha);
+        davidLabel.setColor(1,1,1, alpha);
+
+        zoliLabelTitle.setColor(1,1,1, alpha);
+        benceLabelTitle.setColor(1,1,1, alpha);
+        daniLabelTitle.setColor(1,1,1, alpha);
+        davidLabelTitle.setColor(1,1,1, alpha);
+
+        infoText.setColor(1,1,1, alpha);
+
+        back.setColor(1,1,1, alpha);
     }
 
     @Override
@@ -236,5 +293,7 @@ public class InfoStage extends MyStage {
         for (Cloud c : clouds) {
             c.move();
         }
+
+        fadeIn();
     }
 }
