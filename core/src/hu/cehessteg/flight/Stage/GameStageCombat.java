@@ -16,6 +16,7 @@ import hu.cehessteg.flight.Actor.Bomb;
 import hu.cehessteg.flight.Actor.Bullet;
 import hu.cehessteg.flight.Actor.Cloud;
 import hu.cehessteg.flight.Actor.Enemy;
+import hu.cehessteg.flight.Actor.Explosion;
 import hu.cehessteg.flight.Actor.Sky;
 import hu.csanyzeg.master.MyBaseClasses.Assets.AssetList;
 import hu.csanyzeg.master.MyBaseClasses.Game.MyGame;
@@ -39,6 +40,7 @@ public class GameStageCombat extends MyStage {
         assetList.collectAssetDescriptor(Sky.class, assetList);
         assetList.collectAssetDescriptor(Enemy.class,assetList);
         assetList.collectAssetDescriptor(Bullet.class,assetList);
+        assetList.collectAssetDescriptor(Explosion.class,assetList);
         assetList.addFont(trebuc, trebuc, 30, Color.WHITE, AssetList.CHARS);
     }
 
@@ -130,6 +132,8 @@ public class GameStageCombat extends MyStage {
         playerHP.setZIndex(8);
         addActor(enemy);
         addActor(enemyHP);
+
+        addedExplosion = false;
     }
 
     public void shoot()
@@ -148,6 +152,7 @@ public class GameStageCombat extends MyStage {
     }
 
     private float prevY;
+    private boolean addedExplosion;
 
     @Override
     public void act(float delta) {
@@ -162,6 +167,7 @@ public class GameStageCombat extends MyStage {
 
             if (overlaps(airplane, enemy)) {
                 airplane.hp -= Math.random() * 20;
+                addActor(new Explosion(game, enemy));
                 enemy.replace();
             }
 
@@ -172,6 +178,7 @@ public class GameStageCombat extends MyStage {
                     enemy.hp -= bullet.damage;
                     bullet.remove();
                     if(enemy.hp <= 0) {
+                        addActor(new Explosion(game, enemy));
                         enemy.replace();
                     }
                 }
@@ -184,8 +191,17 @@ public class GameStageCombat extends MyStage {
             }
         }
 
-        if(airplane.hp<=0)
+        if(airplane.hp<=0) {
             isAct = false;
+            if(!addedExplosion) {
+                Explosion explosion = new Explosion(game, null);
+                explosion.setPosition(airplane.getX(), airplane.getY() + airplane.getHeight() / 2 - explosion.getHeight() / 2);
+                addActor(explosion);
+                airplane.setVisible(false);
+                playerHP.setVisible(false);
+                addedExplosion = true;
+            }
+        }
 
         if (Gdx.input.isKeyJustPressed(Input.Keys.BACK)){
             /**
