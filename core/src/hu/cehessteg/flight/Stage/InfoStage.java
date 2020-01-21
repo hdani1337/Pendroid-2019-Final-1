@@ -1,9 +1,18 @@
 package hu.cehessteg.flight.Stage;
 
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
+import java.awt.Menu;
+import java.util.ArrayList;
+
+import hu.cehessteg.flight.Actor.Cloud;
+import hu.cehessteg.flight.Actor.Sky;
+import hu.cehessteg.flight.Screen.GameScreenBombing;
+import hu.cehessteg.flight.Screen.MenuScreen;
 import hu.csanyzeg.master.MyBaseClasses.Assets.AssetList;
 import hu.csanyzeg.master.MyBaseClasses.Game.MyGame;
 import hu.csanyzeg.master.MyBaseClasses.Scene2D.MyStage;
@@ -11,15 +20,17 @@ import hu.csanyzeg.master.MyBaseClasses.Scene2D.OneSpriteActor;
 import hu.csanyzeg.master.MyBaseClasses.Scene2D.OneSpriteStaticActor;
 import hu.csanyzeg.master.MyBaseClasses.Scene2D.ResponseViewport;
 import hu.csanyzeg.master.MyBaseClasses.UI.MyLabel;
+import static hu.cehessteg.flight.Actor.Sky.SKY_TEXTURE;
+import static hu.cehessteg.flight.Stage.GameOverStage.BLANK_TEXTURE;
 
 import static hu.cehessteg.flight.Stage.MenuStage.trebuc;
 
 public class InfoStage extends MyStage {
-    public static final String ZOLI_KEP = "zoli.png";
-    public static final String BENCE_KEP = "bence.png";
-    public static final String DANI_KEP = "dani.png";
-    public static final String DAVID_KEP = "david.png";
-    public static final String BACKGROUND_KEP = "unity.png";
+    public static final String ZOLI_KEP = "portraits/zoli.png";
+    public static final String BENCE_KEP = "portraits/bence.png";
+    public static final String DANI_KEP = "portraits/dani.png";
+    public static final String DAVID_KEP = "portraits/david.png";
+    public static final String BACKGROUND_KEP = "black.png";
     public static AssetList assetList = new AssetList();
 
     static {
@@ -28,28 +39,37 @@ public class InfoStage extends MyStage {
         assetList.addTexture(DANI_KEP);
         assetList.addTexture(DAVID_KEP);
         assetList.addTexture(BACKGROUND_KEP);
+        assetList.addTexture(SKY_TEXTURE);
+        assetList.addTexture(BLANK_TEXTURE);
         assetList.addFont(trebuc, trebuc, 120, Color.WHITE, AssetList.CHARS);
+        assetList.collectAssetDescriptor(Cloud.class,assetList);
+        assetList.collectAssetDescriptor(Sky.class,assetList);
 
     }
 
-    OneSpriteStaticActor zoli;
-    OneSpriteStaticActor bence;
-    OneSpriteStaticActor dani;
-    OneSpriteStaticActor david;
 
-    MyLabel zoliLabel;
-    MyLabel benceLabel;
-    MyLabel daniLabel;
-    MyLabel davidLabel;
 
-    MyLabel zoliLabelTitle;
-    MyLabel benceLabelTitle;
-    MyLabel daniLabelTitle;
-    MyLabel davidLabelTitle;
 
-    MyLabel infoText;
+    private OneSpriteStaticActor zoli;
+    private OneSpriteStaticActor bence;
+    private OneSpriteStaticActor dani;
+    private OneSpriteStaticActor david;
 
-    OneSpriteStaticActor background;
+    private MyLabel zoliLabel;
+    private MyLabel benceLabel;
+    private MyLabel daniLabel;
+    private MyLabel davidLabel;
+
+    private MyLabel zoliLabelTitle;
+    private MyLabel benceLabelTitle;
+    private MyLabel daniLabelTitle;
+    private MyLabel davidLabelTitle;
+    private Sky sky;
+    private ArrayList<Cloud> clouds;
+    private OneSpriteStaticActor black;
+
+    private MyLabel infoText;
+
 
 
 
@@ -63,7 +83,21 @@ public class InfoStage extends MyStage {
 
         addActors();
 
-
+        addActor(new MyLabel(game, "Vissza", new Label.LabelStyle(game.getMyAssetManager().getFont(trebuc), Color.WHITE)) {
+            @Override
+            public void init() {
+                setAlignment(0);
+                setPosition(getViewport().getWorldWidth()/8-this.getWidth()/2,getViewport().getWorldHeight()/10-this.getHeight()/6f);           /**NEM VÉGLEGES **/
+                addListener(new ClickListener()
+                {
+                    @Override
+                    public void clicked(InputEvent event, float x, float y) {
+                        super.clicked(event, x, y);
+                        game.setScreen(new MenuScreen(game));
+                    }
+                });
+            }
+        });
 
 
     }
@@ -76,6 +110,9 @@ public class InfoStage extends MyStage {
         bence = new OneSpriteStaticActor(game,BENCE_KEP);
         dani = new OneSpriteStaticActor(game,DANI_KEP);
         david = new OneSpriteStaticActor(game,DAVID_KEP);
+        sky = new Sky(game);
+        clouds = new ArrayList<>();
+
 
         zoliLabel = new MyLabel(game, "Miklós Zoltán", new Label.LabelStyle(game.getMyAssetManager().getFont(trebuc), Color.WHITE)) {
             @Override
@@ -131,7 +168,7 @@ public class InfoStage extends MyStage {
 
 
 
-        infoText = new MyLabel(game, "A Pendroid verseny döntőjére készült alkalmazás!", new Label.LabelStyle(game.getMyAssetManager().getFont(trebuc), Color.WHITE)) {
+        infoText = new MyLabel(game, "Az alkalmazás magában foglal kettő - egy bombázós, és egy lövöldözős - repülős játékot.\n Az irányítása rendkívűl egyszerű, ha a képernyő bal szélére nyomunk akkor tudjuk \nmozgatni a repülőgépet, ha pedig a jobbra nyomunk, akkor \npedig bombázni, illetve lőni fog a repülőgép!\n\nA PENdroid döntőjére készített játék!", new Label.LabelStyle(game.getMyAssetManager().getFont(trebuc), Color.WHITE)) {
             @Override
             public void init() {
                 setFontScale(0.4f);
@@ -139,8 +176,27 @@ public class InfoStage extends MyStage {
             }
         };
         infoText.setFontScale(0.33f);
-        background = new OneSpriteStaticActor(game,BACKGROUND_KEP);
-        background.setColor(1,1,1,1);
+
+
+
+        clouds = new ArrayList<>();
+        for (int i = 0; i < 18; i++) clouds.add(new Cloud(game, getViewport()));
+
+        sky = new Sky(game) {
+            @Override
+            public void init() {
+                super.init();
+                setSize(getViewport().getWorldWidth(),getViewport().getWorldHeight());
+            }
+        };
+        black = new OneSpriteStaticActor(game, BLANK_TEXTURE) {
+            @Override
+            public void init() {
+                super.init();
+                setSize(getViewport().getWorldWidth(), getViewport().getWorldHeight());
+                setAlpha(0.3f);
+            }
+        };
     }
 
     void labelStuff()
@@ -182,23 +238,25 @@ public class InfoStage extends MyStage {
 
 
 
-        infoText.setPosition(getViewport().getWorldWidth()/2-infoText.getWidth()/1.66f,getViewport().getWorldHeight()*0.035f);
+        infoText.setPosition(getViewport().getWorldWidth()/2-infoText.getWidth()/2.0f,getViewport().getWorldHeight()/2-getViewport().getWorldHeight()/1.5f);
 
-        background.setPosition(0,0);
-        background.setSize(getViewport().getWorldWidth(),getViewport().getWorldHeight());
+
+
     }
 
 
 
     void addActors()
     {
-        background.setDebug(false);
+        addActor(sky);
+        for (int i = 0; i < clouds.size(); i++) addActor(clouds.get(i));
+        addActor(black);
         zoli.setDebug(false);
         bence.setDebug(false);
         dani.setDebug(false);
         david.setDebug(false);
+        infoText.setDebug(false);
 
-        addActor(background);
 
         addActor(zoli);
         addActor(bence);
@@ -222,7 +280,11 @@ public class InfoStage extends MyStage {
     }
 
     @Override
-    public void init() {
+    public void act(float delta) {
+        super.act(delta);
+        for (Cloud c : clouds) {
+            c.move();
+        }
 
     }
 

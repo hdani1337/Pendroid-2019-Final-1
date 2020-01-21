@@ -2,10 +2,6 @@ package hu.cehessteg.flight.Actor;
 
 import com.badlogic.gdx.utils.viewport.Viewport;
 
-import hu.cehessteg.flight.Screen.GameScreenBombing;
-import hu.cehessteg.flight.Stage.GameStageBombing;
-import hu.cehessteg.flight.Stage.GameStageCombat;
-import hu.cehessteg.flight.Stage.InfoStage;
 import hu.csanyzeg.master.MyBaseClasses.Assets.AssetList;
 import hu.csanyzeg.master.MyBaseClasses.Game.MyGame;
 import hu.csanyzeg.master.MyBaseClasses.Scene2D.OneSpriteStaticActor;
@@ -53,23 +49,10 @@ public class Cloud extends OneSpriteStaticActor {
     public void move()
     {
         fadeIn();
-        if(getStage() != null) {
-            if(getStage() instanceof GameStageCombat || getStage() instanceof GameStageBombing) {
-                if (getX() > -getWidth()) setX(getX() - 5);
-                else {
-                    setX((float) Math.random() * 500 + viewport.getWorldWidth());
-                    setY((float) Math.random() * viewport.getWorldHeight());
-                }
-            }
-
-            else if (getStage() instanceof InfoStage)
-            {
-                if (getX() > -getWidth()) setX(getX() - 2);
-                else {
-                    setX((float) Math.random() * 500 + viewport.getWorldWidth());
-                    setY((float) Math.random() * viewport.getWorldHeight());
-                }
-            }
+        if (getX() > -getWidth()) setX(getX() - 5);
+        else {
+            setX((float) Math.random() * 500 + viewport.getWorldWidth());
+            setY((float) Math.random() * viewport.getWorldHeight());
         }
     }
 }
