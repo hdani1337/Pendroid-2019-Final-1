@@ -1,5 +1,7 @@
 package hu.cehessteg.flight.Stage;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
@@ -295,5 +297,12 @@ public class InfoStage extends MyStage {
         }
 
         fadeIn();
+
+        if (Gdx.input.isKeyJustPressed(Input.Keys.BACK)){
+            /**
+             * !!!NEM MŰKÖDIK A addBackButtonScreenBackByStackPopListener()!!!
+             * **/
+            game.setScreenBackByStackPop();
+        }
     }
 }

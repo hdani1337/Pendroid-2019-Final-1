@@ -2,6 +2,8 @@ package hu.cehessteg.flight.Stage;
 
 
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 
@@ -47,7 +49,6 @@ public class GameStageCombat extends MyStage {
     public static boolean isShoot;
     private ArrayList<Cloud> clouds;
     private ArrayList<Bullet> bullets;
-    private ArrayList<Bomb> bombs;
     private MyLabel enemyHP;
     private MyLabel playerHP;
 
@@ -56,7 +57,6 @@ public class GameStageCombat extends MyStage {
         assignment();
         setSizesAndPositions();
         addActors();
-        addBackButtonScreenBackByStackPopListener();
     }
 
     private void assignment()
@@ -68,7 +68,6 @@ public class GameStageCombat extends MyStage {
         enemy = new Enemy(game,getViewport());
         clouds = new ArrayList<>();
         bullets = new ArrayList<>();
-        bombs = new ArrayList<>();
         for (int i = 0; i < 18; i++) clouds.add(new Cloud(game, getViewport()));
         setHpLabels();
     }
@@ -117,6 +116,7 @@ public class GameStageCombat extends MyStage {
 
         /**POSITIONS**/
         airplane.setY(getViewport().getWorldHeight()/2-airplane.getHeight()/2);
+        airplane.setX(250 - airplane.getWidth()/2);
         enemy.setX(-1000);
     }
 
@@ -147,12 +147,18 @@ public class GameStageCombat extends MyStage {
         bullets.remove(bullet);
     }
 
+    private float prevY;
+
     @Override
     public void act(float delta) {
         super.act(delta);
         if (isAct) {
-            airplane.setY(HudStageCombat.planeY - airplane.getHeight()/2);
-            airplane.setX(HudStageCombat.planeX - airplane.getWidth()/2);
+
+            if(prevY != HudStageCombat.planeY) {
+                airplane.setY(HudStageCombat.planeY - airplane.getHeight() / 2);
+                airplane.setRotation(((airplane.getY() / getViewport().getWorldHeight()) - 0.5f) * 90);
+                prevY = HudStageCombat.planeY;
+            }
 
             if (overlaps(airplane, enemy)) {
                 airplane.hp -= Math.random() * 20;
@@ -180,5 +186,12 @@ public class GameStageCombat extends MyStage {
 
         if(airplane.hp<=0)
             isAct = false;
+
+        if (Gdx.input.isKeyJustPressed(Input.Keys.BACK)){
+            /**
+             * !!!NEM MŰKÖDIK A addBackButtonScreenBackByStackPopListener()!!!
+             * **/
+            game.setScreenBackByStackPop();
+        }
     }
 }

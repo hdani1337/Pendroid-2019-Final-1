@@ -1,5 +1,7 @@
 package hu.cehessteg.flight.Stage;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
@@ -81,6 +83,8 @@ public class GameStageBombing extends MyStage {
         bombs.remove(bomb);
     }
 
+    private float prevY;
+
     @Override
     public void act(float delta) {
         super.act(delta);
@@ -93,11 +97,24 @@ public class GameStageBombing extends MyStage {
             airplane.setY(HudStageBombing.planeY - airplane.getHeight()/2);
             airplane.setX(HudStageBombing.planeX - airplane.getWidth()/2);
 
+            if(prevY != HudStageBombing.planeY) {
+                airplane.setY(HudStageBombing.planeY - airplane.getHeight() / 2);
+                airplane.setRotation(((airplane.getY() / getViewport().getWorldHeight()) - 0.5f) * 90);
+                prevY = HudStageBombing.planeY;
+            }
+
             if(isShoot)
             {
                 airplane.bomb(this);
                 isShoot = false;
             }
+        }
+
+        if (Gdx.input.isKeyJustPressed(Input.Keys.BACK)){
+            /**
+             * !!!NEM MŰKÖDIK A addBackButtonScreenBackByStackPopListener()!!!
+             * **/
+            game.setScreenBackByStackPop();
         }
     }
 }

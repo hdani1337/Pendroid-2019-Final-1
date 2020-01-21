@@ -27,7 +27,6 @@ public class HudStageCombat extends MyStage {
     OneSpriteStaticActor BombingController;
 
     public static float planeY;
-    public static float planeX;
 
     public HudStageCombat(MyGame game) {
         super(new ResponseViewport(900), game);
@@ -36,7 +35,6 @@ public class HudStageCombat extends MyStage {
         addListeners();
         addActors();
         planeY = getViewport().getWorldHeight()/2;
-        planeX = 250;
     }
 
 
@@ -54,7 +52,6 @@ public class HudStageCombat extends MyStage {
             public void drag(InputEvent event, float x, float y, int pointer) {
                 super.drag(event, x, y, pointer);
                 planeY = y;
-                planeX = x;
             }
         });
 
