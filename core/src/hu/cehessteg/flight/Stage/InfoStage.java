@@ -29,6 +29,7 @@ public class InfoStage extends MyStage {
     public static final String BENCE_KEP = "portraits/bence.png";
     public static final String DANI_KEP = "portraits/dani.png";
     public static final String DAVID_KEP = "portraits/david.png";
+    public static final String LOGO = "logos/cehessteg.png";
     public static AssetList assetList = new AssetList();
 
     static {
@@ -40,6 +41,7 @@ public class InfoStage extends MyStage {
         assetList.addTexture(DAVID_KEP);
         assetList.addTexture(SKY_TEXTURE);
         assetList.addTexture(BLANK_TEXTURE);
+        assetList.addTexture(LOGO);
         assetList.addFont(trebuc, trebuc, 120, Color.WHITE, AssetList.CHARS);
     }
 
@@ -47,6 +49,7 @@ public class InfoStage extends MyStage {
     private OneSpriteStaticActor bence;
     private OneSpriteStaticActor dani;
     private OneSpriteStaticActor david;
+    private OneSpriteStaticActor logo;
 
     private MyLabel zoliLabel;
     private MyLabel benceLabel;
@@ -72,6 +75,9 @@ public class InfoStage extends MyStage {
         labelStuff();
         setPositions();
         addActors();
+
+
+
     }
 
     void assignment()
@@ -80,6 +86,7 @@ public class InfoStage extends MyStage {
         bence = new OneSpriteStaticActor(game,BENCE_KEP);
         dani = new OneSpriteStaticActor(game,DANI_KEP);
         david = new OneSpriteStaticActor(game,DAVID_KEP);
+        logo = new OneSpriteStaticActor(game,LOGO);
 
         zoliLabel = new MyLabel(game, "Miklós Zoltán", new Label.LabelStyle(game.getMyAssetManager().getFont(trebuc), Color.WHITE)) {
             @Override
@@ -135,10 +142,10 @@ public class InfoStage extends MyStage {
 
 
 
-        infoText = new MyLabel(game, "A Pendroid verseny döntőjére készült alkalmazás!", new Label.LabelStyle(game.getMyAssetManager().getFont(trebuc), Color.WHITE)) {
+        infoText = new MyLabel(game, "Az alkalmazás magába foglal kettő - egy bombázós és egy lövöldözős - repülős játékot.\nAz irányítása rendkívűl egyszerű, ha a képernyő bal szélére nyomunkn akkor tudjuk\nmozgatni a repülőgépet, ha pedig a jobb oldalra nyomunk,\n akkor pedig bombázni, illetve lőni fog a repülőgép!\n\nA PENdroid döntőjére készített játék!", new Label.LabelStyle(game.getMyAssetManager().getFont(trebuc), Color.WHITE)) {
             @Override
             public void init() {
-                setFontScale(0.4f);
+                setFontScale(0.33f);
 
             }
         };
@@ -168,7 +175,7 @@ public class InfoStage extends MyStage {
             public void init() {
                 setFontScale(0.4f);
                 setAlignment(0);
-                setPosition(getViewport().getWorldWidth()-this.getWidth()*0.75f, 15);
+                setPosition(getViewport().getWorldWidth()/7-this.getWidth()/2, 15);
                 addListener(new ClickListener()
                 {
                     @Override
@@ -207,6 +214,7 @@ public class InfoStage extends MyStage {
         bence.setPosition(zoli.getX()+zoli.getWidth()+150,zoli.getY());
         dani.setPosition(bence.getX()+bence.getWidth()+150,zoli.getY());
         david.setPosition(dani.getX()+dani.getWidth()+150,zoli.getY());
+        logo.setPosition(getViewport().getWorldWidth()-this.getWidth()/6, 15);
 
         zoliLabel.setPosition(zoli.getX()+zoli.getWidth()/2-zoliLabel.getWidth()/2,zoli.getY()-100);
         benceLabel.setPosition(bence.getX()+bence.getWidth()/2-benceLabel.getWidth()/2,bence.getY()-100);
@@ -218,9 +226,9 @@ public class InfoStage extends MyStage {
         daniLabelTitle.setPosition((daniLabel.getX()+daniLabel.getWidth()/2)-daniLabelTitle.getWidth()/2,daniLabel.getY()-45);
         davidLabelTitle.setPosition((davidLabel.getX()+davidLabel.getWidth()/2)-davidLabelTitle.getWidth()/2,davidLabel.getY()-45);
 
-        infoText.setPosition(getViewport().getWorldWidth()/2-infoText.getWidth()/1.66f,getViewport().getWorldHeight()*0.035f);
+        infoText.setPosition(getViewport().getWorldWidth()/2-infoText.getWidth()/2,getViewport().getWorldHeight()/2-infoText.getHeight()/1.5f);
 
-        /**asd**/
+
 
     }
 
@@ -228,6 +236,8 @@ public class InfoStage extends MyStage {
 
     void addActors()
     {
+
+
         addActor(sky);
         for (int i = 0; i < clouds.size(); i++) addActor(clouds.get(i));
         addActor(black);
@@ -236,6 +246,7 @@ public class InfoStage extends MyStage {
         addActor(bence);
         addActor(dani);
         addActor(david);
+        addActor(logo);
 
         addActor(zoliLabel);
         addActor(benceLabel);
@@ -271,6 +282,7 @@ public class InfoStage extends MyStage {
         bence.setAlpha(alpha);
         dani.setAlpha(alpha);
         david.setAlpha(alpha);
+        logo.setAlpha(alpha);
 
         zoliLabel.setColor(1,1,1, alpha);
         benceLabel.setColor(1,1,1, alpha);

@@ -10,7 +10,7 @@ public class DesktopLauncher {
 		new LwjglApplication(new FlightGame(false), config);
 
 		config.width = 1280;
-		config.height = 480;
+		config.height = 720;
 	}
 
 
