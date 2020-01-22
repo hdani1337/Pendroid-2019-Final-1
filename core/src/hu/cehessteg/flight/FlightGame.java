@@ -9,10 +9,17 @@ public class FlightGame extends MyGame{
 		super(debug);
 	}
 
+	public long penz;
+
 	@Override
 	public void create() {
 		super.create();
+		penz = 0;
 		setLoadingStage(new MyLoadingStage(this));
 		setScreen(new MenuScreen(this));
+	}
+
+	public long getPenz() {
+		return penz;
 	}
 }

@@ -35,17 +35,8 @@ public class Bullet extends OneSpriteStaticActor {
         super.act(delta);
         if(getX() < stage.getViewport().getWorldWidth() + this.getWidth())
         {
-            if(this.random == 3) {
-                setY(getY()-5);
-                if(!isVisible()) {
-                    this.remove();
-                    stage.removeBullet(this);
-                }
-            }
-            else {
-                setY(getY() + getRotation() / 2.0f);
-                setX(getX()+50);
-            }
+            setY(getY() + getRotation() / 2.0f);
+            setX(getX()+50);
         }
         else {
             this.remove();

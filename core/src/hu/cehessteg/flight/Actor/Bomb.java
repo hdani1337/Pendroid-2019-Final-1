@@ -8,12 +8,14 @@ import hu.csanyzeg.master.MyBaseClasses.Scene2D.OneSpriteStaticActor;
 
 public class Bomb extends OneSpriteStaticActor {
     public static final String BOMB_TEXTURE = "ammos/bomba.png";
+    public static final String KIRBY_TEXTURE = "ammos/kirby_v2.png";
 
     public static AssetList assetList;
     static
     {
         assetList = new AssetList();
         assetList.addTexture(BOMB_TEXTURE);
+        assetList.addTexture(KIRBY_TEXTURE);
     }
 
     private GameStageBombing stage;
@@ -25,8 +27,16 @@ public class Bomb extends OneSpriteStaticActor {
         addBaseCollisionRectangleShape();
         this.stage = stage;
         stage.addBomb(this);
-        setRotation(-90 + airplane.getRotation());
-        setSize(getWidth()*0.25f, getHeight()*0.25f);
+        if(damage == 4) {
+            this.sprite.setTexture(game.getMyAssetManager().getTexture(KIRBY_TEXTURE));
+            setRotation(airplane.getRotation());
+            setSize(getWidth()*0.15f, getHeight()*0.4f);
+        }
+        else{
+            setRotation(-90 + airplane.getRotation());
+            setSize(getWidth()*0.25f, getHeight()*0.25f);
+        }
+
         setPosition(airplane.getX()+airplane.getWidth()*0.5f, airplane.getY()+7);
     }
 

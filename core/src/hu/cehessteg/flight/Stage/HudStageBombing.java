@@ -30,6 +30,7 @@ public class HudStageBombing extends MyStage {
 
     public static float planeY;
     public static float planeX;
+    private float pElapsed;
 
     public HudStageBombing(MyGame game) {
         super(new ResponseViewport(900), game);
@@ -39,6 +40,7 @@ public class HudStageBombing extends MyStage {
         addActors();
         planeX = 250;
         planeY = getViewport().getWorldHeight()/2;
+        pElapsed = elapsedTime;
     }
 
     private void assignment()
@@ -64,7 +66,10 @@ public class HudStageBombing extends MyStage {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 super.clicked(event, x, y);
-                GameStageBombing.isShoot = true;
+                if(elapsedTime > pElapsed + 0.4f) {
+                    GameStageBombing.isShoot = true;
+                    pElapsed = elapsedTime;
+                }
             }
         });
     }
@@ -83,4 +88,5 @@ public class HudStageBombing extends MyStage {
         addActor(PositionController);
         addActor(BombingController);
     }
+
 }

@@ -10,6 +10,7 @@ import java.util.ArrayList;
 import hu.cehessteg.flight.Actor.Airplane;
 import hu.cehessteg.flight.Actor.Bomb;
 import hu.cehessteg.flight.Actor.Cloud;
+import hu.cehessteg.flight.Actor.Explosion;
 import hu.cehessteg.flight.Actor.Ship;
 import hu.cehessteg.flight.Actor.Sky;
 import hu.cehessteg.flight.Screen.GameScreenCombat;
@@ -131,10 +132,8 @@ public class GameStageBombing extends MyStage {
             if(elapsedTime > pElapsed)
             {
                 addShip();
-                pElapsed = (float) (elapsedTime + Math.random() * 3);
+                pElapsed = (float) (elapsedTime + Math.random() * 3 + 1);
             }
-
-            System.out.println(elapsedTime + " " + pElapsed);
 
             for (Bomb b : bombs)
             {
@@ -143,6 +142,8 @@ public class GameStageBombing extends MyStage {
                     {
                         if(overlaps(b,s))
                         {
+                            addActor(new Explosion(game,s));
+                            addActor(new Explosion(game,b));
                             s.remove();
                             ships.remove(s);
                             b.remove();

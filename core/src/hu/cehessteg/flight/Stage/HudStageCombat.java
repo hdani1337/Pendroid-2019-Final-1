@@ -6,6 +6,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.DragListener;
 
+import hu.cehessteg.flight.FlightGame;
 import hu.csanyzeg.master.MyBaseClasses.Assets.AssetList;
 import hu.csanyzeg.master.MyBaseClasses.Game.MyGame;
 import hu.csanyzeg.master.MyBaseClasses.Scene2D.MyStage;
@@ -27,6 +28,7 @@ public class HudStageCombat extends MyStage {
     OneSpriteStaticActor BombingController;
 
     public static float planeY;
+    private float pElapsed;
 
     public HudStageCombat(MyGame game) {
         super(new ResponseViewport(900), game);
@@ -35,6 +37,12 @@ public class HudStageCombat extends MyStage {
         addListeners();
         addActors();
         planeY = getViewport().getWorldHeight()/2;
+        pElapsed = elapsedTime;
+
+        /**PÉNZ ELÉRÉSE A GAMEBŐL
+         * TUDOM HOGY NEM SZABADNA CASTOLNI DE MŰKÖDIK!!
+         * **/
+        if(game instanceof FlightGame) System.out.println(((FlightGame) game).getPenz());
     }
 
 
@@ -60,7 +68,10 @@ public class HudStageCombat extends MyStage {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 super.clicked(event, x, y);
-                GameStageCombat.isShoot = true;
+                if(elapsedTime > pElapsed + 0.15f) {
+                    GameStageCombat.isShoot = true;
+                    pElapsed = elapsedTime;
+                }
             }
         });
     }
@@ -80,9 +91,4 @@ public class HudStageCombat extends MyStage {
         addActor(BombingController);
     }
 
-    @Override
-    public void act(float delta) {
-        super.act(delta);
-
-    }
 }
