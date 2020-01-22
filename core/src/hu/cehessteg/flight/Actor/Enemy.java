@@ -3,6 +3,7 @@ package hu.cehessteg.flight.Actor;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
+import hu.cehessteg.flight.FlightGame;
 import hu.csanyzeg.master.MyBaseClasses.Assets.AssetList;
 import hu.csanyzeg.master.MyBaseClasses.Game.MyGame;
 import hu.csanyzeg.master.MyBaseClasses.Scene2D.OneSpriteStaticActor;
@@ -39,6 +40,7 @@ public class Enemy extends OneSpriteStaticActor {
                 setX(getX() - 10);
             } else {
                 replace();
+                if(game instanceof FlightGame)((FlightGame) game).setPenz(((FlightGame) game).getPenz() + 50);
             }
         }
     }
@@ -48,5 +50,6 @@ public class Enemy extends OneSpriteStaticActor {
         hp = 100;
         setX((float) Math.random() * 750 + 2000);
         setY((float) Math.random() * (viewport.getWorldHeight() - getHeight()));
+
     }
 }

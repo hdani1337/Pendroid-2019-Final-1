@@ -22,4 +22,8 @@ public class FlightGame extends MyGame{
 	public long getPenz() {
 		return penz;
 	}
+
+	public void setPenz(long penz) {
+		this.penz = penz;
+	}
 }
