@@ -1,18 +1,17 @@
 package hu.cehessteg.flight.Stage;
 
+import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
-import java.awt.Menu;
 import java.util.ArrayList;
 
 import hu.cehessteg.flight.Actor.Cloud;
 import hu.cehessteg.flight.Actor.Sky;
-import hu.cehessteg.flight.Screen.GameScreenBombing;
-import hu.cehessteg.flight.Screen.MenuScreen;
 import hu.csanyzeg.master.MyBaseClasses.Assets.AssetList;
 import hu.csanyzeg.master.MyBaseClasses.Game.MyGame;
 import hu.csanyzeg.master.MyBaseClasses.Scene2D.MyStage;
@@ -20,9 +19,9 @@ import hu.csanyzeg.master.MyBaseClasses.Scene2D.OneSpriteActor;
 import hu.csanyzeg.master.MyBaseClasses.Scene2D.OneSpriteStaticActor;
 import hu.csanyzeg.master.MyBaseClasses.Scene2D.ResponseViewport;
 import hu.csanyzeg.master.MyBaseClasses.UI.MyLabel;
+
 import static hu.cehessteg.flight.Actor.Sky.SKY_TEXTURE;
 import static hu.cehessteg.flight.Stage.GameOverStage.BLANK_TEXTURE;
-
 import static hu.cehessteg.flight.Stage.MenuStage.trebuc;
 
 public class InfoStage extends MyStage {
@@ -30,25 +29,19 @@ public class InfoStage extends MyStage {
     public static final String BENCE_KEP = "portraits/bence.png";
     public static final String DANI_KEP = "portraits/dani.png";
     public static final String DAVID_KEP = "portraits/david.png";
-    public static final String BACKGROUND_KEP = "black.png";
     public static AssetList assetList = new AssetList();
 
     static {
+        assetList.collectAssetDescriptor(Sky.class, assetList);
+        assetList.collectAssetDescriptor(Cloud.class, assetList);
         assetList.addTexture(ZOLI_KEP);
         assetList.addTexture(BENCE_KEP);
         assetList.addTexture(DANI_KEP);
         assetList.addTexture(DAVID_KEP);
-        assetList.addTexture(BACKGROUND_KEP);
         assetList.addTexture(SKY_TEXTURE);
         assetList.addTexture(BLANK_TEXTURE);
         assetList.addFont(trebuc, trebuc, 120, Color.WHITE, AssetList.CHARS);
-        assetList.collectAssetDescriptor(Cloud.class,assetList);
-        assetList.collectAssetDescriptor(Sky.class,assetList);
-
     }
-
-
-
 
     private OneSpriteStaticActor zoli;
     private OneSpriteStaticActor bence;
@@ -64,45 +57,22 @@ public class InfoStage extends MyStage {
     private MyLabel benceLabelTitle;
     private MyLabel daniLabelTitle;
     private MyLabel davidLabelTitle;
+
+    private MyLabel infoText;
+
     private Sky sky;
     private ArrayList<Cloud> clouds;
     private OneSpriteStaticActor black;
 
-    private MyLabel infoText;
-
-
-
-
-
+    private MyLabel back;
 
     public InfoStage(MyGame game) {
         super(new ResponseViewport(900),game);
         assignment();
         labelStuff();
         setPositions();
-
         addActors();
-
-        addActor(new MyLabel(game, "Vissza", new Label.LabelStyle(game.getMyAssetManager().getFont(trebuc), Color.WHITE)) {
-            @Override
-            public void init() {
-                setAlignment(0);
-                setPosition(getViewport().getWorldWidth()/8-this.getWidth()/2,getViewport().getWorldHeight()/10-this.getHeight()/6f);           /**NEM VÉGLEGES **/
-                addListener(new ClickListener()
-                {
-                    @Override
-                    public void clicked(InputEvent event, float x, float y) {
-                        super.clicked(event, x, y);
-                        game.setScreen(new MenuScreen(game));
-                    }
-                });
-            }
-        });
-
-
     }
-
-
 
     void assignment()
     {
@@ -110,9 +80,6 @@ public class InfoStage extends MyStage {
         bence = new OneSpriteStaticActor(game,BENCE_KEP);
         dani = new OneSpriteStaticActor(game,DANI_KEP);
         david = new OneSpriteStaticActor(game,DAVID_KEP);
-        sky = new Sky(game);
-        clouds = new ArrayList<>();
-
 
         zoliLabel = new MyLabel(game, "Miklós Zoltán", new Label.LabelStyle(game.getMyAssetManager().getFont(trebuc), Color.WHITE)) {
             @Override
@@ -168,16 +135,13 @@ public class InfoStage extends MyStage {
 
 
 
-        infoText = new MyLabel(game, "Az alkalmazás magában foglal kettő - egy bombázós, és egy lövöldözős - repülős játékot.\n Az irányítása rendkívűl egyszerű, ha a képernyő bal szélére nyomunk akkor tudjuk \nmozgatni a repülőgépet, ha pedig a jobbra nyomunk, akkor \npedig bombázni, illetve lőni fog a repülőgép!\n\nA PENdroid döntőjére készített játék!", new Label.LabelStyle(game.getMyAssetManager().getFont(trebuc), Color.WHITE)) {
+        infoText = new MyLabel(game, "A Pendroid verseny döntőjére készült alkalmazás!", new Label.LabelStyle(game.getMyAssetManager().getFont(trebuc), Color.WHITE)) {
             @Override
             public void init() {
                 setFontScale(0.4f);
 
             }
         };
-        infoText.setFontScale(0.33f);
-
-
 
         clouds = new ArrayList<>();
         for (int i = 0; i < 18; i++) clouds.add(new Cloud(game, getViewport()));
@@ -189,6 +153,7 @@ public class InfoStage extends MyStage {
                 setSize(getViewport().getWorldWidth(),getViewport().getWorldHeight());
             }
         };
+
         black = new OneSpriteStaticActor(game, BLANK_TEXTURE) {
             @Override
             public void init() {
@@ -197,14 +162,31 @@ public class InfoStage extends MyStage {
                 setAlpha(0.3f);
             }
         };
+
+        back = new MyLabel(game, "Vissza a menübe", new Label.LabelStyle(game.getMyAssetManager().getFont(trebuc), Color.WHITE)) {
+            @Override
+            public void init() {
+                setFontScale(0.4f);
+                setAlignment(0);
+                setPosition(getViewport().getWorldWidth()-this.getWidth()*0.75f, 15);
+                addListener(new ClickListener()
+                {
+                    @Override
+                    public void clicked(InputEvent event, float x, float y) {
+                        super.clicked(event, x, y);
+                        game.setScreenBackByStackPop();
+                    }
+                });
+            }
+        };
     }
 
     void labelStuff()
     {
-        zoliLabelTitle.setFontScale(0.33f);
-        benceLabelTitle.setFontScale(0.33f);
-        daniLabelTitle.setFontScale(0.33f);
-        davidLabelTitle.setFontScale(0.33f);
+        zoliLabelTitle.setFontScale(0.3f);
+        benceLabelTitle.setFontScale(0.3f);
+        daniLabelTitle.setFontScale(0.3f);
+        davidLabelTitle.setFontScale(0.3f);
 
         zoliLabel.setAlignment(0);
         benceLabel.setAlignment(0);
@@ -236,12 +218,7 @@ public class InfoStage extends MyStage {
         daniLabelTitle.setPosition((daniLabel.getX()+daniLabel.getWidth()/2)-daniLabelTitle.getWidth()/2,daniLabel.getY()-45);
         davidLabelTitle.setPosition((davidLabel.getX()+davidLabel.getWidth()/2)-davidLabelTitle.getWidth()/2,davidLabel.getY()-45);
 
-
-
-        infoText.setPosition(getViewport().getWorldWidth()/2-infoText.getWidth()/2.0f,getViewport().getWorldHeight()/2-getViewport().getWorldHeight()/1.51f);
-
-
-
+        infoText.setPosition(getViewport().getWorldWidth()/2-infoText.getWidth()/1.66f,getViewport().getWorldHeight()*0.035f);
     }
 
 
@@ -251,12 +228,6 @@ public class InfoStage extends MyStage {
         addActor(sky);
         for (int i = 0; i < clouds.size(); i++) addActor(clouds.get(i));
         addActor(black);
-        zoli.setDebug(false);
-        bence.setDebug(false);
-        dani.setDebug(false);
-        david.setDebug(false);
-        infoText.setDebug(false);
-
 
         addActor(zoli);
         addActor(bence);
@@ -273,10 +244,49 @@ public class InfoStage extends MyStage {
         addActor(daniLabelTitle);
         addActor(davidLabelTitle);
 
-
-
-
         addActor(infoText);
+
+        addActor(back);
+    }
+
+
+    float alpha = 0;
+
+    void fadeIn()
+    {
+        if(alpha < 0.98) {
+            alpha += 0.02;
+            setAlphas();
+        }
+        else alpha = 1;
+
+    }
+
+    void setAlphas()
+    {
+        zoli.setAlpha(alpha);
+        bence.setAlpha(alpha);
+        dani.setAlpha(alpha);
+        david.setAlpha(alpha);
+
+        zoliLabel.setColor(1,1,1, alpha);
+        benceLabel.setColor(1,1,1, alpha);
+        daniLabel.setColor(1,1,1, alpha);
+        davidLabel.setColor(1,1,1, alpha);
+
+        zoliLabelTitle.setColor(1,1,1, alpha);
+        benceLabelTitle.setColor(1,1,1, alpha);
+        daniLabelTitle.setColor(1,1,1, alpha);
+        davidLabelTitle.setColor(1,1,1, alpha);
+
+        infoText.setColor(1,1,1, alpha);
+
+        back.setColor(1,1,1, alpha);
+    }
+
+    @Override
+    public void init() {
+
     }
 
     @Override
@@ -286,7 +296,13 @@ public class InfoStage extends MyStage {
             c.move();
         }
 
+        fadeIn();
+
+        if (Gdx.input.isKeyJustPressed(Input.Keys.BACK)){
+            /**
+             * !!!NEM MŰKÖDIK A addBackButtonScreenBackByStackPopListener()!!!
+             * **/
+            game.setScreenBackByStackPop();
+        }
     }
-
-
 }

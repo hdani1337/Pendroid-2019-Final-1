@@ -23,10 +23,15 @@ public class MenuStage extends MyStage {
         assetList.addFont(trebuc, trebuc, 120, Color.WHITE, AssetList.CHARS);
     }
 
+    private MyLabel elindultam;
+    private MyLabel bombazas;
+    private MyLabel legicsata;
+    private MyLabel infostage;
+
     public MenuStage(MyGame game) {
         super(new ResponseViewport(900), game);
         addBackButtonScreenBackByStackPopListener();
-        addActor(new MyLabel(game, "Elindultam", new Label.LabelStyle(game.getMyAssetManager().getFont(trebuc), Color.WHITE)) {
+        addActor(elindultam = new MyLabel(game, "Elindultam", new Label.LabelStyle(game.getMyAssetManager().getFont(trebuc), Color.WHITE)) {
             @Override
             public void init() {
                 setAlignment(0);
@@ -34,7 +39,7 @@ public class MenuStage extends MyStage {
             }
         });
 
-        addActor(new MyLabel(game, "Bombázás", new Label.LabelStyle(game.getMyAssetManager().getFont(trebuc), Color.WHITE)) {
+        addActor(bombazas =new MyLabel(game, "Bombázás", new Label.LabelStyle(game.getMyAssetManager().getFont(trebuc), Color.WHITE)) {
             @Override
             public void init() {
                 setAlignment(0);
@@ -50,7 +55,7 @@ public class MenuStage extends MyStage {
             }
         });
 
-        addActor(new MyLabel(game, "Légicsata", new Label.LabelStyle(game.getMyAssetManager().getFont(trebuc), Color.WHITE)) {
+        addActor(legicsata = new MyLabel(game, "Légicsata", new Label.LabelStyle(game.getMyAssetManager().getFont(trebuc), Color.WHITE)) {
             @Override
             public void init() {
                 setAlignment(0);
@@ -66,7 +71,7 @@ public class MenuStage extends MyStage {
             }
         });
 
-        addActor(new MyLabel(game, "InfoStage", new Label.LabelStyle(game.getMyAssetManager().getFont(trebuc), Color.WHITE)) {
+        addActor(infostage = new MyLabel(game, "InfoStage", new Label.LabelStyle(game.getMyAssetManager().getFont(trebuc), Color.WHITE)) {
             @Override
             public void init() {
                 setAlignment(0);
@@ -83,9 +88,30 @@ public class MenuStage extends MyStage {
         });
     }
 
+    float alpha = 0;
+
+    void fadeIn()
+    {
+        if(alpha < 0.98) {
+            alpha += 0.02;
+            setAlphas();
+        }
+        else alpha = 1;
+
+    }
+
+    void setAlphas()
+    {
+        elindultam.setColor(1,1,1, alpha);
+        legicsata.setColor(1,1,1, alpha);
+        bombazas.setColor(1,1,1, alpha);
+        infostage.setColor(1,1,1, alpha);
+    }
+
     @Override
     public void act(float delta) {
         super.act(delta);
+        fadeIn();
         if (Gdx.input.isKeyJustPressed(Input.Keys.BACK)){
             /**
              * !!!NEM MŰKÖDIK A addBackButtonScreenBackByStackPopListener()!!!

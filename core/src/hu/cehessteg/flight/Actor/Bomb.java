@@ -26,7 +26,7 @@ public class Bomb extends OneSpriteStaticActor {
         this.stage = stage;
         stage.addBomb(this);
         setRotation(-90 + airplane.getRotation());
-        setSize(getWidth()*0.3f, getHeight()*0.3f);
+        setSize(getWidth()*0.25f, getHeight()*0.25f);
         setPosition(airplane.getX()+airplane.getWidth()*0.5f, airplane.getY()+7);
     }
 

@@ -10,14 +10,19 @@ import java.util.ArrayList;
 import hu.cehessteg.flight.Actor.Airplane;
 import hu.cehessteg.flight.Actor.Bomb;
 import hu.cehessteg.flight.Actor.Cloud;
+import hu.cehessteg.flight.Actor.Ship;
 import hu.cehessteg.flight.Actor.Sky;
 import hu.cehessteg.flight.Screen.GameScreenCombat;
 import hu.csanyzeg.master.MyBaseClasses.Assets.AssetList;
 import hu.csanyzeg.master.MyBaseClasses.Game.MyGame;
 import hu.csanyzeg.master.MyBaseClasses.Scene2D.MyStage;
 import hu.csanyzeg.master.MyBaseClasses.Scene2D.ResponseViewport;
+import hu.csanyzeg.master.MyBaseClasses.Timers.TickTimer;
+import hu.csanyzeg.master.MyBaseClasses.Timers.TickTimerListener;
+import hu.csanyzeg.master.MyBaseClasses.Timers.Timer;
 
 import static hu.cehessteg.flight.Stage.MenuStage.trebuc;
+import static hu.csanyzeg.master.MyBaseClasses.Scene2D.MyActor.overlaps;
 
 public class GameStageBombing extends MyStage {
 
@@ -27,6 +32,7 @@ public class GameStageBombing extends MyStage {
         assetList.collectAssetDescriptor(Cloud.class, assetList);
         assetList.collectAssetDescriptor(Sky.class, assetList);
         assetList.collectAssetDescriptor(Bomb.class,assetList);
+        assetList.collectAssetDescriptor(Ship.class,assetList);
         assetList.addFont(trebuc, trebuc, 30, Color.WHITE, AssetList.CHARS);
     }
 
@@ -35,6 +41,7 @@ public class GameStageBombing extends MyStage {
     public static boolean isShoot;
     private ArrayList<Cloud> clouds;
     private ArrayList<Bomb> bombs;
+    private ArrayList<Ship> ships;
 
     public GameStageBombing(final MyGame game) {
         super(new ResponseViewport(900), game);
@@ -52,13 +59,14 @@ public class GameStageBombing extends MyStage {
         airplane = new Airplane(game);
         clouds = new ArrayList<>();
         bombs = new ArrayList<>();
+        ships = new ArrayList<>();
         for (int i = 0; i < 18; i++) clouds.add(new Cloud(game, getViewport()));
     }
 
     private void setSizesAndPositions()
     {
         /**SIZES**/
-        sky.setSize(getViewport().getWorldWidth(),getViewport().getWorldHeight());
+        sky.setSize(getViewport().getWorldWidth(),getViewport().getWorldHeight()*1.75f);
         airplane.setSize(airplane.getWidth()*0.2f, airplane.getHeight()*0.2f);
 
         /**POSITIONS**/
@@ -73,6 +81,16 @@ public class GameStageBombing extends MyStage {
         airplane.setZIndex(7);
     }
 
+    private void addShip()
+    {
+        ships.add(new Ship(game, this));
+        addActor(ships.get(ships.size()-1));
+    }
+
+    public void removeShip(Ship s){
+        ships.remove(s);
+    }
+
     public void addBomb(Bomb bomb)
     {
         bombs.add(bomb);
@@ -84,6 +102,7 @@ public class GameStageBombing extends MyStage {
     }
 
     private float prevY;
+    private float pElapsed = elapsedTime;
 
     @Override
     public void act(float delta) {
@@ -107,6 +126,29 @@ public class GameStageBombing extends MyStage {
             {
                 airplane.bomb(this);
                 isShoot = false;
+            }
+
+            if(elapsedTime > pElapsed)
+            {
+                addShip();
+                pElapsed = (float) (elapsedTime + Math.random() * 3);
+            }
+
+            System.out.println(elapsedTime + " " + pElapsed);
+
+            for (Bomb b : bombs)
+            {
+                if(!ships.isEmpty())
+                    for (Ship s : ships)
+                    {
+                        if(overlaps(b,s))
+                        {
+                            s.remove();
+                            ships.remove(s);
+                            b.remove();
+                            break;
+                        }
+                    }
             }
         }
 
