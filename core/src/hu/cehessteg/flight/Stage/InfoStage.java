@@ -219,6 +219,9 @@ public class InfoStage extends MyStage {
         davidLabelTitle.setPosition((davidLabel.getX()+davidLabel.getWidth()/2)-davidLabelTitle.getWidth()/2,davidLabel.getY()-45);
 
         infoText.setPosition(getViewport().getWorldWidth()/2-infoText.getWidth()/1.66f,getViewport().getWorldHeight()*0.035f);
+
+        /**asd**/
+
     }
 
 
