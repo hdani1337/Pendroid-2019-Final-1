@@ -75,9 +75,6 @@ public class InfoStage extends MyStage {
         labelStuff();
         setPositions();
         addActors();
-
-
-
     }
 
     void assignment()
@@ -139,8 +136,6 @@ public class InfoStage extends MyStage {
                 setFontScale(0.4f);
             }
         };
-
-
 
         infoText = new MyLabel(game, "Az alkalmazás magába foglal kettő - egy bombázós és egy lövöldözős - repülős játékot.\nAz irányítása rendkívűl egyszerű, ha a képernyő bal szélére nyomunkn akkor tudjuk\nmozgatni a repülőgépet, ha pedig a jobb oldalra nyomunk,\n akkor pedig bombázni, illetve lőni fog a repülőgép!\n\nA PENdroid döntőjére készített játék!", new Label.LabelStyle(game.getMyAssetManager().getFont(trebuc), Color.WHITE)) {
             @Override
@@ -227,17 +222,10 @@ public class InfoStage extends MyStage {
         davidLabelTitle.setPosition((davidLabel.getX()+davidLabel.getWidth()/2)-davidLabelTitle.getWidth()/2,davidLabel.getY()-45);
 
         infoText.setPosition(getViewport().getWorldWidth()/2-infoText.getWidth()/2,getViewport().getWorldHeight()/2-infoText.getHeight()/1.5f);
-
-
-
     }
-
-
 
     void addActors()
     {
-
-
         addActor(sky);
         for (int i = 0; i < clouds.size(); i++) addActor(clouds.get(i));
         addActor(black);
