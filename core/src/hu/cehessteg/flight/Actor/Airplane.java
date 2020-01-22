@@ -62,10 +62,10 @@ public class Airplane extends OneSpriteStaticActor {
     @Override
     public void act(float delta) {
         super.act(delta);
-        if(getRotation() != 0)
+        if(getRotation() < -2 || getRotation() > 2)
         {
-            if(getRotation() > 0) setRotation(getRotation() - 0.5f);
-            else if (getRotation() < 0) setRotation(getRotation() + 0.5f);
+            if(getRotation() > 2) setRotation(getRotation() - 2);
+            else if (getRotation() < 2) setRotation(getRotation() + 2);
         }
     }
 }
