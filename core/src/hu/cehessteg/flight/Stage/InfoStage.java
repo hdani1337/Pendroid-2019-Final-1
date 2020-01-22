@@ -135,10 +135,10 @@ public class InfoStage extends MyStage {
 
 
 
-        infoText = new MyLabel(game, "A Pendroid verseny döntőjére készült alkalmazás!", new Label.LabelStyle(game.getMyAssetManager().getFont(trebuc), Color.WHITE)) {
+        infoText = new MyLabel(game, "Az alkalmazás magában foglal két - egy bombázós és egy lövöldözős - repülős játékot!\nAz irányítása rendkívül egyszerű, ha aképernyő bal szélére nyomunk, akkor tudjuk\nmozgatni a repülőgépet, ha pedig a jobbra nyomunk, akkor\npedig bombázni, illetve lőni fog a repülőgép!\n\nA PENdroid döntöjére készített játék!", new Label.LabelStyle(game.getMyAssetManager().getFont(trebuc), Color.WHITE)) {
             @Override
             public void init() {
-                setFontScale(0.4f);
+                setFontScale(0.33f);
 
             }
         };
@@ -168,7 +168,7 @@ public class InfoStage extends MyStage {
             public void init() {
                 setFontScale(0.4f);
                 setAlignment(0);
-                setPosition(getViewport().getWorldWidth()-this.getWidth()*0.75f, 15);
+                setPosition(getViewport().getWorldWidth()/2.35f-this.getWidth(),10);
                 addListener(new ClickListener()
                 {
                     @Override
@@ -218,7 +218,7 @@ public class InfoStage extends MyStage {
         daniLabelTitle.setPosition((daniLabel.getX()+daniLabel.getWidth()/2)-daniLabelTitle.getWidth()/2,daniLabel.getY()-45);
         davidLabelTitle.setPosition((davidLabel.getX()+davidLabel.getWidth()/2)-davidLabelTitle.getWidth()/2,davidLabel.getY()-45);
 
-        infoText.setPosition(getViewport().getWorldWidth()/2-infoText.getWidth()/1.66f,getViewport().getWorldHeight()*0.035f);
+        infoText.setPosition(getViewport().getWorldWidth()/2-infoText.getWidth()/2,getViewport().getWorldHeight()/2.5f-getViewport().getWorldHeight()/2f);
     }
 
 
