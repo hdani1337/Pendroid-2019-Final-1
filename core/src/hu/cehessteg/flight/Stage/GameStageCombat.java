@@ -170,7 +170,7 @@ public class GameStageCombat extends MyStage {
                 airplane.hp -= Math.random() * 20;
                 addActor(new Explosion(game, enemy));
                 enemy.replace();
-                if(game instanceof FlightGame)((FlightGame) game).setPenz(((FlightGame) game).getPenz() + 100);
+                if(game instanceof FlightGame)((FlightGame) game).setPenz(((FlightGame) game).getPenz() + 50);
             }
 
             for (Bullet bullet : bullets)
@@ -182,8 +182,7 @@ public class GameStageCombat extends MyStage {
                     if(enemy.hp <= 0) {
                         addActor(new Explosion(game, enemy));
                         enemy.replace();
-                        if(game instanceof FlightGame)((FlightGame) game).setPenz(((FlightGame) game).getPenz() - 100);
-
+                        if(game instanceof FlightGame)((FlightGame) game).setPenz(((FlightGame) game).getPenz() + 100);
                     }
                 }
             }
@@ -204,8 +203,8 @@ public class GameStageCombat extends MyStage {
                 airplane.setVisible(false);
                 playerHP.setVisible(false);
                 addedExplosion = true;
+                if(game instanceof FlightGame)((FlightGame) game).setPenz(((FlightGame) game).getPenz() - 100);
             }
-            if(game instanceof FlightGame)((FlightGame) game).setPenz(((FlightGame) game).getPenz() - 100);
         }
 
         if (Gdx.input.isKeyJustPressed(Input.Keys.BACK)){

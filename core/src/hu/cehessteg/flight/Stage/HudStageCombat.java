@@ -6,6 +6,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.DragListener;
 
+import hu.cehessteg.flight.Actor.Coin;
 import hu.cehessteg.flight.FlightGame;
 import hu.csanyzeg.master.MyBaseClasses.Assets.AssetList;
 import hu.csanyzeg.master.MyBaseClasses.Game.MyGame;
@@ -22,6 +23,7 @@ public class HudStageCombat extends MyStage {
     static {
         assetList.addFont(trebuc, trebuc, 100, Color.WHITE, AssetList.CHARS);
         assetList.addTexture(BLANK_TEXTURE);
+        assetList.collectAssetDescriptor(Coin.class, assetList);
     }
 
     OneSpriteStaticActor PositionController;
@@ -29,6 +31,8 @@ public class HudStageCombat extends MyStage {
 
     public static float planeY;
     private float pElapsed;
+
+    private Coin coin;
 
     public HudStageCombat(MyGame game) {
         super(new ResponseViewport(900), game);
@@ -50,6 +54,7 @@ public class HudStageCombat extends MyStage {
     {
         PositionController = new OneSpriteStaticActor(game, BLANK_TEXTURE);
         BombingController = new OneSpriteStaticActor(game, BLANK_TEXTURE);
+        coin = new Coin(game);
     }
 
     private void addListeners()
@@ -89,6 +94,7 @@ public class HudStageCombat extends MyStage {
     {
         addActor(PositionController);
         addActor(BombingController);
+        addActor(coin);
     }
 
 }

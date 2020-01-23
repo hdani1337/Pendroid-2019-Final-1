@@ -5,6 +5,7 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 
+import hu.cehessteg.flight.FlightGame;
 import hu.cehessteg.flight.Screen.GameScreenBombing;
 import hu.cehessteg.flight.Screen.GameScreenCombat;
 import hu.csanyzeg.master.MyBaseClasses.Assets.AssetList;
@@ -19,7 +20,7 @@ import static hu.cehessteg.flight.Stage.MenuStage.trebuc;
 
 public class GameOverStage extends MyStage {
 
-    public static final String BLANK_TEXTURE = "black.png";
+    public static final String BLANK_TEXTURE = "other/black.png";
 
     public static AssetList assetList = new AssetList();
     static {
@@ -60,6 +61,9 @@ public class GameOverStage extends MyStage {
                         super.clicked(event, x, y);
                         if(getScreen() instanceof GameScreenCombat) game.setScreen(new GameScreenCombat(game), false);
                         else if (getScreen() instanceof GameScreenBombing) game.setScreen(new GameScreenBombing(game), false);
+
+                        if(game instanceof FlightGame)
+                            ((FlightGame) game).saveCoins();
                     }
                 });
             }
@@ -78,6 +82,8 @@ public class GameOverStage extends MyStage {
                     @Override
                     public void clicked(InputEvent event, float x, float y) {
                         super.clicked(event, x, y);
+                        if(game instanceof FlightGame)
+                            ((FlightGame) game).saveCoins();
                         game.setScreenBackByStackPop();
                     }
                 });

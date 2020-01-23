@@ -22,9 +22,9 @@ import hu.csanyzeg.master.MyBaseClasses.Scene2D.ResponseViewport;
 import hu.csanyzeg.master.MyBaseClasses.UI.MyLabel;
 
 public class MenuStage extends MyStage {
-    public static String trebuc = "trebuc.ttf";
+    public static String trebuc = "other/trebuc.ttf";
     public static AssetList assetList = new AssetList();
-    public static final String MENU_HATTER = "menu.png";
+    public static final String MENU_HATTER = "other/menu.png";
     static {
         assetList.addFont(trebuc, trebuc, 120, Color.WHITE, AssetList.CHARS);
         assetList.addTexture(MENU_HATTER);
