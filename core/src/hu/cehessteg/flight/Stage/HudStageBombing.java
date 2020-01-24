@@ -16,8 +16,8 @@ import hu.csanyzeg.master.MyBaseClasses.Scene2D.ResponseViewport;
 
 import static hu.cehessteg.flight.Stage.GameOverStage.BLANK_TEXTURE;
 
-public class HudStageBombing extends MyStage {
-
+public class HudStageBombing/* extends MyStage */{
+/**
     public static AssetList assetList;
     static
     {
@@ -88,5 +88,5 @@ public class HudStageBombing extends MyStage {
         addActor(PositionController);
         addActor(BombingController);
     }
-
+**/
 }

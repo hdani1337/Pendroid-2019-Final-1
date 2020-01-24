@@ -54,7 +54,7 @@ public class Airplane extends OneSpriteStaticActor {
         }else System.out.println("Még nem érhető el a lőfegyver!");
     }
 
-    public void bomb(GameStageBombing stage)
+    public void bomb(GameStageCombat stage)
     {
         if(this.level >= 6) {
             if(remainingBombs > 0) {

@@ -30,10 +30,6 @@ import static hu.csanyzeg.master.MyBaseClasses.Scene2D.MyActor.overlaps;
 
 public class GameStageCombat extends MyStage {
 
-    /**TODO
-     * Minden játékmódnak külön stage kell majd!!
-     * */
-
     public static AssetList assetList = new AssetList();
     static {
         assetList.collectAssetDescriptor(Airplane.class, assetList);
@@ -42,6 +38,7 @@ public class GameStageCombat extends MyStage {
         assetList.collectAssetDescriptor(Enemy.class,assetList);
         assetList.collectAssetDescriptor(Bullet.class,assetList);
         assetList.collectAssetDescriptor(Explosion.class,assetList);
+        assetList.collectAssetDescriptor(Bomb.class,assetList);
         assetList.addFont(trebuc, trebuc, 30, Color.WHITE, AssetList.CHARS);
     }
 
@@ -50,8 +47,10 @@ public class GameStageCombat extends MyStage {
     private Enemy enemy;
     public static boolean isAct;
     public static boolean isShoot;
+    public static boolean isBomb;
     private ArrayList<Cloud> clouds;
     private ArrayList<Bullet> bullets;
+    private ArrayList<Bomb> bombs;
     private MyLabel enemyHP;
     private MyLabel playerHP;
 
@@ -71,6 +70,7 @@ public class GameStageCombat extends MyStage {
         enemy = new Enemy(game,getViewport());
         clouds = new ArrayList<>();
         bullets = new ArrayList<>();
+        bombs = new ArrayList<>();
         for (int i = 0; i < 18; i++) clouds.add(new Cloud(game, getViewport()));
         setHpLabels();
     }
@@ -152,22 +152,32 @@ public class GameStageCombat extends MyStage {
         bullets.remove(bullet);
     }
 
-    private float prevY;
-    private boolean addedExplosion;
+    public void addBomb(Bomb bomb)
+    {
+        bombs.add(bomb);
+    }
+
+    public void removeBomb(Bomb bomb)
+    {
+        bombs.remove(bomb);
+    }
 
     @Override
     public void act(float delta) {
         super.act(delta);
-        if (isAct) {
+        if (isAct) {//Az isAct változó false lesz, ha a játékos veszít, így ezek nem futnak le feleslegesen
             movePlayer();//A repülő mozgatása
             playerOverlapsEnemy();//Ha a játékos nekimegy az ellenfélnek
             bulletOverlapsEnemy();//Megnézzük, melyik golyó találta el az ellenfelet
+            bombOverlapsEnemy();//Megnézzük, melyik bomba találja el az ellenfelet
             playerShoot();//A játékos lő
+            playerBomb();//A játékos bombázik
         }
 
-        playerDies();//Ha játékos meghal
+        playerDies();//Ha játékos meghal, ezt folyamatosan vizsgáljuk
     }
 
+    private boolean addedExplosion;//Volt-e már robbanás
     private void playerDies()
     {
         if(airplane.hp<=0) {
@@ -204,6 +214,21 @@ public class GameStageCombat extends MyStage {
         }
     }
 
+    private void bombOverlapsEnemy()
+    {
+        for (Bomb bomb : bombs)
+        {
+            if(overlaps(bomb, enemy))
+            {
+                enemy.hp = 0;
+                bomb.remove();
+                addActor(new Explosion(game, enemy));
+                enemy.replace();
+                if(game instanceof FlightGame)((FlightGame) game).setPenz(((FlightGame) game).getPenz() + 2);
+            }
+        }
+    }
+
     private void playerOverlapsEnemy()
     {
         if (overlaps(airplane, enemy)) {
@@ -214,6 +239,7 @@ public class GameStageCombat extends MyStage {
         }
     }
 
+    private float prevY;//A játékos előző pozíciója
     private void movePlayer()
     {
         if(prevY != HudStageCombat.planeY) {
@@ -221,7 +247,6 @@ public class GameStageCombat extends MyStage {
             airplane.setRotation(((airplane.getY() / getViewport().getWorldHeight()) - 0.5f) * 90);
             prevY = HudStageCombat.planeY;
         }
-
     }
 
     private void playerShoot()
@@ -230,6 +255,15 @@ public class GameStageCombat extends MyStage {
         {
             shoot();
             isShoot = false;
+        }
+    }
+
+    private void playerBomb()
+    {
+        if(isBomb)
+        {
+            airplane.bomb(this);
+            isBomb = false;
         }
     }
 }

@@ -18,15 +18,14 @@ public class Bomb extends OneSpriteStaticActor {
         assetList.addTexture(KIRBY_TEXTURE);
     }
 
-    private GameStageBombing stage;
+    private GameStageCombat stage;
     public byte damage;
 
-    public Bomb(MyGame game, Airplane airplane, GameStageBombing stage) {
+    public Bomb(MyGame game, Airplane airplane, GameStageCombat stage) {
         super(game, BOMB_TEXTURE);
         damage = (byte) (Math.random() * 10);
         addBaseCollisionRectangleShape();
         this.stage = stage;
-        stage.addBomb(this);
         if(damage == 4) {
             this.sprite.setTexture(game.getMyAssetManager().getTexture(KIRBY_TEXTURE));
             setRotation(airplane.getRotation());
@@ -36,8 +35,8 @@ public class Bomb extends OneSpriteStaticActor {
             setRotation(-90 + airplane.getRotation());
             setSize(getWidth()*0.25f, getHeight()*0.25f);
         }
-
         setPosition(airplane.getX()+airplane.getWidth()*0.5f, airplane.getY()+7);
+        stage.addBomb(this);
     }
 
     @Override

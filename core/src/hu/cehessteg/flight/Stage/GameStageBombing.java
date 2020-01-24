@@ -25,8 +25,9 @@ import hu.csanyzeg.master.MyBaseClasses.Timers.Timer;
 import static hu.cehessteg.flight.Stage.MenuStage.trebuc;
 import static hu.csanyzeg.master.MyBaseClasses.Scene2D.MyActor.overlaps;
 
-public class GameStageBombing extends MyStage {
+public class GameStageBombing /*extends MyStage*/ {
 
+    /***
     public static AssetList assetList = new AssetList();
     static {
         assetList.collectAssetDescriptor(Airplane.class, assetList);
@@ -67,12 +68,17 @@ public class GameStageBombing extends MyStage {
     private void setSizesAndPositions()
     {
         /**SIZES**/
+    /**
         sky.setSize(getViewport().getWorldWidth(),getViewport().getWorldHeight()*1.75f);
         airplane.setSize(airplane.getWidth()*0.2f, airplane.getHeight()*0.2f);
-
+    **/
         /**POSITIONS**/
+        /**
         airplane.setY(getViewport().getWorldHeight()/2-airplane.getHeight()/2);
-    }
+
+    }**/
+
+    /**
 
     private void addActors()
     {
@@ -114,6 +120,7 @@ public class GameStageBombing extends MyStage {
              * ACT STUFF GOES HERE
              * */
 
+            /**
             airplane.setY(HudStageBombing.planeY - airplane.getHeight()/2);
             airplane.setX(HudStageBombing.planeX - airplane.getWidth()/2);
 
@@ -157,7 +164,9 @@ public class GameStageBombing extends MyStage {
             /**
              * !!!NEM MŰKÖDIK A addBackButtonScreenBackByStackPopListener()!!!
              * **/
+            /**
             game.setScreenBackByStackPop();
         }
     }
+    **/
 }

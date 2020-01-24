@@ -15,17 +15,17 @@ public class GameScreenBombing extends MyScreen {
 
     @Override
     protected void afterAssetsLoaded() {
-        addStage(new GameStageBombing(game),1,false);
+       /* addStage(new GameStageBombing(game),1,false);
         addStage(new HudStageBombing(game),2,true);
-        addStage(new GameOverStage(game),3,true);
+        addStage(new GameOverStage(game),3,true);*/
     }
 
     @Override
     public AssetList getAssetList() {
         AssetList assetList = new AssetList();
-        assetList.collectAssetDescriptor(GameStageBombing.class, assetList);
+        /*assetList.collectAssetDescriptor(GameStageBombing.class, assetList);
         assetList.collectAssetDescriptor(HudStageBombing.class, assetList);
-        assetList.collectAssetDescriptor(GameOverStage.class,assetList);
+        assetList.collectAssetDescriptor(GameOverStage.class,assetList);*/
         return assetList;
     }
 

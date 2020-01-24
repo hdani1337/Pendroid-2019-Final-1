@@ -27,6 +27,7 @@ public class HudStageCombat extends MyStage {
     }
 
     OneSpriteStaticActor PositionController;
+    OneSpriteStaticActor ShootingController;
     OneSpriteStaticActor BombingController;
 
     public static float planeY;
@@ -54,6 +55,7 @@ public class HudStageCombat extends MyStage {
     private void assignment()
     {
         PositionController = new OneSpriteStaticActor(game, BLANK_TEXTURE);
+        ShootingController = new OneSpriteStaticActor(game, BLANK_TEXTURE);
         BombingController = new OneSpriteStaticActor(game, BLANK_TEXTURE);
         coin = new Coin(game);
         if(game instanceof FlightGame){
@@ -72,7 +74,7 @@ public class HudStageCombat extends MyStage {
             }
         });
 
-        BombingController.addListener(new ClickListener()
+        ShootingController.addListener(new ClickListener()
         {
             @Override
             public void clicked(InputEvent event, float x, float y) {
@@ -84,20 +86,41 @@ public class HudStageCombat extends MyStage {
                 }
             }
         });
+
+        BombingController.addListener(new ClickListener()
+        {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                super.clicked(event, x, y);
+
+                if(elapsedTime > pElapsed + increment) {
+                    GameStageCombat.isBomb = true;
+                    pElapsed = elapsedTime;
+                }
+            }
+        });
     }
 
     private void setSizesAndPositions()
     {
         PositionController.setSize(getViewport().getWorldWidth()/2, getViewport().getWorldHeight());
         PositionController.setAlpha(0.05f);
-        BombingController.setSize(getViewport().getWorldWidth()/2, getViewport().getWorldHeight());
+
+        ShootingController.setSize(getViewport().getWorldWidth()/2, getViewport().getWorldHeight()/2);
+        ShootingController.setX(PositionController.getX() + PositionController.getWidth());
+        ShootingController.setY(getViewport().getWorldHeight()/2);
+        ShootingController.setAlpha(0.05f);
+
+        BombingController.setSize(getViewport().getWorldWidth()/2, getViewport().getWorldHeight()/2);
         BombingController.setX(PositionController.getX() + PositionController.getWidth());
+        BombingController.setY(0);
         BombingController.setAlpha(0.05f);
     }
 
     private void addActors()
     {
         addActor(PositionController);
+        addActor(ShootingController);
         addActor(BombingController);
         addActor(coin);
     }

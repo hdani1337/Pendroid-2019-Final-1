@@ -16,7 +16,6 @@ public class Bullet extends OneSpriteStaticActor {
     }
 
     public byte damage;
-    private byte random;
     private GameStageCombat stage;
 
     public Bullet(MyGame game, Airplane airplane, GameStageCombat stage) {
@@ -24,7 +23,6 @@ public class Bullet extends OneSpriteStaticActor {
         damage = (byte) ((byte) (Math.random() * 50) + 30);
         addBaseCollisionRectangleShape();
         this.stage = stage;
-        this.random = (byte) (Math.random() * 15);
         stage.addBullet(this);
         setRotation(airplane.getRotation());
         setPosition(airplane.getX()+airplane.getWidth()*0.65f, airplane.getY()+7);
