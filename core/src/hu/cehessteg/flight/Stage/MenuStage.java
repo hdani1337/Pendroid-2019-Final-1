@@ -11,7 +11,6 @@ import java.util.ArrayList;
 
 import hu.cehessteg.flight.Actor.Cloud;
 import hu.cehessteg.flight.Actor.Sky;
-import hu.cehessteg.flight.Screen.GameScreenBombing;
 import hu.cehessteg.flight.Screen.GameScreen;
 import hu.cehessteg.flight.Screen.InfoScreen;
 import hu.csanyzeg.master.MyBaseClasses.Assets.AssetList;
@@ -58,7 +57,7 @@ public class MenuStage extends MyStage {
                     @Override
                     public void clicked(InputEvent event,float x,float y){
                         super.clicked(event,x,y);
-                        game.setScreen(new GameScreenBombing(game));
+
                     }
 
                 });

@@ -1,8 +1,6 @@
 package hu.cehessteg.flight.Actor;
 
 import hu.cehessteg.flight.FlightGame;
-import hu.cehessteg.flight.Screen.GameScreenBombing;
-import hu.cehessteg.flight.Stage.GameStageBombing;
 import hu.cehessteg.flight.Stage.GameStage;
 import hu.csanyzeg.master.MyBaseClasses.Assets.AssetList;
 import hu.csanyzeg.master.MyBaseClasses.Game.MyGame;
