@@ -45,16 +45,20 @@ public class HudStageCombat extends MyStage {
 
         /**PÉNZ ELÉRÉSE A GAMEBŐL
          * TUDOM HOGY NEM SZABADNA CASTOLNI DE MŰKÖDIK!!
+         * if(game instanceof FlightGame) System.out.println(((FlightGame) game).getPenz());
          * **/
-        if(game instanceof FlightGame) System.out.println(((FlightGame) game).getPenz());
     }
 
+    float increment = 0.15f;
 
     private void assignment()
     {
         PositionController = new OneSpriteStaticActor(game, BLANK_TEXTURE);
         BombingController = new OneSpriteStaticActor(game, BLANK_TEXTURE);
         coin = new Coin(game);
+        if(game instanceof FlightGame){
+            if(((FlightGame) game).getPlaneLevel() >= 5) increment = 0;
+        }
     }
 
     private void addListeners()
@@ -73,7 +77,8 @@ public class HudStageCombat extends MyStage {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 super.clicked(event, x, y);
-                if(elapsedTime > pElapsed + 0.15f) {
+
+                if(elapsedTime > pElapsed + increment) {
                     GameStageCombat.isShoot = true;
                     pElapsed = elapsedTime;
                 }

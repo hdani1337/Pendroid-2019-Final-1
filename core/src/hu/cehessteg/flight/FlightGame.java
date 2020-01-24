@@ -30,12 +30,12 @@ public class FlightGame extends MyGame{
 			gameSave.putBoolean("boot", true);
 			gameSave.putLong("coins", 0);
 			gameSave.putBoolean("muted", false);
+			gameSave.putInteger("planeLevel", 1);
 			gameSave.flush();
 		}else {
 			penz = gameSave.getLong("coins");
 			muted = gameSave.getBoolean("muted");
 		}
-
 	}
 
 	public long getPenz() {
@@ -54,6 +54,17 @@ public class FlightGame extends MyGame{
 		this.muted = muted;
 		gameSave.putBoolean("muted", muted);
 		gameSave.flush();
+	}
+
+	public void setPlaneLevel(int level)
+	{
+		gameSave.putInteger("planeLevel", level);
+		gameSave.flush();
+	}
+
+	public int getPlaneLevel()
+	{
+		return gameSave.getInteger("planeLevel");
 	}
 
 	public void saveCoins(){

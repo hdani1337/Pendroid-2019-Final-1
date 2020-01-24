@@ -159,41 +159,17 @@ public class GameStageCombat extends MyStage {
     public void act(float delta) {
         super.act(delta);
         if (isAct) {
-
-            if(prevY != HudStageCombat.planeY) {
-                airplane.setY(HudStageCombat.planeY - airplane.getHeight() / 2);
-                airplane.setRotation(((airplane.getY() / getViewport().getWorldHeight()) - 0.5f) * 90);
-                prevY = HudStageCombat.planeY;
-            }
-
-            if (overlaps(airplane, enemy)) {
-                airplane.hp -= Math.random() * 20;
-                addActor(new Explosion(game, enemy));
-                enemy.replace();
-                if(game instanceof FlightGame)((FlightGame) game).setPenz(((FlightGame) game).getPenz() + 50);
-            }
-
-            for (Bullet bullet : bullets)
-            {
-                if(overlaps(bullet, enemy))
-                {
-                    enemy.hp -= bullet.damage;
-                    bullet.remove();
-                    if(enemy.hp <= 0) {
-                        addActor(new Explosion(game, enemy));
-                        enemy.replace();
-                        if(game instanceof FlightGame)((FlightGame) game).setPenz(((FlightGame) game).getPenz() + 100);
-                    }
-                }
-            }
-
-            if(isShoot)
-            {
-                shoot();
-                isShoot = false;
-            }
+            movePlayer();//A repülő mozgatása
+            playerOverlapsEnemy();//Ha a játékos nekimegy az ellenfélnek
+            bulletOverlapsEnemy();//Megnézzük, melyik golyó találta el az ellenfelet
+            playerShoot();//A játékos lő
         }
 
+        playerDies();//Ha játékos meghal
+    }
+
+    private void playerDies()
+    {
         if(airplane.hp<=0) {
             isAct = false;
             if(!addedExplosion) {
@@ -203,15 +179,57 @@ public class GameStageCombat extends MyStage {
                 airplane.setVisible(false);
                 playerHP.setVisible(false);
                 addedExplosion = true;
-                if(game instanceof FlightGame)((FlightGame) game).setPenz(((FlightGame) game).getPenz() - 100);
+                if(game instanceof FlightGame) {
+                    if(((FlightGame) game).penz >= 5) ((FlightGame) game).setPenz(((FlightGame) game).getPenz() - 5);
+                    else ((FlightGame) game).setPenz(0);
+                }
             }
         }
+    }
 
-        if (Gdx.input.isKeyJustPressed(Input.Keys.BACK)){
-            /**
-             * !!!NEM MŰKÖDIK A addBackButtonScreenBackByStackPopListener()!!!
-             * **/
-            game.setScreenBackByStackPop();
+    private void bulletOverlapsEnemy()
+    {
+        for (Bullet bullet : bullets)
+        {
+            if(overlaps(bullet, enemy))
+            {
+                enemy.hp -= bullet.damage;
+                bullet.remove();
+                if(enemy.hp <= 0) {
+                    addActor(new Explosion(game, enemy));
+                    enemy.replace();
+                    if(game instanceof FlightGame)((FlightGame) game).setPenz(((FlightGame) game).getPenz() + 2);
+                }
+            }
+        }
+    }
+
+    private void playerOverlapsEnemy()
+    {
+        if (overlaps(airplane, enemy)) {
+            airplane.hp -= Math.random() * 20;
+            addActor(new Explosion(game, enemy));
+            enemy.replace();
+            if(game instanceof FlightGame)((FlightGame) game).setPenz(((FlightGame) game).getPenz() + 2);
+        }
+    }
+
+    private void movePlayer()
+    {
+        if(prevY != HudStageCombat.planeY) {
+            airplane.setY(HudStageCombat.planeY - airplane.getHeight() / 2);
+            airplane.setRotation(((airplane.getY() / getViewport().getWorldHeight()) - 0.5f) * 90);
+            prevY = HudStageCombat.planeY;
+        }
+
+    }
+
+    private void playerShoot()
+    {
+        if(isShoot)
+        {
+            shoot();
+            isShoot = false;
         }
     }
 }
