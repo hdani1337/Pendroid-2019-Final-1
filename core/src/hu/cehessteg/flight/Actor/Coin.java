@@ -61,11 +61,12 @@ public class Coin extends MyGroup {
     @Override
     public void act(float delta) {
         super.act(delta);
-        if(game instanceof FlightGame){
-            if(!coinLabel.getText().equals(((FlightGame) game).penz)){
-                coinLabel.setText((((FlightGame) game).penz) + "");
-                setPositions();
+        if(game != null)
+            if(game instanceof FlightGame){
+                if(!coinLabel.getText().equals(((FlightGame) game).penz)){
+                    coinLabel.setText((((FlightGame) game).penz) + "");
+                    setPositions();
+                }
             }
-        }
     }
 }

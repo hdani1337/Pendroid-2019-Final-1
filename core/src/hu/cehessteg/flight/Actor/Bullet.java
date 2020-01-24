@@ -1,6 +1,6 @@
 package hu.cehessteg.flight.Actor;
 
-import hu.cehessteg.flight.Stage.GameStageCombat;
+import hu.cehessteg.flight.Stage.GameStage;
 import hu.csanyzeg.master.MyBaseClasses.Assets.AssetList;
 import hu.csanyzeg.master.MyBaseClasses.Game.MyGame;
 import hu.csanyzeg.master.MyBaseClasses.Scene2D.OneSpriteStaticActor;
@@ -16,14 +16,17 @@ public class Bullet extends OneSpriteStaticActor {
     }
 
     public byte damage;
-    private GameStageCombat stage;
+    private GameStage stage;
 
-    public Bullet(MyGame game, Airplane airplane, GameStageCombat stage) {
+    public Bullet(MyGame game, Airplane airplane, GameStage stage) {
         super(game, BULLET_TEXTURE);
-        damage = (byte) ((byte) (Math.random() * 50) + 30);
-        addBaseCollisionRectangleShape();
         this.stage = stage;
+        addBaseCollisionRectangleShape();
+
+        damage = (byte) ((byte) (Math.random() * 50) + 30);
+
         stage.addBullet(this);
+
         setRotation(airplane.getRotation());
         setPosition(airplane.getX()+airplane.getWidth()*0.65f, airplane.getY()+7);
     }

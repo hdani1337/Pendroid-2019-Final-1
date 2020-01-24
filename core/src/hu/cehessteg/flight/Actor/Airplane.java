@@ -3,7 +3,7 @@ package hu.cehessteg.flight.Actor;
 import hu.cehessteg.flight.FlightGame;
 import hu.cehessteg.flight.Screen.GameScreenBombing;
 import hu.cehessteg.flight.Stage.GameStageBombing;
-import hu.cehessteg.flight.Stage.GameStageCombat;
+import hu.cehessteg.flight.Stage.GameStage;
 import hu.csanyzeg.master.MyBaseClasses.Assets.AssetList;
 import hu.csanyzeg.master.MyBaseClasses.Game.MyGame;
 import hu.csanyzeg.master.MyBaseClasses.Scene2D.OneSpriteStaticActor;
@@ -26,21 +26,28 @@ public class Airplane extends OneSpriteStaticActor {
 
     public Airplane(MyGame game) {
         super(game, AIRPLANE_TEXTURE);
-        hp = 100;
-        fuel = 100;
-        remainingBombs = 12;
-
         this.game = game;
         addBaseCollisionRectangleShape();
-
-        if(game instanceof FlightGame){
-            level = ((FlightGame) game).getPlaneLevel();
-        }
-
-        if(level >= 8) remainingBombs = 24;
+        baseValues();
     }
 
-    public void shoot(GameStageCombat stage)
+    private void baseValues()
+    {
+        hp = 100;
+        fuel = 100;
+
+        if(game != null)
+            if(game instanceof FlightGame)
+                level = ((FlightGame) game).getPlaneLevel();
+
+
+        if(level >= 8)
+            remainingBombs = 24;
+        else if (level >= 6)
+            remainingBombs = 12;
+    }
+
+    public void shoot(GameStage stage)
     {
         if(this.level >= 2) {
             try {
@@ -54,7 +61,7 @@ public class Airplane extends OneSpriteStaticActor {
         }else System.out.println("Még nem érhető el a lőfegyver!");
     }
 
-    public void bomb(GameStageCombat stage)
+    public void bomb(GameStage stage)
     {
         if(this.level >= 6) {
             if(remainingBombs > 0) {
@@ -74,6 +81,11 @@ public class Airplane extends OneSpriteStaticActor {
     @Override
     public void act(float delta) {
         super.act(delta);
+        rotateBack();
+    }
+
+    private void rotateBack()
+    {
         if(getRotation() < -2 || getRotation() > 2)
         {
             if(getRotation() > 2) setRotation(getRotation() - 2);

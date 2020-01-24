@@ -6,7 +6,6 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
-import com.badlogic.gdx.utils.viewport.Viewport;
 
 import java.util.ArrayList;
 
@@ -15,7 +14,6 @@ import hu.cehessteg.flight.Actor.Sky;
 import hu.csanyzeg.master.MyBaseClasses.Assets.AssetList;
 import hu.csanyzeg.master.MyBaseClasses.Game.MyGame;
 import hu.csanyzeg.master.MyBaseClasses.Scene2D.MyStage;
-import hu.csanyzeg.master.MyBaseClasses.Scene2D.OneSpriteActor;
 import hu.csanyzeg.master.MyBaseClasses.Scene2D.OneSpriteStaticActor;
 import hu.csanyzeg.master.MyBaseClasses.Scene2D.ResponseViewport;
 import hu.csanyzeg.master.MyBaseClasses.UI.MyLabel;
@@ -45,28 +43,38 @@ public class InfoStage extends MyStage {
         assetList.addFont(trebuc, trebuc, 120, Color.WHITE, AssetList.CHARS);
     }
 
+    //-----KÉPEK-----
     private OneSpriteStaticActor zoli;
     private OneSpriteStaticActor bence;
     private OneSpriteStaticActor dani;
     private OneSpriteStaticActor david;
     private OneSpriteStaticActor logo;
+    //---------------
 
+    //-----NEVEK-----
     private MyLabel zoliLabel;
     private MyLabel benceLabel;
     private MyLabel daniLabel;
     private MyLabel davidLabel;
+    //---------------
 
+    //-----BEOSZTÁS-----
     private MyLabel zoliLabelTitle;
     private MyLabel benceLabelTitle;
     private MyLabel daniLabelTitle;
     private MyLabel davidLabelTitle;
+    //------------------
 
+    //LEÍRÁS
     private MyLabel infoText;
 
+    //-----HÁTTÉR-----
     private Sky sky;
     private ArrayList<Cloud> clouds;
     private OneSpriteStaticActor black;
+    //----------------
 
+    //VISSZA
     private MyLabel back;
 
     public InfoStage(MyGame game) {
@@ -75,9 +83,6 @@ public class InfoStage extends MyStage {
         labelStuff();
         setPositions();
         addActors();
-
-
-
     }
 
     void assignment()

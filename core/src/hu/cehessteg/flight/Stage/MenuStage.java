@@ -12,7 +12,7 @@ import java.util.ArrayList;
 import hu.cehessteg.flight.Actor.Cloud;
 import hu.cehessteg.flight.Actor.Sky;
 import hu.cehessteg.flight.Screen.GameScreenBombing;
-import hu.cehessteg.flight.Screen.GameScreenCombat;
+import hu.cehessteg.flight.Screen.GameScreen;
 import hu.cehessteg.flight.Screen.InfoScreen;
 import hu.csanyzeg.master.MyBaseClasses.Assets.AssetList;
 import hu.csanyzeg.master.MyBaseClasses.Game.MyGame;
@@ -72,7 +72,7 @@ public class MenuStage extends MyStage {
                     @Override
                     public void clicked(InputEvent event,float x,float y){
                         super.clicked(event,x,y);
-                        game.setScreen(new GameScreenCombat(game));
+                        game.setScreen(new GameScreen(game));
                     }
 
                 });

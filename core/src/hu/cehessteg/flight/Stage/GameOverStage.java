@@ -6,8 +6,7 @@ import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 
 import hu.cehessteg.flight.FlightGame;
-import hu.cehessteg.flight.Screen.GameScreenBombing;
-import hu.cehessteg.flight.Screen.GameScreenCombat;
+import hu.cehessteg.flight.Screen.GameScreen;
 import hu.csanyzeg.master.MyBaseClasses.Assets.AssetList;
 import hu.csanyzeg.master.MyBaseClasses.Game.MyGame;
 import hu.csanyzeg.master.MyBaseClasses.Scene2D.MyStage;
@@ -15,7 +14,7 @@ import hu.csanyzeg.master.MyBaseClasses.Scene2D.OneSpriteStaticActor;
 import hu.csanyzeg.master.MyBaseClasses.Scene2D.ResponseViewport;
 import hu.csanyzeg.master.MyBaseClasses.UI.MyLabel;
 
-import static hu.cehessteg.flight.Stage.GameStageCombat.isAct;
+import static hu.cehessteg.flight.Stage.GameStage.isAct;
 import static hu.cehessteg.flight.Stage.MenuStage.trebuc;
 
 public class GameOverStage extends MyStage {
@@ -59,8 +58,9 @@ public class GameOverStage extends MyStage {
                     @Override
                     public void clicked(InputEvent event, float x, float y) {
                         super.clicked(event, x, y);
-                        if(getScreen() instanceof GameScreenCombat) game.setScreen(new GameScreenCombat(game), false);
-                        else if (getScreen() instanceof GameScreenBombing) game.setScreen(new GameScreenBombing(game), false);
+                        if(getScreen() != null)
+                            if(getScreen() instanceof GameScreen)
+                                game.setScreen(new GameScreen(game), false);
 
                         if(game instanceof FlightGame)
                             ((FlightGame) game).saveCoins();

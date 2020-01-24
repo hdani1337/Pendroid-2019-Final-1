@@ -22,8 +22,6 @@ import hu.csanyzeg.master.MyBaseClasses.Timers.Timer;
 
 import java.util.ArrayList;
 
-import static com.badlogic.gdx.utils.TimeUtils.nanoTime;
-
 
 /**
  * Created by tuskeb on 2016. 09. 30..

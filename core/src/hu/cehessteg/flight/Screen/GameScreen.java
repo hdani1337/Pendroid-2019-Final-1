@@ -1,29 +1,29 @@
 package hu.cehessteg.flight.Screen;
 
 import hu.cehessteg.flight.Stage.GameOverStage;
-import hu.cehessteg.flight.Stage.GameStageCombat;
-import hu.cehessteg.flight.Stage.HudStageCombat;
+import hu.cehessteg.flight.Stage.GameStage;
+import hu.cehessteg.flight.Stage.HudStage;
 import hu.csanyzeg.master.MyBaseClasses.Assets.AssetList;
 import hu.csanyzeg.master.MyBaseClasses.Game.MyGame;
 import hu.csanyzeg.master.MyBaseClasses.Scene2D.MyScreen;
 
-public class GameScreenCombat extends MyScreen {
-    public GameScreenCombat(MyGame game) {
+public class GameScreen extends MyScreen {
+    public GameScreen(MyGame game) {
         super(game);
     }
 
     @Override
     protected void afterAssetsLoaded() {
-        addStage(new GameStageCombat(game),1,false);
-        addStage(new HudStageCombat(game),2,true);
+        addStage(new GameStage(game),1,false);
+        addStage(new HudStage(game),2,true);
         addStage(new GameOverStage(game),3,true);
     }
 
     @Override
     public AssetList getAssetList() {
         AssetList assetList = new AssetList();
-        assetList.collectAssetDescriptor(GameStageCombat.class, assetList);
-        assetList.collectAssetDescriptor(HudStageCombat.class, assetList);
+        assetList.collectAssetDescriptor(GameStage.class, assetList);
+        assetList.collectAssetDescriptor(HudStage.class, assetList);
         assetList.collectAssetDescriptor(GameOverStage.class,assetList);
         return assetList;
     }

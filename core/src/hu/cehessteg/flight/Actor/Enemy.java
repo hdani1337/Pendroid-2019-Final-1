@@ -8,7 +8,7 @@ import hu.csanyzeg.master.MyBaseClasses.Assets.AssetList;
 import hu.csanyzeg.master.MyBaseClasses.Game.MyGame;
 import hu.csanyzeg.master.MyBaseClasses.Scene2D.OneSpriteStaticActor;
 
-import static hu.cehessteg.flight.Stage.GameStageCombat.isAct;
+import static hu.cehessteg.flight.Stage.GameStage.isAct;
 
 public class Enemy extends OneSpriteStaticActor {
 
@@ -24,13 +24,12 @@ public class Enemy extends OneSpriteStaticActor {
     public byte hp;
 
     public Enemy(MyGame game, Viewport viewport) {
-        super(game,ENEMY_TEXTURE);
+        super(game, ENEMY_TEXTURE);
         this.viewport = viewport;
         this.setZIndex(2);
         this.setColor(Color.RED);
+        this.hp = 100;
         addBaseCollisionRectangleShape();
-        hp = 100;
-
     }
 
     @Override

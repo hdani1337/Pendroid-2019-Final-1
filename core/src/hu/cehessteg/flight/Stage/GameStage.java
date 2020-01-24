@@ -2,12 +2,8 @@ package hu.cehessteg.flight.Stage;
 
 
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
-
-import org.omg.IOP.ENCODING_CDR_ENCAPS;
 
 import java.util.ArrayList;
 
@@ -28,7 +24,7 @@ import hu.csanyzeg.master.MyBaseClasses.UI.MyLabel;
 import static hu.cehessteg.flight.Stage.MenuStage.trebuc;
 import static hu.csanyzeg.master.MyBaseClasses.Scene2D.MyActor.overlaps;
 
-public class GameStageCombat extends MyStage {
+public class GameStage extends MyStage {
 
     public static AssetList assetList = new AssetList();
     static {
@@ -54,7 +50,7 @@ public class GameStageCombat extends MyStage {
     private MyLabel enemyHP;
     private MyLabel playerHP;
 
-    public GameStageCombat(MyGame game) {
+    public GameStage(MyGame game) {
         super(new ResponseViewport(900), game);//Ha lesz Box2D, akkor 900 helyett mondjuk 9 lesz
         assignment();
         setSizesAndPositions();
@@ -242,10 +238,10 @@ public class GameStageCombat extends MyStage {
     private float prevY;//A játékos előző pozíciója
     private void movePlayer()
     {
-        if(prevY != HudStageCombat.planeY) {
-            airplane.setY(HudStageCombat.planeY - airplane.getHeight() / 2);
+        if(prevY != HudStage.planeY) {
+            airplane.setY(HudStage.planeY - airplane.getHeight() / 2);
             airplane.setRotation(((airplane.getY() / getViewport().getWorldHeight()) - 0.5f) * 90);
-            prevY = HudStageCombat.planeY;
+            prevY = HudStage.planeY;
         }
     }
 
