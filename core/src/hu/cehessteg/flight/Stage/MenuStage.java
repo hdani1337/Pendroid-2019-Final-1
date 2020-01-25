@@ -26,16 +26,19 @@ import hu.csanyzeg.master.MyBaseClasses.UI.MyLabel;
 public class MenuStage extends MyStage {
     public static String trebuc = "other/trebuc.ttf";
     public static AssetList assetList = new AssetList();
-    public static final String MENU_HATTER = "other/menu.png";
+    public static final String MENU_HATTER = "menu/menu.png";
+    public static final String EXIT_PIROS = "menu/exitPiros.png";
     static {
         assetList.addFont(trebuc, trebuc, 120, Color.WHITE, AssetList.CHARS);
         assetList.addTexture(MENU_HATTER);
+        assetList.addTexture(EXIT_PIROS);
     }
 
     private MyLabel shop;
     private MyLabel legicsata;
     private MyLabel infostage;
     private OneSpriteStaticActor menuHatter;
+    private OneSpriteStaticActor exitPiros;
     private Sky sky;
     private ArrayList<Cloud> clouds;
 
@@ -53,6 +56,7 @@ public class MenuStage extends MyStage {
     void assignment(){
 
         menuHatter = new OneSpriteStaticActor(game,MENU_HATTER);
+        exitPiros = new OneSpriteStaticActor(game,EXIT_PIROS);
         legicsata = new MyLabel(game,"Légicsata", new Label.LabelStyle(game.getMyAssetManager().getFont(trebuc), Color.BLACK)) {
             @Override
             public void init() {
@@ -96,6 +100,13 @@ public class MenuStage extends MyStage {
 
             }
         };
+        exitPiros.addListener(new ClickListener(){
+
+           public void clicked(InputEvent event,float x, float y){
+               super.clicked(event,x,y);
+               Gdx.app.exit();
+           }
+       });
 
         sky = new Sky(game) {
             @Override
@@ -128,10 +139,12 @@ public class MenuStage extends MyStage {
 
     void setPositions(){
         menuHatter.setZIndex(1000);
+        exitPiros.setZIndex(1001);
         legicsata.setZIndex(1001);
         shop.setZIndex(1001);
         infostage.setZIndex(1001);
         menuHatter.setPosition(getViewport().getWorldWidth()/2-this.getWidth()/1.5f,0);
+        exitPiros.setPosition(menuHatter.getX()+menuHatter.getWidth()/1.3799f,menuHatter.getHeight()*0.0275f);
 
         if(getViewport().getWorldWidth() > 1800) menuHatter.setX(0);//Ha a képarány nagyobb 18:9-nél, akkor 0-ra rakom a piltafülkét, hogy kiérjen a világ széléig
 
@@ -154,6 +167,7 @@ public class MenuStage extends MyStage {
     }
 
     void labelThings(){
+
         shop.setAlignment(0);
         legicsata.setAlignment(0);
         infostage.setAlignment(0);
@@ -166,6 +180,7 @@ public class MenuStage extends MyStage {
 
     void addActors() {
         addActor(menuHatter);
+        addActor(exitPiros);
         addActor(shop);
         addActor(legicsata);
         addActor(infostage);
@@ -188,6 +203,7 @@ public class MenuStage extends MyStage {
         shop.setColor(1,1,1, alpha);
         legicsata.setColor(1,1,1, alpha);
         infostage.setColor(1,1,1, alpha);
+
     }
 
     @Override
