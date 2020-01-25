@@ -29,7 +29,7 @@ public class MenuStage extends MyStage {
         assetList.addTexture(MENU_HATTER);
     }
 
-    private MyLabel bombazas;
+    private MyLabel shop;
     private MyLabel legicsata;
     private MyLabel infostage;
     private OneSpriteStaticActor menuHatter;
@@ -49,20 +49,6 @@ public class MenuStage extends MyStage {
     void assignment(){
 
         menuHatter = new OneSpriteStaticActor(game,MENU_HATTER);
-        bombazas = new MyLabel(game,"Bombázás", new Label.LabelStyle(game.getMyAssetManager().getFont(trebuc), Color.BLACK)) {
-            @Override
-            public void init() {
-                addListener(new ClickListener()
-                {
-                    @Override
-                    public void clicked(InputEvent event,float x,float y){
-                        super.clicked(event,x,y);
-
-                    }
-
-                });
-            }
-        };
         legicsata = new MyLabel(game,"Légicsata", new Label.LabelStyle(game.getMyAssetManager().getFont(trebuc), Color.BLACK)) {
             @Override
             public void init() {
@@ -72,6 +58,20 @@ public class MenuStage extends MyStage {
                     public void clicked(InputEvent event,float x,float y){
                         super.clicked(event,x,y);
                         game.setScreen(new GameScreen(game));
+                    }
+
+                });
+            }
+        };
+        shop = new MyLabel(game,"Bolt", new Label.LabelStyle(game.getMyAssetManager().getFont(trebuc), Color.BLACK)) {
+            @Override
+            public void init() {
+                addListener(new ClickListener()
+                {
+                    @Override
+                    public void clicked(InputEvent event,float x,float y){
+                        super.clicked(event,x,y);
+                        //game.setScreen(new GameScreenBombing(game));
                     }
 
                 });
@@ -107,21 +107,19 @@ public class MenuStage extends MyStage {
 
     void setPositions(){
 
-        menuHatter.setPosition(getViewport().getWorldWidth()/2-this.getWidth()/1.5f,getViewport().getWorldHeight()/2*0.001f);
-        legicsata.setPosition( getViewport().getWorldWidth()-this.getWidth()/1.97f,getViewport().getWorldHeight()-this.getHeight()*0.625f);
-        bombazas.setPosition(getViewport().getWorldWidth()-this.getWidth()/1.93f,getViewport().getWorldHeight()-this.getHeight()*0.755f);
-        infostage.setPosition(getViewport().getWorldWidth()-this.getWidth()/1.97f,getViewport().getWorldHeight()-this.getHeight()*0.883f);
-
-
+        menuHatter.setPosition(getViewport().getWorldWidth()/2-this.getWidth()/1.5f,0);
+        legicsata.setPosition( menuHatter.getX()+menuHatter.getWidth()/1.99f,menuHatter.getHeight()*0.25f);
+        shop.setPosition(menuHatter.getX()+menuHatter.getWidth()/1.76f,menuHatter.getHeight()*0.162f);
+        infostage.setPosition(menuHatter.getX()+menuHatter.getWidth()/2,menuHatter.getHeight()*0.075f);
 
     }
 
     void labelThings(){
-        bombazas.setAlignment(0);
+        shop.setAlignment(0);
         legicsata.setAlignment(0);
         infostage.setAlignment(0);
 
-        bombazas.setFontScale(0.38f);
+        shop.setFontScale(0.38f);
         legicsata.setFontScale(0.38f);
         infostage.setFontScale(0.38f);
 
@@ -131,12 +129,11 @@ public class MenuStage extends MyStage {
 
     void addActors() {
 
-
         addActor(sky);
         for (int i = 0; i < clouds.size(); i++) addActor(clouds.get(i));
 
         addActor(menuHatter);
-        addActor(bombazas);
+        addActor(shop);
         addActor(legicsata);
         addActor(infostage);
     }
@@ -156,7 +153,7 @@ public class MenuStage extends MyStage {
     {
 
 
-        bombazas.setColor(1,1,1, alpha);
+        shop.setColor(1,1,1, alpha);
         legicsata.setColor(1,1,1, alpha);
         infostage.setColor(1,1,1, alpha);
 
@@ -167,6 +164,8 @@ public class MenuStage extends MyStage {
     @Override
     public void act(float delta) {
         super.act(delta);
+
+
 
         fadeIn();
         if (Gdx.input.isKeyJustPressed(Input.Keys.BACK)){
