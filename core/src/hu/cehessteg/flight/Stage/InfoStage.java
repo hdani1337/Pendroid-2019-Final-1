@@ -312,9 +312,6 @@ public class InfoStage extends MyStage {
     @Override
     public void act(float delta) {
         super.act(delta);
-        for (Cloud c : clouds) {
-            c.move();
-        }
 
         fadeIn();
 

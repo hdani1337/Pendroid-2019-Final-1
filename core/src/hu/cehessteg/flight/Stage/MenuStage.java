@@ -18,6 +18,9 @@ import hu.csanyzeg.master.MyBaseClasses.Game.MyGame;
 import hu.csanyzeg.master.MyBaseClasses.Scene2D.MyStage;
 import hu.csanyzeg.master.MyBaseClasses.Scene2D.OneSpriteStaticActor;
 import hu.csanyzeg.master.MyBaseClasses.Scene2D.ResponseViewport;
+import hu.csanyzeg.master.MyBaseClasses.Timers.TickTimer;
+import hu.csanyzeg.master.MyBaseClasses.Timers.TickTimerListener;
+import hu.csanyzeg.master.MyBaseClasses.Timers.Timer;
 import hu.csanyzeg.master.MyBaseClasses.UI.MyLabel;
 
 public class MenuStage extends MyStage {
@@ -41,6 +44,7 @@ public class MenuStage extends MyStage {
         super(new ResponseViewport(900), game);
         addBackButtonScreenBackByStackPopListener();
         assignment();
+        cloudStuff();
         addActors();
         setPositions();
         labelThings();
@@ -93,9 +97,6 @@ public class MenuStage extends MyStage {
             }
         };
 
-        clouds = new ArrayList<>();
-        for (int i = 0; i < 18; i++) clouds.add(new Cloud(game, getViewport()));
-
         sky = new Sky(game) {
             @Override
             public void init() {
@@ -105,13 +106,51 @@ public class MenuStage extends MyStage {
         };
     }
 
-    void setPositions(){
+    void cloudStuff()
+    {
+        addActor(sky);
+        clouds = new ArrayList<>();
+        for (int i = 0; i < 4; i++) clouds.add(new Cloud(game, getViewport()));
+        for (int i = 0; i < clouds.size(); i++) addActor(clouds.get(i));
 
+        addTimer(new TickTimer(0.7f, true, new TickTimerListener(){
+            @Override
+            public void onTick(Timer sender, float correction) {
+                super.onTick(sender, correction);
+                clouds.add(new Cloud(game, getViewport()));
+                addActor(clouds.get(clouds.size()-1));
+                clouds.get(clouds.size()-1).setZIndex(5);
+            }
+        }));
+    }
+
+    private float increment;
+
+    void setPositions(){
+        menuHatter.setZIndex(1000);
+        legicsata.setZIndex(1001);
+        shop.setZIndex(1001);
+        infostage.setZIndex(1001);
         menuHatter.setPosition(getViewport().getWorldWidth()/2-this.getWidth()/1.5f,0);
+
+        if(getViewport().getWorldWidth() > 1800) menuHatter.setX(0);//Ha a képarány nagyobb 18:9-nél, akkor 0-ra rakom a piltafülkét, hogy kiérjen a világ széléig
+
         legicsata.setPosition( menuHatter.getX()+menuHatter.getWidth()/1.99f,menuHatter.getHeight()*0.25f);
         shop.setPosition(menuHatter.getX()+menuHatter.getWidth()/1.76f,menuHatter.getHeight()*0.162f);
         infostage.setPosition(menuHatter.getX()+menuHatter.getWidth()/2,menuHatter.getHeight()*0.075f);
+        check21by9AspectRatio();
+    }
 
+    void check21by9AspectRatio()
+    {
+        //Ha a képarány nagyobb mint 21:9, akkor már nem fér ki a pilótafülke, így nyújtani kell a képet és arrébbhelyezni a labeleket is
+        if(getViewport().getWorldWidth() > 2100) {
+            increment = (getViewport().getWorldWidth() / menuHatter.getWidth()) * 1.035f;
+            menuHatter.setWidth(getViewport().getWorldWidth());
+            legicsata.setX(legicsata.getX() * increment);
+            shop.setX(shop.getX() * increment * 0.98f);
+            infostage.setX(infostage.getX() * increment);
+        }
     }
 
     void labelThings(){
@@ -122,16 +161,10 @@ public class MenuStage extends MyStage {
         shop.setFontScale(0.38f);
         legicsata.setFontScale(0.38f);
         infostage.setFontScale(0.38f);
-
-
     }
 
 
     void addActors() {
-
-        addActor(sky);
-        for (int i = 0; i < clouds.size(); i++) addActor(clouds.get(i));
-
         addActor(menuHatter);
         addActor(shop);
         addActor(legicsata);
@@ -149,24 +182,17 @@ public class MenuStage extends MyStage {
         else alpha = 1;
 
     }
+
     void setAlphas()
     {
-
-
         shop.setColor(1,1,1, alpha);
         legicsata.setColor(1,1,1, alpha);
         infostage.setColor(1,1,1, alpha);
-
-
-
     }
 
     @Override
     public void act(float delta) {
         super.act(delta);
-
-
-
         fadeIn();
         if (Gdx.input.isKeyJustPressed(Input.Keys.BACK)){
             /**
