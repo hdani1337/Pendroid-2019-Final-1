@@ -61,7 +61,7 @@ public class ShopStage extends MyStage {
                         if(((FlightGame) game).getPenz() >= (((FlightGame)game).getPlaneLevel()) * 25){ //pénz check
                             ((FlightGame) game).setPenz(((FlightGame) game).getPenz() - (((FlightGame)game).getPlaneLevel()) * 25); // pénz levétel
                             ((FlightGame) game).setPlaneLevel(((FlightGame) game).getPlaneLevel() + 1); // szint up
-                            ((FlightGame) game).saveCoins(); //pénz mentés
+                            ((FlightGame) game).saveCoins(); //pénz mentése
                         }
                     }
                 });
