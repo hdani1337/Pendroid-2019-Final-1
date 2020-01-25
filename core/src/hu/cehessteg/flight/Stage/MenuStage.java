@@ -102,7 +102,7 @@ public class MenuStage extends MyStage {
                 });
             }
         };
-        infostage = new MyLabel(game,"InfoStage", new Label.LabelStyle(game.getMyAssetManager().getFont(trebuc), Color.BLACK)) {
+        infostage = new MyLabel(game,"Információ", new Label.LabelStyle(game.getMyAssetManager().getFont(trebuc), Color.BLACK)) {
             @Override
             public void init() {
                 addListener(new ClickListener()
@@ -169,7 +169,7 @@ public class MenuStage extends MyStage {
 
         legicsata.setPosition( menuHatter.getX()+menuHatter.getWidth()/1.99f,menuHatter.getHeight()*0.25f);
         shop.setPosition(menuHatter.getX()+menuHatter.getWidth()/1.76f,menuHatter.getHeight()*0.162f);
-        infostage.setPosition(menuHatter.getX()+menuHatter.getWidth()/2,menuHatter.getHeight()*0.075f);
+        infostage.setPosition(menuHatter.getX()+menuHatter.getWidth()/2.06f,menuHatter.getHeight()*0.075f);
         check21by9AspectRatio();
     }
 

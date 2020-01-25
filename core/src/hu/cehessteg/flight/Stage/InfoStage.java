@@ -147,7 +147,7 @@ public class InfoStage extends MyStage {
 
 
 
-        infoText = new MyLabel(game, "Az alkalmazás magába foglal kettő - egy bombázós és egy lövöldözős - repülős játékot.\nAz irányítása rendkívűl egyszerű, ha a képernyő bal szélére nyomunk, akkor tudjuk\nmozgatni a repülőgépet, ha pedig a jobb oldalra nyomunk,\n akkor pedig bombázni, illetve lőni fog a repülőgép!\n\nA PENdroid döntőjére készített játék!", new Label.LabelStyle(game.getMyAssetManager().getFont(trebuc), Color.WHITE)) {
+        infoText = new MyLabel(game, "Az alkalmazás egy repülős játékot foglal magába, ahol le kell győzni az ellenséget!\nA repülőt bal oldalon lehet irányítani, a géppel lőni pedig jobb oldalon fent tudunk.\nBombázni is van lehetőség, azt pedig jobb oldalon alul tudjuk aktiválni!\nLehetőség van újítani a repülőt a Shop menüpont alatt!\nAz első szinten nincsen fegyver, így az ellenség kikerülésével tudunk érmét szerezni!", new Label.LabelStyle(game.getMyAssetManager().getFont(trebuc), Color.WHITE)) {
             @Override
             public void init() {
                 setFontScale(0.33f);
