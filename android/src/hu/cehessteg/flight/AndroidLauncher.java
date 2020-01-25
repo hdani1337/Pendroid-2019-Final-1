@@ -16,6 +16,7 @@ public class AndroidLauncher extends AndroidApplication {
 		AndroidApplicationConfiguration config = new AndroidApplicationConfiguration();
 		initialize(new FlightGame(false), config);
 		hideVirtualButtons();
+		config.useWakelock = true;
 	}
 
 	@Override
