@@ -3,6 +3,7 @@ package hu.cehessteg.flight;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Preferences;
 
+import hu.cehessteg.flight.Screen.IntroScreen;
 import hu.cehessteg.flight.Screen.MenuScreen;
 import hu.cehessteg.flight.Stage.MyLoadingStage;
 import hu.csanyzeg.master.MyBaseClasses.Game.MyGame;
@@ -20,8 +21,8 @@ public class FlightGame extends MyGame{
 	public void create() {
 		super.create();
 		penz = 0;
-		setLoadingStage(new MyLoadingStage(this));
-		setScreen(new MenuScreen(this));
+		setLoadingStage(new MyLoadingStage(this, true));
+		setScreen(new IntroScreen(this), false);
 
 		gameSave = Gdx.app.getPreferences("FlightGameSave");
 

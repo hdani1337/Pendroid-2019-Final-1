@@ -30,10 +30,14 @@ public class MenuStage extends MyStage {
     public static AssetList assetList = new AssetList();
     public static final String MENU_HATTER = "menu/menu.png";
     public static final String EXIT_PIROS = "menu/exitPiros.png";
+    public static final String EXIT_RING = "menu/exit.png";
     static {
         assetList.addFont(trebuc, trebuc, 120, Color.WHITE, AssetList.CHARS);
         assetList.addTexture(MENU_HATTER);
         assetList.addTexture(EXIT_PIROS);
+        assetList.addTexture(EXIT_RING);
+        assetList.collectAssetDescriptor(Cloud.class, assetList);
+        assetList.collectAssetDescriptor(Sky.class, assetList);
     }
 
     private MyLabel shop;
@@ -41,6 +45,7 @@ public class MenuStage extends MyStage {
     private MyLabel infostage;
     private OneSpriteStaticActor menuHatter;
     private OneSpriteStaticActor exitPiros;
+    private OneSpriteStaticActor exitRing;
     private Sky sky;
     private ArrayList<Cloud> clouds;
 
@@ -59,6 +64,16 @@ public class MenuStage extends MyStage {
 
         menuHatter = new OneSpriteStaticActor(game,MENU_HATTER);
         exitPiros = new OneSpriteStaticActor(game,EXIT_PIROS);
+        exitRing = new OneSpriteStaticActor(game,EXIT_RING){
+            @Override
+            public void init() {
+                super.init();
+                setTouchable(null);
+                /**
+                 * !MINDEN LEGYEN KÜLÖN ACTOR, NE EGY STATIKUS KÉPEN LEGYEN MINDEN!
+                 * **/
+            }
+        };
         legicsata = new MyLabel(game,"Légicsata", new Label.LabelStyle(game.getMyAssetManager().getFont(trebuc), Color.BLACK)) {
             @Override
             public void init() {
@@ -141,12 +156,14 @@ public class MenuStage extends MyStage {
 
     void setPositions(){
         menuHatter.setZIndex(1000);
+        exitRing.setZIndex(1002);
         exitPiros.setZIndex(1001);
         legicsata.setZIndex(1001);
         shop.setZIndex(1001);
         infostage.setZIndex(1001);
         menuHatter.setPosition(getViewport().getWorldWidth()/2-this.getWidth()/1.5f,0);
-        exitPiros.setPosition(menuHatter.getX()+menuHatter.getWidth()/1.3799f,menuHatter.getHeight()*0.0275f);
+        exitRing.setPosition(menuHatter.getX()+menuHatter.getWidth()/1.3799f,menuHatter.getHeight()*0.0025f);
+        exitPiros.setPosition(exitRing.getX() + exitRing.getWidth() * 0.155f, exitRing.getY() + exitRing.getHeight() * 0.18f);
 
         if(getViewport().getWorldWidth() > 1800) menuHatter.setX(0);//Ha a képarány nagyobb 18:9-nél, akkor 0-ra rakom a piltafülkét, hogy kiérjen a világ széléig
 
@@ -165,6 +182,8 @@ public class MenuStage extends MyStage {
             legicsata.setX(legicsata.getX() * increment);
             shop.setX(shop.getX() * increment * 0.98f);
             infostage.setX(infostage.getX() * increment);
+            exitRing.setX(exitRing.getX() * increment * 1.1f);
+            exitPiros.setX(exitPiros.getX() * increment * 1.1f);
         }
     }
 
@@ -183,6 +202,7 @@ public class MenuStage extends MyStage {
     void addActors() {
         addActor(menuHatter);
         addActor(exitPiros);
+        addActor(exitRing);
         addActor(shop);
         addActor(legicsata);
         addActor(infostage);
