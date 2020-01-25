@@ -13,6 +13,8 @@ import hu.cehessteg.flight.Actor.Cloud;
 import hu.cehessteg.flight.Actor.Sky;
 import hu.cehessteg.flight.Screen.GameScreen;
 import hu.cehessteg.flight.Screen.InfoScreen;
+import hu.cehessteg.flight.Screen.MenuScreen;
+import hu.cehessteg.flight.Screen.ShopScreen;
 import hu.csanyzeg.master.MyBaseClasses.Assets.AssetList;
 import hu.csanyzeg.master.MyBaseClasses.Game.MyGame;
 import hu.csanyzeg.master.MyBaseClasses.Scene2D.MyStage;
@@ -71,7 +73,7 @@ public class MenuStage extends MyStage {
                     @Override
                     public void clicked(InputEvent event,float x,float y){
                         super.clicked(event,x,y);
-                        //game.setScreen(new GameScreenBombing(game));
+                        game.setScreen(new ShopScreen(game));
                     }
 
                 });
