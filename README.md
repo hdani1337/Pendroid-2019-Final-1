@@ -6,7 +6,8 @@ Ha megölöd, akkor +2 coint, ha csak simán elmegy, akkor csak +1 coin-t kap a 
 Ha meghalsz -5 Coin, 5 alatti coin halálkor nem megy mínuszba, hanem 0-ra megy
 
 Unlockolni lehet bizonyos dolgokat: -Level 1(0 Coin kell): Csak repülni lehet
-                                    -Level 2(5 Coin kell): Lőfegyver unlock
+
+-Level 2(5 Coin kell): Lőfegyver unlock
                                     -Level 3(15 Coin kell): Mas skin-t lehet beállítani
                                     -Level 4(35 Coin kell): Meg egyszer mas skin
                                     -Level 5(65 Coin kell): Fegyver gyorsabban tüzel
