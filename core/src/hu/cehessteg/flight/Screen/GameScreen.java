@@ -3,6 +3,7 @@ package hu.cehessteg.flight.Screen;
 import hu.cehessteg.flight.Stage.GameOverStage;
 import hu.cehessteg.flight.Stage.GameStage;
 import hu.cehessteg.flight.Stage.HudStage;
+import hu.cehessteg.flight.Stage.PauseStage;
 import hu.csanyzeg.master.MyBaseClasses.Assets.AssetList;
 import hu.csanyzeg.master.MyBaseClasses.Game.MyGame;
 import hu.csanyzeg.master.MyBaseClasses.Scene2D.MyScreen;
@@ -16,7 +17,8 @@ public class GameScreen extends MyScreen {
     protected void afterAssetsLoaded() {
         addStage(new GameStage(game),1,false);
         addStage(new HudStage(game),2,true);
-        addStage(new GameOverStage(game),3,true);
+        addStage(new PauseStage(game),3,true);
+        addStage(new GameOverStage(game),4,true);
     }
 
     @Override
@@ -24,6 +26,7 @@ public class GameScreen extends MyScreen {
         AssetList assetList = new AssetList();
         assetList.collectAssetDescriptor(GameStage.class, assetList);
         assetList.collectAssetDescriptor(HudStage.class, assetList);
+        assetList.collectAssetDescriptor(PauseStage.class, assetList);
         assetList.collectAssetDescriptor(GameOverStage.class,assetList);
         return assetList;
     }

@@ -14,6 +14,7 @@ import hu.csanyzeg.master.MyBaseClasses.Scene2D.OneSpriteStaticActor;
 import hu.csanyzeg.master.MyBaseClasses.Scene2D.ResponseViewport;
 
 import static hu.cehessteg.flight.Stage.GameOverStage.BLANK_TEXTURE;
+import static hu.cehessteg.flight.Stage.MenuStage.EXIT_RING;
 import static hu.cehessteg.flight.Stage.MenuStage.trebuc;
 
 public class HudStage extends MyStage {
@@ -21,12 +22,14 @@ public class HudStage extends MyStage {
     static {
         assetList.addFont(trebuc, trebuc, 100, Color.WHITE, AssetList.CHARS);
         assetList.addTexture(BLANK_TEXTURE);
+        assetList.addTexture(EXIT_RING);
         assetList.collectAssetDescriptor(Coin.class, assetList);
     }
 
     OneSpriteStaticActor PositionController;
     OneSpriteStaticActor ShootingController;
     OneSpriteStaticActor BombingController;
+    OneSpriteStaticActor pause;
 
     public static float planeY;
     private float pElapsed;
@@ -56,6 +59,7 @@ public class HudStage extends MyStage {
         PositionController = new OneSpriteStaticActor(game, BLANK_TEXTURE);
         ShootingController = new OneSpriteStaticActor(game, BLANK_TEXTURE);
         BombingController = new OneSpriteStaticActor(game, BLANK_TEXTURE);
+        pause = new OneSpriteStaticActor(game, EXIT_RING);
         coin = new Coin(game);
         if(game instanceof FlightGame){
             if(((FlightGame) game).getPlaneLevel() >= 5) increment = 0;
@@ -98,6 +102,14 @@ public class HudStage extends MyStage {
                 }
             }
         });
+
+        pause.addListener(new ClickListener(){
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                super.clicked(event, x, y);
+                GameStage.isAct = false;
+            }
+        });
     }
 
     private void setSizesAndPositions()
@@ -114,6 +126,8 @@ public class HudStage extends MyStage {
         BombingController.setX(PositionController.getX() + PositionController.getWidth());
         BombingController.setY(0);
         BombingController.setAlpha(0.05f);
+
+        pause.setPosition(getViewport().getWorldWidth()-pause.getWidth(), getViewport().getWorldHeight()-pause.getHeight());
     }
 
     private void addActors()
@@ -121,6 +135,7 @@ public class HudStage extends MyStage {
         addActor(PositionController);
         addActor(ShootingController);
         addActor(BombingController);
+        addActor(pause);
         addActor(coin);
     }
 

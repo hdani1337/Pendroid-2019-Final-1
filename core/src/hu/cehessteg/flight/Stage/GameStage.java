@@ -44,6 +44,7 @@ public class GameStage extends MyStage {
     public static boolean isAct;
     public static boolean isShoot;
     public static boolean isBomb;
+    public static boolean isDead;
     private ArrayList<Cloud> clouds;
     private ArrayList<Bullet> bullets;
     private ArrayList<Bomb> bombs;
@@ -61,6 +62,7 @@ public class GameStage extends MyStage {
     {
         isAct = true;
         isShoot = false;
+        isDead = false;
         sky = new Sky(game);
         airplane = new Airplane(game);
         enemy = new Enemy(game,getViewport());
@@ -178,6 +180,7 @@ public class GameStage extends MyStage {
     {
         if(airplane.hp<=0) {
             isAct = false;
+            isDead = true;
             if(!addedExplosion) {
                 Explosion explosion = new Explosion(game, null);
                 explosion.setPosition(airplane.getX(), airplane.getY() + airplane.getHeight() / 2 - explosion.getHeight() / 2);

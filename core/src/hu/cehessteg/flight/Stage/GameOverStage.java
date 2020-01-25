@@ -15,6 +15,7 @@ import hu.csanyzeg.master.MyBaseClasses.Scene2D.ResponseViewport;
 import hu.csanyzeg.master.MyBaseClasses.UI.MyLabel;
 
 import static hu.cehessteg.flight.Stage.GameStage.isAct;
+import static hu.cehessteg.flight.Stage.GameStage.isDead;
 import static hu.cehessteg.flight.Stage.MenuStage.trebuc;
 
 public class GameOverStage extends MyStage {
@@ -103,8 +104,7 @@ public class GameOverStage extends MyStage {
     @Override
     public void act(float delta) {
 
-        if (!isAct){
-
+        if (!isAct && isDead){
             if(!addedActors){
                 addActor(black);
                 addActor(text);
