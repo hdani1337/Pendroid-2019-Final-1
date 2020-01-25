@@ -95,34 +95,26 @@ public class IntroStage extends MyStage {
     float alpha = 0;
 
     private void fadeIn(OneSpriteStaticActor... actor) {
-        if (alpha < 0.98)
-        {
-            alpha += 0.02;
-            for (OneSpriteStaticActor actor1 : actor)
-            {
-                actor1.setAlpha(alpha);
-            }
-        }
+        if (alpha < 0.98) alpha += 0.02;
         else alpha = 1;
+
+        for (OneSpriteStaticActor actor1 : actor)
+        {
+            actor1.setAlpha(alpha);
+        }
     }
 
     private void fadeOut(OneSpriteStaticActor... actor) {
-        if (alpha > 0.02)
-        {
-            alpha -= 0.02;
-            for (OneSpriteStaticActor actor1 : actor)
-            {
-                actor1.setAlpha(alpha);
-            }
-        }
+        if (alpha > 0.02) alpha -= 0.02;
         else {
             alpha = 0;
-            for (OneSpriteStaticActor actor1 : actor)
-            {
-                actor1.setAlpha(alpha);
-            }
             pElapsed = 0;
             index++;
+        }
+
+        for (OneSpriteStaticActor actor1 : actor)
+        {
+            actor1.setAlpha(alpha);
         }
     }
 
@@ -132,40 +124,38 @@ public class IntroStage extends MyStage {
     @Override
     public void act(float delta) {
         super.act(delta);
+        sky.setAlpha((1/8.0f) * elapsedTime);
         switch (index) {
             case 0: {
                 pElapsed += delta;
                 if (pElapsed < 1) fadeIn(gdxLogo);
-                else if (pElapsed > 1.25) fadeOut(gdxLogo);
+                else if (pElapsed > 2) fadeOut(gdxLogo);
                 break;
             }
 
             case 1: {
                 pElapsed += delta;
                 if (pElapsed < 1) {
-                    fadeIn(pendroidLogo);
-                    fadeIn(csanyLogo);
+                    fadeIn(pendroidLogo, csanyLogo);
                 }
-                else if (pElapsed > 1.25) {
-                    fadeOut(pendroidLogo);
-                    fadeOut(csanyLogo);
+                else if (pElapsed > 2) {
+                    fadeOut(pendroidLogo, csanyLogo);
                 }
                 break;
             }
 
-            case 3: {
+            case 2: {
                 pElapsed += delta;
                 if (pElapsed < 1) {
-                    fadeIn(sky);
                     fadeIn(cehesstegLogo);
                     copyright.setColor(1,1,1,alpha);
                 }
-                else if (pElapsed > 1.2) copyright.setColor(1,1,1, copyright.getColor().a - 0.02f);
+                else if (pElapsed > 1.5) copyright.setColor(1,1,1, copyright.getColor().a - 0.02f);
                 break;
             }
         }
 
-        if(elapsedTime > 5.75) {
+        if(elapsedTime > 8) {
             game.setScreenWithPreloadAssets(MenuScreen.class, true, new MyLoadingStage(game, false));
         }
     }
