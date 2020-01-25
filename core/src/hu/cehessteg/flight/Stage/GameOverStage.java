@@ -93,6 +93,8 @@ public class GameOverStage extends MyStage {
         black = new OneSpriteStaticActor(game, BLANK_TEXTURE);
         black.setAlpha(0);
         black.setSize(getViewport().getWorldWidth(),getViewport().getWorldHeight());
+
+        addBackButtonScreenBackByStackPopListener();
     }
 
     private boolean addedActors;

@@ -1,7 +1,11 @@
 package hu.cehessteg.flight.Actor;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.utils.viewport.Viewport;
 
+import hu.cehessteg.flight.Stage.GameStage;
+import hu.cehessteg.flight.Stage.InfoStage;
+import hu.cehessteg.flight.Stage.MenuStage;
 import hu.csanyzeg.master.MyBaseClasses.Assets.AssetList;
 import hu.csanyzeg.master.MyBaseClasses.Game.MyGame;
 import hu.csanyzeg.master.MyBaseClasses.Scene2D.OneSpriteStaticActor;
@@ -20,10 +24,13 @@ public class Cloud extends OneSpriteStaticActor {
     }
 
     private Viewport viewport;
+    private float origWidth;
 
     public Cloud(MyGame game, Viewport viewport) {
         super(game, Math.random() > 0.5f ? cloud3 : cloud4);
         this.viewport = viewport;
+        this.origWidth = getWidth();
+        setAlpha(0);
         setSize(getWidth()*0.4f, getHeight()*0.4f);
         setPosition((float) Math.random() * viewport.getWorldWidth(), (float) Math.random()*viewport.getWorldHeight());
     }
@@ -31,21 +38,45 @@ public class Cloud extends OneSpriteStaticActor {
     @Override
     public void act(float delta) {
         super.act(delta);
-        if (isAct) move();
+        if(getStage() != null){
+            if(getStage() instanceof GameStage) {
+                if (isAct)
+                    moveInGame();
+            }
+            else if (getStage() instanceof InfoStage){
+                moveInGame();
+            }
+            else if (getStage() instanceof MenuStage){
+                moveInMenu();
+            }
+        }
     }
 
-    float alpha = 0;
+    float alphaEmpty = 0;
+    float alphaFull = 1;
 
     private void fadeIn()
     {
-        if(alpha < 0.99) {
-            alpha += 0.01;
-            setAlpha(alpha);
+        if(alphaEmpty < 0.99) {
+            alphaEmpty += 0.01;
+            setAlpha(alphaEmpty);
         }
-        else alpha = 1;
+        else alphaEmpty = 1;
     }
 
-    public void move()
+    private void fadeOut()
+    {
+        if(alphaFull > 0.02){
+            alphaFull -= 0.01;
+            setAlpha(alphaFull);
+        }
+        else {
+            alphaFull = 0;
+            this.remove();
+        }
+    }
+
+    public void moveInGame()
     {
         fadeIn();
         if (getX() > -getWidth()) setX(getX() - 5);
@@ -53,5 +84,17 @@ public class Cloud extends OneSpriteStaticActor {
             setX((float) Math.random() * 500 + viewport.getWorldWidth());
             setY((float) Math.random() * viewport.getWorldHeight());
         }
+    }
+
+    public void moveInMenu()
+    {
+        if(getWidth() <= origWidth * 1.25) fadeIn();
+        else fadeOut();
+        setSize(getWidth()*1.005f, getHeight()*1.005f);
+
+        if(Gdx.input.getAccelerometerY() * 5 > 0 && getRotation() < (Gdx.input.getAccelerometerY() * 5)) setRotation(getRotation() + 0.5f);
+        else if (Gdx.input.getAccelerometerY() * 5 < 0 && getRotation() > (Gdx.input.getAccelerometerY() * 5)) setRotation(getRotation() - 0.5f);
+
+        setX(getX()-3);
     }
 }
