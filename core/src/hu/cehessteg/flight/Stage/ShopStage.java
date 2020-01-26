@@ -62,6 +62,7 @@ public class ShopStage extends MyStage {
                             ((FlightGame) game).setPenz(((FlightGame) game).getPenz() - (((FlightGame)game).getPlaneLevel()) * 25); // pénz levétel
                             ((FlightGame) game).setPlaneLevel(((FlightGame) game).getPlaneLevel() + 1); // szint up
                             ((FlightGame) game).saveCoins(); //pénz mentése
+                            lvlcost.setText("Jelenlegi szint: " + ((FlightGame) game).getPlaneLevel() + "\nFejlesztés ára: " + (((FlightGame)game).getPlaneLevel()) * 25);
                         }
                     }
                 });
@@ -74,6 +75,7 @@ public class ShopStage extends MyStage {
                 setFontScale(0.3f);
                 setColor(1,1,1,0);
                 setPosition(0, getViewport().getWorldHeight()*0.4f);
+                setTouchable(null);
             }
         };
 
