@@ -14,6 +14,7 @@ public class FlightGame extends MyGame{
 	}
 
 	public long penz;
+	public int difficulty;
 	public boolean muted;
 	public Preferences gameSave;
 
@@ -32,11 +33,14 @@ public class FlightGame extends MyGame{
 			gameSave.putLong("coins", 0);
 			gameSave.putBoolean("muted", false);
 			gameSave.putInteger("planeLevel", 1);
+			gameSave.putInteger("difficulty", 1);
 			gameSave.flush();
-		}else {
-			penz = gameSave.getLong("coins");
-			muted = gameSave.getBoolean("muted");
 		}
+
+		penz = gameSave.getLong("coins");
+		difficulty = gameSave.getInteger("difficulty");
+		muted = gameSave.getBoolean("muted");
+
 	}
 
 	public long getPenz() {
@@ -45,6 +49,16 @@ public class FlightGame extends MyGame{
 
 	public void setPenz(long penz) {
 		this.penz = penz;
+	}
+
+	public int getDifficulty() {
+		return difficulty;
+	}
+
+	public void setDifficulty(int difficulty) {
+		this.difficulty = difficulty;
+		gameSave.putInteger("difficulty", difficulty);
+		gameSave.flush();
 	}
 
 	public boolean isMuted() {

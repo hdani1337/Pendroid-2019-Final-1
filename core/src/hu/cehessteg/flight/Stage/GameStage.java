@@ -40,7 +40,6 @@ public class GameStage extends MyStage {
 
     private Airplane airplane;
     private Sky sky;
-    private Enemy enemy;
     public static boolean isAct;
     public static boolean isShoot;
     public static boolean isBomb;
@@ -48,7 +47,8 @@ public class GameStage extends MyStage {
     private ArrayList<Cloud> clouds;
     private ArrayList<Bullet> bullets;
     private ArrayList<Bomb> bombs;
-    private MyLabel enemyHP;
+    private ArrayList<Enemy> enemies;
+    private ArrayList<MyLabel> enemyHPs;
     private MyLabel playerHP;
 
     public GameStage(MyGame game) {
@@ -65,31 +65,36 @@ public class GameStage extends MyStage {
         isDead = false;
         sky = new Sky(game);
         airplane = new Airplane(game);
-        enemy = new Enemy(game,getViewport());
         clouds = new ArrayList<>();
+        enemies = new ArrayList<>();
+        enemyHPs = new ArrayList<>();
         bullets = new ArrayList<>();
         bombs = new ArrayList<>();
         for (int i = 0; i < 18; i++) clouds.add(new Cloud(game, getViewport()));
+        if(game instanceof FlightGame)
+            for (int i = 0; i < ((FlightGame)game).getDifficulty(); i++) enemies.add(new Enemy(game, getViewport()));
         setHpLabels();
     }
 
     private void setHpLabels()
     {
-        enemyHP = new MyLabel(game, "UNDEFINED", new Label.LabelStyle(game.getMyAssetManager().getFont(trebuc), Color.WHITE)) {
-            @Override
-            public void init() {
-                setAlignment(0);
-                setFontScale(0.3f);
-            }
+        for (final Enemy enemy : enemies){
+            enemyHPs.add(new MyLabel(game, "UNDEFINED", new Label.LabelStyle(game.getMyAssetManager().getFont(trebuc), Color.WHITE)) {
+                @Override
+                public void init() {
+                    setAlignment(0);
+                    setFontScale(0.3f);
+                }
 
-            @Override
-            public void act(float delta) {
-                super.act(delta);
+                @Override
+                public void act(float delta) {
+                    super.act(delta);
                 setX(enemy.getX() + enemy.getWidth()/2 - this.getWidth()/2);
                 setY(enemy.getY() + enemy.getHeight()*0.4f);
                 setText(enemy.hp);
-            }
-        };
+                }
+            });
+        }
 
         playerHP = new MyLabel(game, "UNDEFINED", new Label.LabelStyle(game.getMyAssetManager().getFont(trebuc), Color.WHITE)) {
             @Override
@@ -113,12 +118,12 @@ public class GameStage extends MyStage {
         /**SIZES**/
         sky.setSize(getViewport().getWorldWidth(),getViewport().getWorldHeight());
         airplane.setSize(airplane.getWidth()*0.2f, airplane.getHeight()*0.2f);
-        enemy.setSize(enemy.getWidth()*0.2f,enemy.getHeight()*0.2f);
+        for (Enemy enemy : enemies) enemy.setSize(enemy.getWidth()*0.2f,enemy.getHeight()*0.2f);
 
         /**POSITIONS**/
         airplane.setY(getViewport().getWorldHeight()/2-airplane.getHeight()/2);
         airplane.setX(250 - airplane.getWidth()/2);
-        enemy.setX(-1000);
+        for (Enemy enemy : enemies) enemy.setX(-1000);
     }
 
     private void addActors()
@@ -129,8 +134,8 @@ public class GameStage extends MyStage {
         airplane.setZIndex(7);
         addActor(playerHP);
         playerHP.setZIndex(8);
-        addActor(enemy);
-        addActor(enemyHP);
+        for (Enemy enemy : enemies) addActor(enemy);
+        for (MyLabel enemyHP : enemyHPs)addActor(enemyHP);
 
         addedExplosion = false;
     }
@@ -200,14 +205,16 @@ public class GameStage extends MyStage {
     {
         for (Bullet bullet : bullets)
         {
-            if(overlaps(bullet, enemy))
-            {
-                enemy.hp -= bullet.damage;
-                bullet.remove();
-                if(enemy.hp <= 0) {
-                    addActor(new Explosion(game, enemy));
-                    enemy.replace();
-                    if(game instanceof FlightGame)((FlightGame) game).setPenz(((FlightGame) game).getPenz() + 2);
+            for (Enemy enemy : enemies) {
+                if (overlaps(bullet, enemy)) {
+                    enemy.hp -= bullet.damage;
+                    bullet.remove();
+                    if (enemy.hp <= 0) {
+                        addActor(new Explosion(game, enemy));
+                        enemy.replace();
+                        if (game instanceof FlightGame)
+                            ((FlightGame) game).setPenz(((FlightGame) game).getPenz() + 2);
+                    }
                 }
             }
         }
@@ -217,24 +224,29 @@ public class GameStage extends MyStage {
     {
         for (Bomb bomb : bombs)
         {
-            if(overlaps(bomb, enemy))
-            {
-                enemy.hp = 0;
-                bomb.remove();
-                addActor(new Explosion(game, enemy));
-                enemy.replace();
-                if(game instanceof FlightGame)((FlightGame) game).setPenz(((FlightGame) game).getPenz() + 2);
+            for (Enemy enemy : enemies) {
+                if (overlaps(bomb, enemy)) {
+                    enemy.hp = 0;
+                    bomb.remove();
+                    addActor(new Explosion(game, enemy));
+                    enemy.replace();
+                    if (game instanceof FlightGame)
+                        ((FlightGame) game).setPenz(((FlightGame) game).getPenz() + 2);
+                }
             }
         }
     }
 
     private void playerOverlapsEnemy()
     {
-        if (overlaps(airplane, enemy)) {
-            airplane.hp -= Math.random() * 20;
-            addActor(new Explosion(game, enemy));
-            enemy.replace();
-            if(game instanceof FlightGame)((FlightGame) game).setPenz(((FlightGame) game).getPenz() + 2);
+        for (Enemy enemy : enemies) {
+            if (overlaps(airplane, enemy)) {
+                airplane.hp -= Math.random() * 20;
+                addActor(new Explosion(game, enemy));
+                enemy.replace();
+                if (game instanceof FlightGame)
+                    ((FlightGame) game).setPenz(((FlightGame) game).getPenz() + 2);
+            }
         }
     }
 
