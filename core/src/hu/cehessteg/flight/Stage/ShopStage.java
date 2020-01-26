@@ -5,6 +5,10 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 
+import java.util.ArrayList;
+
+import hu.cehessteg.flight.Actor.Cloud;
+import hu.cehessteg.flight.Actor.Sky;
 import hu.cehessteg.flight.FlightGame;
 import hu.cehessteg.flight.Screen.GameScreen;
 import hu.csanyzeg.master.MyBaseClasses.Assets.AssetList;
@@ -19,9 +23,11 @@ import static hu.cehessteg.flight.Stage.MenuStage.trebuc;
 
 public class ShopStage extends MyStage {
     public static final String BLANK_TEXTURE = "other/black.png";
+    public static final String PRICES_TEXTURE = "other/arlista.png";
     public static AssetList assetList = new AssetList();
     static {
         assetList.addTexture(BLANK_TEXTURE);
+        assetList.addTexture(PRICES_TEXTURE);
         assetList.addFont(trebuc, trebuc, 120, Color.WHITE, AssetList.CHARS);
     }
 
@@ -30,11 +36,26 @@ public class ShopStage extends MyStage {
     MyLabel menu;
     MyLabel lvlcost;
     OneSpriteStaticActor black;
+    OneSpriteStaticActor arlista;
+    Sky sky;
+    ArrayList<Cloud> clouds;
 
     public ShopStage(MyGame game) {
         super(new ResponseViewport(900), game);
+        assignment();
+        addActors();
+    }
 
-        addedActors = false;
+    private void assignment(){
+        clouds = new ArrayList<>();
+        for (int i = 0; i < 18; i++) clouds.add(new Cloud(game, getViewport()));
+        sky = new Sky(game){
+            @Override
+            public void init() {
+                super.init();
+                setSize(getViewport().getWorldWidth(), getViewport().getWorldHeight());
+            }
+        };
 
         text = new MyLabel(game, "Üdv a boltban, itt vásárolhatsz fejlesztéseket a repülőgépedhez.\n Bizonyos fejlesztések után már lőni, későbbb bombázni is tudni fogsz.", new Label.LabelStyle(game.getMyAssetManager().getFont(trebuc), Color.WHITE)) {
             @Override
@@ -68,6 +89,7 @@ public class ShopStage extends MyStage {
                 });
             }
         };
+
         lvlcost = new MyLabel(game, "Jelenlegi szint: " + ((FlightGame) game).getPlaneLevel() + "\nFejlesztés ára: " + (((FlightGame)game).getPlaneLevel()) * 25 ,new Label.LabelStyle(game.getMyAssetManager().getFont(trebuc), Color.WHITE)) {
             @Override
             public void init() {
@@ -100,38 +122,60 @@ public class ShopStage extends MyStage {
             }
         };
 
-        black = new OneSpriteStaticActor(game, BLANK_TEXTURE);
-        black.setAlpha(0);
-        black.setSize(getViewport().getWorldWidth(),getViewport().getWorldHeight());
+        arlista = new OneSpriteStaticActor(game, PRICES_TEXTURE){
+            @Override
+            public void init() {
+                super.init();
+                setSize(getWidth()*0.8f, getHeight()*0.8f);
+                setPosition(getViewport().getWorldWidth()*0.65f, getViewport().getWorldHeight()/2-this.getHeight()/2);
+            }
+        };
+
+        black = new OneSpriteStaticActor(game, BLANK_TEXTURE){
+            @Override
+            public void init() {
+                super.init();
+                setAlpha(0);
+                setSize(getViewport().getWorldWidth(),getViewport().getWorldHeight());
+            }
+        };
     }
 
-    private boolean addedActors;
+    private void addActors()
+    {
+        addActor(sky);
+        addActor(black);
+        for (Cloud c : clouds) addActor(c);
+        addActor(text);
+        addActor(lvlup);
+        addActor(menu);
+        addActor(lvlcost);
+        addActor(arlista);
+    }
+
     private float alpha = 0;
+
+    private void fadeIn(){
+        if(alpha < 0.95) {
+            setAlphas();
+            alpha += 0.05;
+        }
+        else alpha = 1;
+    }
+
+    private void setAlphas()
+    {
+        black.setAlpha(alpha * 0.4f);
+        arlista.setAlpha(alpha);
+        text.setColor(1,1,1,alpha);
+        lvlup.setColor(1,1,1,alpha);
+        menu.setColor(1,1,1,alpha);
+        lvlcost.setColor(1,1,1,alpha);
+    }
 
     @Override
     public void act(float delta) {
-
-        if (!isAct){
-
-            if(!addedActors){
-                addActor(black);
-                addActor(text);
-                addActor(lvlup);
-                addActor(menu);
-                addActor(lvlcost);
-                addedActors = true;
-            }
-
-            if(alpha < 0.95)
-            {
-                black.setAlpha(alpha * 0.4f);
-                text.setColor(1,1,1,alpha);
-                lvlup.setColor(1,1,1,alpha);
-                menu.setColor(1,1,1,alpha);
-                lvlcost.setColor(1,1,1,alpha);
-                alpha += 0.05;
-            }else alpha = 1;
-        }
+        super.act(delta);
+        fadeIn();
     }
-
 }
