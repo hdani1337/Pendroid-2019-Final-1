@@ -26,6 +26,7 @@ public class OptionsStage extends MyStage {
 
     public static final String NYILBAL_TEXUTE = "other/nyilB.png";
     public static final String NYILJOBB_TEXUTE = "other/nyilJ.png";
+    public static final String WIND_SOUND = "sounds/wind.mp3";
 
     public static AssetList assetList;
     static {
@@ -34,6 +35,7 @@ public class OptionsStage extends MyStage {
         assetList.addTexture(NYILJOBB_TEXUTE);
         assetList.addTexture(BLANK_TEXTURE);
         assetList.addFont(trebuc, trebuc, 120, Color.WHITE, AssetList.CHARS);
+        assetList.addMusic(WIND_SOUND);
         assetList.collectAssetDescriptor(Sky.class, assetList);
         assetList.collectAssetDescriptor(Cloud.class, assetList);
     }
@@ -57,6 +59,12 @@ public class OptionsStage extends MyStage {
         setSizesAndPositions();
         addListeners();
         addActors();
+
+        if(game instanceof FlightGame){
+            if(!((FlightGame)game).isMuted()){
+                game.getMyAssetManager().getMusic(WIND_SOUND).play();
+            }
+        }
     }
 
     private void assignment()
@@ -194,5 +202,16 @@ public class OptionsStage extends MyStage {
         addActor(back);
         addActor(blankTitle);
         addActor(title);
+    }
+
+    @Override
+    public void act(float delta) {
+        super.act(delta);
+        if(game instanceof FlightGame) {
+            if (!((FlightGame) game).isMuted()) {
+                if (game.getMyAssetManager().getMusic(WIND_SOUND).getPosition() >= 8.9)
+                    game.getMyAssetManager().getMusic(WIND_SOUND).setPosition(0);
+            }
+        }
     }
 }

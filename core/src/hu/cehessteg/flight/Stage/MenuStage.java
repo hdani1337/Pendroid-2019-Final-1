@@ -11,6 +11,7 @@ import java.util.ArrayList;
 
 import hu.cehessteg.flight.Actor.Cloud;
 import hu.cehessteg.flight.Actor.Sky;
+import hu.cehessteg.flight.FlightGame;
 import hu.cehessteg.flight.Screen.GameScreen;
 import hu.cehessteg.flight.Screen.InfoScreen;
 import hu.cehessteg.flight.Screen.MenuScreen;
@@ -33,12 +34,14 @@ public class MenuStage extends MyStage {
     public static final String EXIT_PIROS = "menu/exitPiros.png";
     public static final String EXIT_RING = "menu/exit.png";
     public static final String OPTIONS_TEXTURE = "menu/options.png";
+    public static final String AIRPLANE_SOUND = "sounds/airplane.wav";
     static {
         assetList.addFont(trebuc, trebuc, 120, Color.WHITE, AssetList.CHARS);
         assetList.addTexture(MENU_HATTER);
         assetList.addTexture(EXIT_PIROS);
         assetList.addTexture(EXIT_RING);
         assetList.addTexture(OPTIONS_TEXTURE);
+        assetList.addMusic(AIRPLANE_SOUND);
         assetList.collectAssetDescriptor(Cloud.class, assetList);
         assetList.collectAssetDescriptor(Sky.class, assetList);
     }
@@ -67,6 +70,12 @@ public class MenuStage extends MyStage {
         addActors();
         setPositions();
         labelThings();
+
+        if(game instanceof FlightGame){
+            if(!((FlightGame)game).isMuted()){
+                game.getMyAssetManager().getMusic(AIRPLANE_SOUND).play();
+            }
+        }
     }
 
     void assignment(){
@@ -260,6 +269,17 @@ public class MenuStage extends MyStage {
              * !!!NEM MŰKÖDIK A addBackButtonScreenBackByStackPopListener()!!!
              * **/
             game.setScreenBackByStackPop();
+        }
+
+        /**
+         * A HANG VÉGE ELŐTT EGY PICIVEL ELÖLRŐL KEZDEM
+         * !!!ÍGY NEM LAGGOL BE A HANG!!!
+         * **/
+        if(game instanceof FlightGame) {
+            if (!((FlightGame) game).isMuted()) {
+                if (game.getMyAssetManager().getMusic(AIRPLANE_SOUND).getPosition() >= 6.7)
+                    game.getMyAssetManager().getMusic(AIRPLANE_SOUND).setPosition(0);
+            }
         }
     }
 }

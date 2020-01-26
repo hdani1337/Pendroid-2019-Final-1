@@ -11,6 +11,7 @@ import java.util.ArrayList;
 
 import hu.cehessteg.flight.Actor.Cloud;
 import hu.cehessteg.flight.Actor.Sky;
+import hu.cehessteg.flight.FlightGame;
 import hu.csanyzeg.master.MyBaseClasses.Assets.AssetList;
 import hu.csanyzeg.master.MyBaseClasses.Game.MyGame;
 import hu.csanyzeg.master.MyBaseClasses.Scene2D.MyStage;
@@ -21,6 +22,7 @@ import hu.csanyzeg.master.MyBaseClasses.UI.MyLabel;
 import static hu.cehessteg.flight.Actor.Sky.SKY_TEXTURE;
 import static hu.cehessteg.flight.Stage.GameOverStage.BLANK_TEXTURE;
 import static hu.cehessteg.flight.Stage.MenuStage.trebuc;
+import static hu.cehessteg.flight.Stage.OptionsStage.WIND_SOUND;
 
 public class InfoStage extends MyStage {
     public static final String ZOLI_KEP = "portraits/zoli.png";
@@ -40,6 +42,7 @@ public class InfoStage extends MyStage {
         assetList.addTexture(SKY_TEXTURE);
         assetList.addTexture(BLANK_TEXTURE);
         assetList.addTexture(LOGO);
+        assetList.addMusic(WIND_SOUND);
         assetList.addFont(trebuc, trebuc, 120, Color.WHITE, AssetList.CHARS);
     }
 
@@ -83,6 +86,12 @@ public class InfoStage extends MyStage {
         labelStuff();
         setPositions();
         addActors();
+
+        if(game instanceof FlightGame){
+            if(!((FlightGame)game).isMuted()){
+                game.getMyAssetManager().getMusic(WIND_SOUND).play();
+            }
+        }
     }
 
     void assignment()
@@ -320,6 +329,13 @@ public class InfoStage extends MyStage {
              * !!!NEM MŰKÖDIK A addBackButtonScreenBackByStackPopListener()!!!
              * **/
             game.setScreenBackByStackPop();
+        }
+
+        if(game instanceof FlightGame) {
+            if (!((FlightGame) game).isMuted()) {
+                if (game.getMyAssetManager().getMusic(WIND_SOUND).getPosition() >= 8.9)
+                    game.getMyAssetManager().getMusic(WIND_SOUND).setPosition(0);
+            }
         }
     }
 }
