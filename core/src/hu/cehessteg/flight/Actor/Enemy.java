@@ -37,6 +37,8 @@ public class Enemy extends OneSpriteStaticActor {
         if (isAct) {
             if (getX() > -getWidth()) {
                 setX(getX() - 10);
+            } else if(getX() == -1000){
+                replace();
             } else {
                 replace();
                 if(game instanceof FlightGame)((FlightGame) game).setPenz(((FlightGame) game).getPenz() + 1);

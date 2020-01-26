@@ -34,7 +34,7 @@ public class MenuStage extends MyStage {
     public static final String EXIT_PIROS = "menu/exitPiros.png";
     public static final String EXIT_RING = "menu/exit.png";
     public static final String OPTIONS_TEXTURE = "menu/options.png";
-    public static final String AIRPLANE_SOUND = "sounds/airplane.wav";
+    public static final String AIRPLANE_SOUND = "sounds/airplane.mp3";
     static {
         assetList.addFont(trebuc, trebuc, 120, Color.WHITE, AssetList.CHARS);
         assetList.addTexture(MENU_HATTER);

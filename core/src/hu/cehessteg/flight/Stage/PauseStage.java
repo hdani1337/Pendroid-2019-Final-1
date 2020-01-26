@@ -5,6 +5,7 @@ import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 
+import hu.cehessteg.flight.FlightGame;
 import hu.csanyzeg.master.MyBaseClasses.Assets.AssetList;
 import hu.csanyzeg.master.MyBaseClasses.Game.MyGame;
 import hu.csanyzeg.master.MyBaseClasses.Scene2D.MyStage;
@@ -14,6 +15,7 @@ import hu.csanyzeg.master.MyBaseClasses.UI.MyLabel;
 
 import static hu.cehessteg.flight.Stage.GameOverStage.BLANK_TEXTURE;
 import static hu.cehessteg.flight.Stage.GameStage.isAct;
+import static hu.cehessteg.flight.Stage.GameStage.isDead;
 import static hu.cehessteg.flight.Stage.MenuStage.trebuc;
 
 public class PauseStage extends MyStage {
@@ -89,6 +91,8 @@ public class PauseStage extends MyStage {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 super.clicked(event, x, y);
+                if(game instanceof FlightGame)
+                    ((FlightGame) game).saveCoins();
                 game.setScreenBackByStackPop();
             }
         });
@@ -108,7 +112,7 @@ public class PauseStage extends MyStage {
     public void act(float delta) {
         super.act(delta);
 
-        if (!isAct){
+        if (!isAct && !isDead){
             if(!addedActors){
                 addActor(black);
                 addActor(resume);
