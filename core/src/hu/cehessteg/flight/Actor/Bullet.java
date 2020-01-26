@@ -1,5 +1,6 @@
 package hu.cehessteg.flight.Actor;
 
+import hu.cehessteg.flight.FlightGame;
 import hu.cehessteg.flight.Stage.GameStage;
 import hu.csanyzeg.master.MyBaseClasses.Assets.AssetList;
 import hu.csanyzeg.master.MyBaseClasses.Game.MyGame;
@@ -8,11 +9,13 @@ import hu.csanyzeg.master.MyBaseClasses.Scene2D.OneSpriteStaticActor;
 public class Bullet extends OneSpriteStaticActor {
 
     public static final String BULLET_TEXTURE = "ammos/lovedek.png";
+    public static final String BULLET_SOUND = "sounds/Loves.mp3";
 
     public static AssetList assetList = new AssetList();
     static
     {
         assetList.addTexture(BULLET_TEXTURE);
+        assetList.addSound(BULLET_SOUND);
     }
 
     public byte damage;
@@ -29,6 +32,12 @@ public class Bullet extends OneSpriteStaticActor {
 
         setRotation(airplane.getRotation());
         setPosition(airplane.getX()+airplane.getWidth()*0.65f, airplane.getY()+7);
+
+        if(game instanceof FlightGame){
+            if(!((FlightGame)game).isMuted()){
+                game.getMyAssetManager().getSound(BULLET_SOUND).play(0.5f);
+            }
+        }
     }
 
     @Override

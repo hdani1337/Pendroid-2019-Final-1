@@ -23,6 +23,7 @@ import hu.csanyzeg.master.MyBaseClasses.Scene2D.ResponseViewport;
 import hu.csanyzeg.master.MyBaseClasses.UI.MyLabel;
 
 import static hu.cehessteg.flight.Stage.MenuStage.trebuc;
+import static hu.cehessteg.flight.Stage.OptionsStage.WIND_SOUND;
 import static hu.csanyzeg.master.MyBaseClasses.Scene2D.MyActor.overlaps;
 
 public class GameStage extends MyStage {
@@ -37,6 +38,7 @@ public class GameStage extends MyStage {
         assetList.collectAssetDescriptor(Explosion.class,assetList);
         assetList.collectAssetDescriptor(Bomb.class,assetList);
         assetList.collectAssetDescriptor(Health.class,assetList);
+        assetList.addMusic(WIND_SOUND);
         assetList.addFont(trebuc, trebuc, 30, Color.WHITE, AssetList.CHARS);
     }
 
@@ -58,6 +60,12 @@ public class GameStage extends MyStage {
         assignment();
         setSizesAndPositions();
         addActors();
+
+        if(game instanceof FlightGame){
+            if(!((FlightGame)game).isMuted()){
+                game.getMyAssetManager().getMusic(WIND_SOUND).play();
+            }
+        }
     }
 
     private void assignment()
@@ -165,6 +173,14 @@ public class GameStage extends MyStage {
             bombOverlapsEnemy();//Megnézzük, melyik bomba találja el az ellenfelet
             playerShoot();//A játékos lő
             playerBomb();//A játékos bombázik
+            repeatMusic();//A zene ismétlése kicsit cselesen
+        }
+        else{
+            if(game instanceof FlightGame) {
+                if (!((FlightGame) game).isMuted()) {
+                    game.getMyAssetManager().getMusic(WIND_SOUND).stop();
+                }
+            }
         }
 
         playerDies();//Ha játékos meghal, ezt folyamatosan vizsgáljuk
@@ -265,6 +281,18 @@ public class GameStage extends MyStage {
         {
             airplane.bomb(this);
             isBomb = false;
+        }
+    }
+
+    private void repeatMusic()
+    {
+        if(game instanceof FlightGame) {
+            if (!((FlightGame) game).isMuted()) {
+                if (game.getMyAssetManager().getMusic(WIND_SOUND).getPosition() >= 8.9)
+                    game.getMyAssetManager().getMusic(WIND_SOUND).setPosition(0);
+                if (!game.getMyAssetManager().getMusic(WIND_SOUND).isPlaying())
+                    game.getMyAssetManager().getMusic(WIND_SOUND).play();
+            }
         }
     }
 }

@@ -180,7 +180,6 @@ public class InfoStage extends MyStage {
             public void init() {
                 super.init();
                 setSize(getViewport().getWorldWidth(), getViewport().getWorldHeight());
-                setAlpha(0.3f);
             }
         };
 
@@ -311,6 +310,8 @@ public class InfoStage extends MyStage {
         infoText.setColor(1,1,1, alpha);
 
         back.setColor(1,1,1, alpha);
+
+        black.setAlpha(alpha * 0.4f);
     }
 
     @Override
