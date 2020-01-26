@@ -18,30 +18,37 @@ public class Bomb extends OneSpriteStaticActor {
     }
 
     private GameStage stage;
-    public byte damage;
+    public byte random;
 
     public Bomb(MyGame game, Airplane airplane, GameStage stage) {
         super(game, BOMB_TEXTURE);
         this.stage = stage;
         addBaseCollisionRectangleShape();
-        damage = (byte) (Math.random() * 10);
+        random = (byte) (Math.random() * 10);
         setTextureSizePosition(airplane);
-        stage.addBomb(this);
+
+        if(stage != null)
+            stage.addBomb(this);
     }
 
     private void setTextureSizePosition(Airplane airplane)
     {
-        if(damage == 4) {
-            this.sprite.setTexture(game.getMyAssetManager().getTexture(KIRBY_TEXTURE));
-            setRotation(airplane.getRotation());
-            setSize(getWidth()*0.15f, getHeight()*0.4f);
-        }
-        else{
-            setRotation(-90 + airplane.getRotation());
-            setSize(getWidth()*0.25f, getHeight()*0.25f);
-        }
+        if(airplane != null) {
+            if (random == 4) {
+                if (stage != null) {
+                    if (stage instanceof GameStage) {
+                        this.sprite.setTexture(game.getMyAssetManager().getTexture(KIRBY_TEXTURE));
+                        setRotation(airplane.getRotation());
+                        setSize(getWidth() * 0.15f, getHeight() * 0.4f);
+                    }
+                }
+            } else {
+                setRotation(-90 + airplane.getRotation());
+                setSize(getWidth() * 0.25f, getHeight() * 0.25f);
+            }
 
-        setPosition(airplane.getX()+airplane.getWidth()*0.5f, airplane.getY()+7);
+            setPosition(airplane.getX() + airplane.getWidth() * 0.5f, airplane.getY() + 7);
+        }
     }
 
     private void move()
@@ -52,14 +59,19 @@ public class Bomb extends OneSpriteStaticActor {
         }
         else {
             this.remove();
-            stage.removeBomb(this);
+            if(stage != null)
+                stage.removeBomb(this);
         }
     }
 
     @Override
     public void act(float delta) {
         super.act(delta);
-        move();
+        if(getStage() != null){
+            if(getStage() instanceof GameStage){
+                move();
+            }
+        }
     }
 
     @Override

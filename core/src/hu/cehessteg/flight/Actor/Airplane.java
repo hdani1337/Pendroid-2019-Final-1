@@ -2,6 +2,7 @@ package hu.cehessteg.flight.Actor;
 
 import hu.cehessteg.flight.FlightGame;
 import hu.cehessteg.flight.Stage.GameStage;
+import hu.cehessteg.flight.Stage.HudStage;
 import hu.csanyzeg.master.MyBaseClasses.Assets.AssetList;
 import hu.csanyzeg.master.MyBaseClasses.Game.MyGame;
 import hu.csanyzeg.master.MyBaseClasses.Scene2D.OneSpriteStaticActor;
@@ -42,6 +43,8 @@ public class Airplane extends OneSpriteStaticActor {
             remainingBombs = 24;
         else if (level >= 6)
             remainingBombs = 12;
+
+        HudStage.remainingBombs = this.remainingBombs;
     }
 
     public void shoot(GameStage stage)
@@ -64,7 +67,10 @@ public class Airplane extends OneSpriteStaticActor {
             if(remainingBombs > 0) {
                 try {
                     stage.addActor(new Bomb(game, this, stage));
-                    if(level < 10) remainingBombs--;
+                    if(level < 10) {
+                        remainingBombs--;
+                        HudStage.remainingBombs = this.remainingBombs;
+                    }
                 } catch (NullPointerException e) {
                     System.out.println("STAGE NOT FOUND OR ASSETS NOT LOADED!!");
                     e.printStackTrace();
