@@ -14,6 +14,7 @@ import hu.cehessteg.flight.Actor.Sky;
 import hu.cehessteg.flight.Screen.GameScreen;
 import hu.cehessteg.flight.Screen.InfoScreen;
 import hu.cehessteg.flight.Screen.MenuScreen;
+import hu.cehessteg.flight.Screen.OptionsScreen;
 import hu.cehessteg.flight.Screen.ShopScreen;
 import hu.csanyzeg.master.MyBaseClasses.Assets.AssetList;
 import hu.csanyzeg.master.MyBaseClasses.Game.MyGame;
@@ -31,11 +32,13 @@ public class MenuStage extends MyStage {
     public static final String MENU_HATTER = "menu/menu.png";
     public static final String EXIT_PIROS = "menu/exitPiros.png";
     public static final String EXIT_RING = "menu/exit.png";
+    public static final String OPTIONS_TEXTURE = "menu/options.png";
     static {
         assetList.addFont(trebuc, trebuc, 120, Color.WHITE, AssetList.CHARS);
         assetList.addTexture(MENU_HATTER);
         assetList.addTexture(EXIT_PIROS);
         assetList.addTexture(EXIT_RING);
+        assetList.addTexture(OPTIONS_TEXTURE);
         assetList.collectAssetDescriptor(Cloud.class, assetList);
         assetList.collectAssetDescriptor(Sky.class, assetList);
     }
@@ -46,6 +49,7 @@ public class MenuStage extends MyStage {
     private OneSpriteStaticActor menuHatter;
     private OneSpriteStaticActor exitPiros;
     private OneSpriteStaticActor exitRing;
+    private OneSpriteStaticActor options;
     private Sky sky;
     private ArrayList<Cloud> clouds;
 
@@ -63,6 +67,7 @@ public class MenuStage extends MyStage {
     void assignment(){
 
         menuHatter = new OneSpriteStaticActor(game,MENU_HATTER);
+        options = new OneSpriteStaticActor(game,OPTIONS_TEXTURE);
         exitPiros = new OneSpriteStaticActor(game,EXIT_PIROS);
         exitRing = new OneSpriteStaticActor(game,EXIT_RING){
             @Override
@@ -132,6 +137,14 @@ public class MenuStage extends MyStage {
                 setSize(getViewport().getWorldWidth(),getViewport().getWorldHeight());
             }
         };
+
+        options.addListener(new ClickListener(){
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                super.clicked(event, x, y);
+                setScreen(new OptionsScreen(game));
+            }
+        });
     }
 
     void cloudStuff()
@@ -159,18 +172,22 @@ public class MenuStage extends MyStage {
         exitRing.setZIndex(1002);
         exitPiros.setZIndex(1001);
         legicsata.setZIndex(1001);
+        options.setZIndex(1001);
         shop.setZIndex(1001);
         infostage.setZIndex(1001);
         menuHatter.setPosition(getViewport().getWorldWidth()/2-this.getWidth()/1.5f,0);
-        exitRing.setPosition(menuHatter.getX()+menuHatter.getWidth()/1.3799f,menuHatter.getHeight()*0.0025f);
-        exitPiros.setPosition(exitRing.getX() + exitRing.getWidth() * 0.155f, exitRing.getY() + exitRing.getHeight() * 0.18f);
 
         if(getViewport().getWorldWidth() > 1800) menuHatter.setX(0);//Ha a képarány nagyobb 18:9-nél, akkor 0-ra rakom a piltafülkét, hogy kiérjen a világ széléig
 
         legicsata.setPosition( menuHatter.getX()+menuHatter.getWidth()/1.99f,menuHatter.getHeight()*0.25f);
         shop.setPosition(menuHatter.getX()+menuHatter.getWidth()/1.76f,menuHatter.getHeight()*0.162f);
         infostage.setPosition(menuHatter.getX()+menuHatter.getWidth()/2.06f,menuHatter.getHeight()*0.075f);
+
+        exitRing.setPosition(infostage.getX() + (infostage.getWidth() * 0.8f),infostage.getY());
+        exitPiros.setPosition(exitRing.getX() + exitRing.getWidth() * 0.155f, exitRing.getY() + exitRing.getHeight() * 0.18f);
         check21by9AspectRatio();
+
+        options.setPosition(legicsata.getX() - (options.getWidth() * 0.8f), legicsata.getY());
     }
 
     void check21by9AspectRatio()
@@ -206,6 +223,7 @@ public class MenuStage extends MyStage {
         addActor(shop);
         addActor(legicsata);
         addActor(infostage);
+        addActor(options);
     }
 
     float alpha = 0;
