@@ -69,4 +69,9 @@ public class Coin extends MyGroup {
                 }
             }
     }
+
+    public void setAlpha(float alpha) {
+        coinActor.setAlpha(alpha);
+        coinLabel.setColor(1,1,1,alpha);
+    }
 }
