@@ -74,7 +74,7 @@ public class GameStage extends MyStage {
         bombs = new ArrayList<>();
         for (int i = 0; i < 18; i++) clouds.add(new Cloud(game, getViewport()));
         if(game instanceof FlightGame)
-            for (int i = 0; i < ((FlightGame)game).getDifficulty(); i++) enemies.add(new Enemy(game, getViewport()));
+            for (int i = 0; i < ((FlightGame)game).getDifficulty()*2; i++) enemies.add(new Enemy(game, getViewport()));
         setHpLabels();
     }
 

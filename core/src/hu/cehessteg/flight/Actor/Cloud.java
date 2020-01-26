@@ -6,6 +6,7 @@ import com.badlogic.gdx.utils.viewport.Viewport;
 import hu.cehessteg.flight.Stage.GameStage;
 import hu.cehessteg.flight.Stage.InfoStage;
 import hu.cehessteg.flight.Stage.MenuStage;
+import hu.cehessteg.flight.Stage.OptionsStage;
 import hu.csanyzeg.master.MyBaseClasses.Assets.AssetList;
 import hu.csanyzeg.master.MyBaseClasses.Game.MyGame;
 import hu.csanyzeg.master.MyBaseClasses.Scene2D.OneSpriteStaticActor;
@@ -44,6 +45,9 @@ public class Cloud extends OneSpriteStaticActor {
                     moveInGame();
             }
             else if (getStage() instanceof InfoStage){
+                moveInGame();
+            }
+            else if (getStage() instanceof OptionsStage){
                 moveInGame();
             }
             else if (getStage() instanceof MenuStage){

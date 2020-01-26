@@ -54,9 +54,14 @@ public class MenuStage extends MyStage {
     private ArrayList<Cloud> clouds;
 
 
-    public MenuStage(MyGame game) {
+    public MenuStage(final MyGame game) {
         super(new ResponseViewport(900), game);
-        addBackButtonScreenBackByStackPopListener();
+        addBackButtonListener(new BackButtonListener() {
+            @Override
+            public void backKeyDown() {
+                Gdx.app.exit();
+            }
+        });
         assignment();
         cloudStuff();
         addActors();
@@ -142,7 +147,7 @@ public class MenuStage extends MyStage {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 super.clicked(event, x, y);
-                setScreen(new OptionsScreen(game));
+                game.setScreen(new OptionsScreen(game));
             }
         });
     }
