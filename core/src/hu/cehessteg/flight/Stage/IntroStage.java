@@ -74,8 +74,8 @@ public class IntroStage extends MyStage {
         sky.setSize(getViewport().getWorldWidth(), getViewport().getWorldHeight());
 
         gdxLogo.setPosition(getViewport().getWorldWidth()/2-gdxLogo.getWidth()/2,getViewport().getWorldHeight()/2-gdxLogo.getHeight()/2);
-        pendroidLogo.setPosition(getViewport().getWorldWidth()/2-pendroidLogo.getWidth()-60, getViewport().getWorldHeight()/2-pendroidLogo.getHeight()/2);
-        csanyLogo.setPosition(pendroidLogo.getX()+pendroidLogo.getWidth()+60, getViewport().getWorldHeight()/2-csanyLogo.getHeight()/2);
+        pendroidLogo.setPosition(getViewport().getWorldWidth()/2-pendroidLogo.getWidth()-30, getViewport().getWorldHeight()/2-pendroidLogo.getHeight()/2);
+        csanyLogo.setPosition(getViewport().getWorldWidth()/2+30, getViewport().getWorldHeight()/2-csanyLogo.getHeight()/2);
         cehesstegLogo.setPosition(getViewport().getWorldWidth()/2-cehesstegLogo.getWidth()/2,getViewport().getWorldHeight()/2-cehesstegLogo.getHeight()/2);
         copyright.setPosition(getViewport().getWorldWidth()/2-copyright.getWidth()/2, 20);
     }

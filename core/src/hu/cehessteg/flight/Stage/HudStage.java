@@ -2,16 +2,21 @@ package hu.cehessteg.flight.Stage;
 
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
+import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
 import com.badlogic.gdx.scenes.scene2d.utils.DragListener;
+import com.badlogic.gdx.utils.Align;
 
+import hu.cehessteg.flight.Actor.Bomb;
 import hu.cehessteg.flight.Actor.Coin;
 import hu.cehessteg.flight.FlightGame;
 import hu.csanyzeg.master.MyBaseClasses.Assets.AssetList;
 import hu.csanyzeg.master.MyBaseClasses.Game.MyGame;
+import hu.csanyzeg.master.MyBaseClasses.Scene2D.MyGroup;
 import hu.csanyzeg.master.MyBaseClasses.Scene2D.MyStage;
 import hu.csanyzeg.master.MyBaseClasses.Scene2D.OneSpriteStaticActor;
 import hu.csanyzeg.master.MyBaseClasses.Scene2D.ResponseViewport;
+import hu.csanyzeg.master.MyBaseClasses.UI.MyLabel;
 
 import static hu.cehessteg.flight.Stage.GameOverStage.BLANK_TEXTURE;
 import static hu.cehessteg.flight.Stage.MenuStage.EXIT_RING;
@@ -35,6 +40,7 @@ public class HudStage extends MyStage {
     private float pElapsed;
 
     private Coin coin;
+    private MyGroup bombGroup;
 
     public HudStage(MyGame game) {
         super(new ResponseViewport(900), game);
@@ -64,6 +70,51 @@ public class HudStage extends MyStage {
         if(game instanceof FlightGame){
             if(((FlightGame) game).getPlaneLevel() >= 5) increment = 0;
         }
+        setBombGroup();
+    }
+
+    private Bomb bomb;
+    public static int remainingBombs;
+
+    private void setBombGroup(){
+        if(game != null) {
+            if (game instanceof FlightGame) {
+                if (((FlightGame) game).getPlaneLevel() >= 6) {
+                    bombGroup = new MyGroup(game);
+                    bombGroup.addActor(bomb = new Bomb(game, null, null) {
+                        @Override
+                        public void init() {
+                            super.init();
+                            setRotation(0);
+                            setSize(getWidth() * 0.3f, getHeight() * 0.3f);
+                        }
+                    });
+                    bombGroup.addActor(new MyLabel(game, "UNDEFINED", new Label.LabelStyle(game.getMyAssetManager().getFont(trebuc), Color.WHITE)) {
+                        @Override
+                        public void init() {
+                            setFontScale(0.3f);
+                            setAlignment(Align.bottomLeft);
+                            setPosition(bomb.getX() + bomb.getWidth() + 5, bomb.getY() + bomb.getHeight() / 8);
+                        }
+
+                        @Override
+                        public void act(float delta) {
+                            super.act(delta);
+                            if (game != null) {
+                                if (game instanceof FlightGame) {
+                                    if (((FlightGame) game).getPlaneLevel() == 10 && !getText().equals("Végtelen")) {
+                                        setText("Végtelen");
+                                    } else {
+                                        setText(remainingBombs);
+                                    }
+                                }
+                            }
+                        }
+                    });
+                }
+            }
+        }
+        else bombGroup = null;
     }
 
     private void addListeners()
@@ -128,6 +179,7 @@ public class HudStage extends MyStage {
         BombingController.setAlpha(0.05f);
 
         pause.setPosition(getViewport().getWorldWidth()-pause.getWidth(), getViewport().getWorldHeight()-pause.getHeight());
+        if(bombGroup != null) bombGroup.setPosition(0, getViewport().getWorldHeight()-50);
     }
 
     private void addActors()
@@ -137,6 +189,6 @@ public class HudStage extends MyStage {
         addActor(BombingController);
         addActor(pause);
         addActor(coin);
+        if(bombGroup != null) addActor(bombGroup);
     }
-
 }
