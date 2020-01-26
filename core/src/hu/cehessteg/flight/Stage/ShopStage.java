@@ -246,9 +246,9 @@ public class ShopStage extends MyStage {
     private float alpha = 0;
 
     private void fadeIn(){
-        if(alpha < 0.95) {
+        if(alpha < 0.98) {
+            alpha += 0.02;
             setAlphas();
-            alpha += 0.05;
         }
         else alpha = 1;
     }

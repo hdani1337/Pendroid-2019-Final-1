@@ -45,6 +45,7 @@ public class OptionsStage extends MyStage {
     private Arrow arrowRigth;
     private MyLabel difi;
     private MyLabel difiLabel;
+    private OneSpriteStaticActor blank;
     private OneSpriteStaticActor blankDif;
     private OneSpriteStaticActor blankBack;
     private OneSpriteStaticActor blankTitle;
@@ -74,6 +75,7 @@ public class OptionsStage extends MyStage {
         clouds = new ArrayList<>();
         for (int i = 0; i < 10; i++) clouds.add(new Cloud(game, getViewport()));
 
+        blank = new OneSpriteStaticActor(game, BLANK_TEXTURE);
         blankDif = new OneSpriteStaticActor(game, BLANK_TEXTURE);
         blankBack = new OneSpriteStaticActor(game, BLANK_TEXTURE);
         blankTitle = new OneSpriteStaticActor(game, BLANK_TEXTURE);
@@ -162,6 +164,7 @@ public class OptionsStage extends MyStage {
         blankDif.setSize(450,200);
         blankTitle.setSize(420,100);
         blankBack.setSize(400,90);
+        blank.setSize(getViewport().getWorldWidth(), getViewport().getWorldHeight());
 
         /**Positions**/
         blankDif.setPosition(getViewport().getWorldWidth() / 2 - blankDif.getWidth() * 1.5f, getViewport().getWorldHeight() / 2 - blankDif.getHeight() / 2);
@@ -171,11 +174,6 @@ public class OptionsStage extends MyStage {
         back.setPosition(20,20);
         blankTitle.setPosition(getViewport().getWorldWidth()/2-blankTitle.getWidth()/2,getViewport().getWorldHeight()-blankTitle.getHeight());
         title.setPosition(blankTitle.getX() + blankTitle.getWidth()/2 - title.getWidth()/2, blankTitle.getY() - 20);
-
-        /**Alphas**/
-        blankDif.setAlpha(0.5f);
-        blankBack.setAlpha(0.5f);
-        blankTitle.setAlpha(0.7f);
     }
 
     private void addListeners()
@@ -193,6 +191,8 @@ public class OptionsStage extends MyStage {
     {
         addActor(sky);
         for (Cloud c : clouds) addActor(c);
+        addActor(blank);
+        addActor(blankTitle);
         addActor(blankDif);
         addActor(arrowLeft);
         addActor(arrowRigth);
@@ -204,6 +204,31 @@ public class OptionsStage extends MyStage {
         addActor(title);
     }
 
+    private float alpha = 0;
+
+    private void fadeIn(){
+        if(alpha < 0.98) {
+            alpha += 0.02;
+            setAlphas();
+        }
+        else alpha = 1;
+    }
+
+    private void setAlphas()
+    {
+        blank.setAlpha(alpha * 0.4f);
+        blankDif.setAlpha(alpha/2);
+        blankBack.setAlpha(alpha/2);
+        blankTitle.setAlpha(alpha*0.7f);
+        arrowLeft.setAlpha(alpha);
+        arrowRigth.setAlpha(alpha);
+        difi.setColor(1,1,1,alpha);
+        difiLabel.setColor(difiLabel.getColor().r,difiLabel.getColor().g,difiLabel.getColor().b,alpha);
+        back.setColor(1,1,1,alpha);
+        title.setColor(1,1,1,alpha);
+    }
+
+
     @Override
     public void act(float delta) {
         super.act(delta);
@@ -213,5 +238,6 @@ public class OptionsStage extends MyStage {
                     game.getMyAssetManager().getMusic(WIND_SOUND).setPosition(0);
             }
         }
+        fadeIn();
     }
 }
