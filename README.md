@@ -25,3 +25,8 @@ Unlockolni lehet bizonyos dolgokat:
 -Level 9(500 Coin): Annál is baszóbb skin
 
 -Level 10(1000 Coin): Infintie bomba
+
+MenuStage hang:https://www.youtube.com/watch?v=co7KgV2edvI (5mp)
+GameStage hang:https://www.youtube.com/watch?v=GGU1P6lBW6Q&t=40s (30mp)
+Robbanas effect hang: https://www.youtube.com/watch?v=Q7KmAe8_jZE
+Lövés sound effect hang:
