@@ -38,7 +38,6 @@ public class Airplane extends OneSpriteStaticActor {
             if(game instanceof FlightGame)
                 level = ((FlightGame) game).getPlaneLevel();
 
-
         if(level >= 8)
             remainingBombs = 24;
         else if (level >= 6)

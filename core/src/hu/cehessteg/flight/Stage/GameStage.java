@@ -13,6 +13,7 @@ import hu.cehessteg.flight.Actor.Bullet;
 import hu.cehessteg.flight.Actor.Cloud;
 import hu.cehessteg.flight.Actor.Enemy;
 import hu.cehessteg.flight.Actor.Explosion;
+import hu.cehessteg.flight.Actor.Health;
 import hu.cehessteg.flight.Actor.Sky;
 import hu.cehessteg.flight.FlightGame;
 import hu.csanyzeg.master.MyBaseClasses.Assets.AssetList;
@@ -35,6 +36,7 @@ public class GameStage extends MyStage {
         assetList.collectAssetDescriptor(Bullet.class,assetList);
         assetList.collectAssetDescriptor(Explosion.class,assetList);
         assetList.collectAssetDescriptor(Bomb.class,assetList);
+        assetList.collectAssetDescriptor(Health.class,assetList);
         assetList.addFont(trebuc, trebuc, 30, Color.WHITE, AssetList.CHARS);
     }
 
@@ -48,8 +50,8 @@ public class GameStage extends MyStage {
     private ArrayList<Bullet> bullets;
     private ArrayList<Bomb> bombs;
     private ArrayList<Enemy> enemies;
-    private ArrayList<MyLabel> enemyHPs;
-    private MyLabel playerHP;
+    private ArrayList<Health> enemyHPs;
+    private Health playerHP;
 
     public GameStage(MyGame game) {
         super(new ResponseViewport(900), game);//Ha lesz Box2D, akkor 900 helyett mondjuk 9 lesz
@@ -79,36 +81,24 @@ public class GameStage extends MyStage {
     private void setHpLabels()
     {
         for (final Enemy enemy : enemies){
-            enemyHPs.add(new MyLabel(game, "UNDEFINED", new Label.LabelStyle(game.getMyAssetManager().getFont(trebuc), Color.WHITE)) {
-                @Override
-                public void init() {
-                    setAlignment(0);
-                    setFontScale(0.3f);
-                }
-
+            enemyHPs.add(new Health(game) {
                 @Override
                 public void act(float delta) {
                     super.act(delta);
-                setX(enemy.getX() + enemy.getWidth()/2 - this.getWidth()/2);
-                setY(enemy.getY() + enemy.getHeight()*0.4f);
-                setText(enemy.hp);
+                setX(enemy.getX() + enemy.getWidth()/2 - 100);
+                setY(enemy.getY() + enemy.getHeight()*0.9f);
+                setHealth(enemy.hp);
                 }
             });
         }
 
-        playerHP = new MyLabel(game, "UNDEFINED", new Label.LabelStyle(game.getMyAssetManager().getFont(trebuc), Color.WHITE)) {
-            @Override
-            public void init() {
-                setAlignment(0);
-                setFontScale(0.3f);
-            }
-
+        playerHP = new Health(game) {
             @Override
             public void act(float delta) {
                 super.act(delta);
-                setX(airplane.getX() + airplane.getWidth()/2 - this.getWidth()/2);
-                setY(airplane.getY() + airplane.getHeight()*0.4f);
-                setText(airplane.hp);
+                setX(airplane.getX() + airplane.getWidth()/2 - 100);
+                setY(airplane.getY() + airplane.getHeight()*0.9f);
+                setHealth(airplane.hp);
             }
         };
     }
@@ -135,7 +125,7 @@ public class GameStage extends MyStage {
         addActor(playerHP);
         playerHP.setZIndex(8);
         for (Enemy enemy : enemies) addActor(enemy);
-        for (MyLabel enemyHP : enemyHPs)addActor(enemyHP);
+        for (Health enemyHP : enemyHPs) addActor(enemyHP);
 
         addedExplosion = false;
     }
