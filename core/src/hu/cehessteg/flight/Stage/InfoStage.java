@@ -6,6 +6,7 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.utils.ClickListener;
+import com.badlogic.gdx.utils.Align;
 
 import java.util.ArrayList;
 
@@ -77,8 +78,9 @@ public class InfoStage extends MyStage {
     private OneSpriteStaticActor black;
     //----------------
 
-    //VISSZA
+    //VISSZA ÉS HÁTTERE
     private MyLabel back;
+    private OneSpriteStaticActor blackBack;
 
     public InfoStage(MyGame game) {
         super(new ResponseViewport(900),game);
@@ -101,6 +103,8 @@ public class InfoStage extends MyStage {
         dani = new OneSpriteStaticActor(game,DANI_KEP);
         david = new OneSpriteStaticActor(game,DAVID_KEP);
         logo = new OneSpriteStaticActor(game,LOGO);
+
+        blackBack = new OneSpriteStaticActor(game,BLANK_TEXTURE);
 
         zoliLabel = new MyLabel(game, "Miklós Zoltán", new Label.LabelStyle(game.getMyAssetManager().getFont(trebuc), Color.WHITE)) {
             @Override
@@ -156,7 +160,7 @@ public class InfoStage extends MyStage {
 
 
 
-        infoText = new MyLabel(game, "Az alkalmazás egy repülős játékot foglal magába, ahol le kell győzni az ellenséget!\nA repülőt bal oldalon lehet irányítani, a géppel lőni pedig jobb oldalon fent tudunk.\nBombázni is van lehetőség, azt pedig jobb oldalon alul tudjuk aktiválni!\nLehetőség van újítani a repülőt a Shop menüpont alatt!\nAz első szinten nincsen fegyver, így az ellenség kikerülésével tudunk érmét szerezni!", new Label.LabelStyle(game.getMyAssetManager().getFont(trebuc), Color.WHITE)) {
+        infoText = new MyLabel(game, "Az alkalmazás egy repülős játékot foglal magába, ahol le kell győzni az ellenséget!\nA repülőt bal oldalon lehet irányítani, a géppel lőni pedig jobb oldalon fent tudunk.\nBombázni is van lehetőség, azt pedig jobb oldalon alul tudjuk aktiválni!\nLehetőség van újítani a repülőt a Bolt menüpont alatt!\nAz első szinten nincsen fegyver, így az ellenség kikerülésével tudunk érmét szerezni!", new Label.LabelStyle(game.getMyAssetManager().getFont(trebuc), Color.WHITE)) {
             @Override
             public void init() {
                 setFontScale(0.33f);
@@ -187,8 +191,8 @@ public class InfoStage extends MyStage {
             @Override
             public void init() {
                 setFontScale(0.4f);
-                setAlignment(0);
-                setPosition(getViewport().getWorldWidth()/7-this.getWidth()/2, 15);
+                setAlignment(Align.bottomLeft);
+                setPosition(30, 20);
                 addListener(new ClickListener()
                 {
                     @Override
@@ -240,6 +244,8 @@ public class InfoStage extends MyStage {
         davidLabelTitle.setPosition((davidLabel.getX()+davidLabel.getWidth()/2)-davidLabelTitle.getWidth()/2,davidLabel.getY()-45);
 
         infoText.setPosition(getViewport().getWorldWidth()/2-infoText.getWidth()/2,getViewport().getWorldHeight()/2-infoText.getHeight()/1.5f);
+
+        blackBack.setSize(back.getWidth()*0.48f, back.getHeight()*0.65f);
     }
 
     void addActors()
@@ -266,6 +272,7 @@ public class InfoStage extends MyStage {
 
         addActor(infoText);
 
+        addActor(blackBack);
         addActor(back);
     }
 
@@ -305,6 +312,7 @@ public class InfoStage extends MyStage {
         back.setColor(1,1,1, alpha);
 
         black.setAlpha(alpha * 0.4f);
+        blackBack.setAlpha(alpha * 0.5f);
     }
 
     @Override
