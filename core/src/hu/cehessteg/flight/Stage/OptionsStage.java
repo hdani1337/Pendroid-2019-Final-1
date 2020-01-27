@@ -290,12 +290,16 @@ public class OptionsStage extends MyStage {
         blankTitle.setAlpha(alpha*0.7f);
         arrowLeft.setAlpha(alpha);
         arrowRigth.setAlpha(alpha);
+        arrowRigth2.setAlpha(alpha);
+        arrowRigth2.setAlpha(alpha);
+        demoAirplane.setAlpha(alpha);
         speaker.setAlpha(alpha);
         difi.setColor(1,1,1,alpha);
         difiLabel.setColor(difiLabel.getColor().r,difiLabel.getColor().g,difiLabel.getColor().b,alpha);
         back.setColor(1,1,1,alpha);
         muti.setColor(1,1,1,alpha);
         title.setColor(1,1,1,alpha);
+        skini.setColor(1,1,1,alpha);
     }
 
 
