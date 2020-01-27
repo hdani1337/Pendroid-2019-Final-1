@@ -261,8 +261,13 @@ public class OptionsStage extends MyStage {
         super.act(delta);
         if(game instanceof FlightGame) {
             if (!((FlightGame) game).isMuted()) {
+                if(!game.getMyAssetManager().getMusic(WIND_SOUND).isPlaying())
+                    game.getMyAssetManager().getMusic(WIND_SOUND).play();
                 if (game.getMyAssetManager().getMusic(WIND_SOUND).getPosition() >= 8.9)
                     game.getMyAssetManager().getMusic(WIND_SOUND).setPosition(0);
+            }
+            else{
+                game.getMyAssetManager().getMusic(WIND_SOUND).stop();
             }
         }
         fadeIn();
