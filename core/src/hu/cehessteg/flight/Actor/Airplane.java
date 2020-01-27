@@ -3,6 +3,7 @@ package hu.cehessteg.flight.Actor;
 import hu.cehessteg.flight.FlightGame;
 import hu.cehessteg.flight.Stage.GameStage;
 import hu.cehessteg.flight.Stage.HudStage;
+import hu.cehessteg.flight.Stage.OptionsStage;
 import hu.csanyzeg.master.MyBaseClasses.Assets.AssetList;
 import hu.csanyzeg.master.MyBaseClasses.Game.MyGame;
 import hu.csanyzeg.master.MyBaseClasses.Scene2D.OneSpriteStaticActor;
@@ -56,9 +57,35 @@ public class Airplane extends OneSpriteStaticActor {
                         sprite.setTexture(game.getMyAssetManager().getTexture(TERRAIN_TEXTURE));
                         break;
                     }
+
+                    case 3:{
+
+                    }
+
+                    case 4:{
+
+                    }
+
+                    case 5:{
+
+                    }
                 }
             }
         }
+    }
+
+    public void setTexture(int id){
+        switch (id){
+            case 1:{
+                sprite.setTexture(game.getMyAssetManager().getTexture(AIRPLANE_TEXTURE));
+                break;
+            }
+            case 2:{
+                sprite.setTexture(game.getMyAssetManager().getTexture(TERRAIN_TEXTURE));
+                break;
+            }
+        }
+
     }
 
     private void baseValues()
@@ -115,7 +142,11 @@ public class Airplane extends OneSpriteStaticActor {
     @Override
     public void act(float delta) {
         super.act(delta);
-        rotateBack();
+        if(getStage() != null) {
+            if (!(getStage() instanceof OptionsStage)) {
+                rotateBack();
+            }
+        }
     }
 
     public boolean isRotateBack;

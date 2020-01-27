@@ -13,11 +13,17 @@ public class Arrow extends OneSpriteStaticActor {
     private OptionsStage optionsStage;
     private String hash;
 
-    public Arrow(MyGame game, String hash, OptionsStage optionsStage) {
+    public enum ArrowModes{
+        DIFFICULTY, SKIN
+    }
+
+    ArrowModes arrowMode;
+
+    public Arrow(MyGame game, String hash, OptionsStage optionsStage, ArrowModes arrowMode) {
         super(game, hash);
         this.hash = hash;
         this.optionsStage = optionsStage;
-
+        this.arrowMode = arrowMode;
         addListener();
     }
 
@@ -29,15 +35,31 @@ public class Arrow extends OneSpriteStaticActor {
                 if(game != null) {
                     if (game instanceof FlightGame) {
                         if (hash.equals(OptionsStage.NYILBAL_TEXUTE)) {
-                            if(((FlightGame) game).getDifficulty() != 1) {
-                                ((FlightGame) game).setDifficulty(((FlightGame) game).getDifficulty() - 1);
+
+                            if(arrowMode == ArrowModes.DIFFICULTY) {
+                                if (((FlightGame) game).getDifficulty() != 1) {
+                                    ((FlightGame) game).setDifficulty(((FlightGame) game).getDifficulty() - 1);
+                                } else ((FlightGame) game).setDifficulty(1);
                             }
-                            else ((FlightGame) game).setDifficulty(1);
+                            else if(arrowMode == ArrowModes.SKIN){
+                                if(optionsStage.id != 1) optionsStage.id--;
+                                else optionsStage.id = 1;
+                                ((FlightGame) game).setSkinID(optionsStage.id);
+                            }
+
                         } else if (hash.equals(OptionsStage.NYILJOBB_TEXUTE)) {
-                            if(((FlightGame) game).getDifficulty() != 3) {
-                                ((FlightGame) game).setDifficulty(((FlightGame) game).getDifficulty() + 1);
+
+                            if (hash.equals(OptionsStage.NYILBAL_TEXUTE)) {
+                                if (((FlightGame) game).getDifficulty() != 3) {
+                                    ((FlightGame) game).setDifficulty(((FlightGame) game).getDifficulty() + 1);
+                                } else ((FlightGame) game).setDifficulty(3);
                             }
-                            else ((FlightGame) game).setDifficulty(3);
+
+                            else if(arrowMode == ArrowModes.SKIN){
+                                if(optionsStage.id != optionsStage.maxId) optionsStage.id++;
+                                else optionsStage.id = optionsStage.maxId;
+                                ((FlightGame) game).setSkinID(optionsStage.id);
+                            }
                         }
                     }
                 }

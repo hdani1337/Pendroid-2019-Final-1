@@ -8,6 +8,7 @@ import com.badlogic.gdx.utils.Align;
 
 import java.util.ArrayList;
 
+import hu.cehessteg.flight.Actor.Airplane;
 import hu.cehessteg.flight.Actor.Arrow;
 import hu.cehessteg.flight.Actor.Cloud;
 import hu.cehessteg.flight.Actor.Sky;
@@ -45,10 +46,14 @@ public class OptionsStage extends MyStage {
     private Sky sky;
     private Arrow arrowLeft;
     private Arrow arrowRigth;
+    private Arrow arrowLeft2;
+    private Arrow arrowRigth2;
     private MyLabel difi;
     private MyLabel muti;
+    private MyLabel skini;
     private MyLabel difiLabel;
     private OneSpriteStaticActor blank;
+    private OneSpriteStaticActor blankPlane;
     private OneSpriteStaticActor blankMute;
     private OneSpriteStaticActor blankDif;
     private OneSpriteStaticActor blankBack;
@@ -57,6 +62,10 @@ public class OptionsStage extends MyStage {
     private MyLabel back;
     private ArrayList<Cloud> clouds;
     private Speaker speaker;
+
+    private Airplane demoAirplane;
+    public int id;
+    public int maxId;
 
     public OptionsStage(MyGame game) {
         super(new ResponseViewport(900), game);
@@ -70,6 +79,13 @@ public class OptionsStage extends MyStage {
             if(!((FlightGame)game).isMuted()){
                 game.getMyAssetManager().getMusic(WIND_SOUND).play();
             }
+            id = ((FlightGame)game).getSkinID();
+
+            if(((FlightGame)game).getPlaneLevel() >= 9) maxId = 5;
+            else if(((FlightGame)game).getPlaneLevel() >= 7) maxId = 4;
+            else if(((FlightGame)game).getPlaneLevel() >= 4) maxId = 3;
+            else if(((FlightGame)game).getPlaneLevel() >= 3) maxId = 2;
+            else maxId = 1;
         }
     }
 
@@ -81,14 +97,19 @@ public class OptionsStage extends MyStage {
         for (int i = 0; i < 10; i++) clouds.add(new Cloud(game, getViewport()));
 
         blank = new OneSpriteStaticActor(game, BLANK_TEXTURE);
+        blankPlane = new OneSpriteStaticActor(game, BLANK_TEXTURE);
         blankMute = new OneSpriteStaticActor(game, BLANK_TEXTURE);
         blankDif = new OneSpriteStaticActor(game, BLANK_TEXTURE);
         blankBack = new OneSpriteStaticActor(game, BLANK_TEXTURE);
         blankTitle = new OneSpriteStaticActor(game, BLANK_TEXTURE);
-        arrowLeft = new Arrow(game, NYILBAL_TEXUTE, this);
-        arrowRigth = new Arrow(game, NYILJOBB_TEXUTE, this);
+        arrowLeft = new Arrow(game, NYILBAL_TEXUTE, this, Arrow.ArrowModes.DIFFICULTY);
+        arrowRigth = new Arrow(game, NYILJOBB_TEXUTE, this, Arrow.ArrowModes.DIFFICULTY);
+        arrowLeft2 = new Arrow(game, NYILBAL_TEXUTE, this, Arrow.ArrowModes.SKIN);
+        arrowRigth2 = new Arrow(game, NYILJOBB_TEXUTE, this, Arrow.ArrowModes.SKIN);
 
         speaker = new Speaker(game, this);
+
+        demoAirplane = new Airplane(game);
 
         back = new MyLabel(game,"Vissza a menübe", new Label.LabelStyle(game.getMyAssetManager().getFont(trebuc), Color.WHITE)) {
             @Override
@@ -116,6 +137,15 @@ public class OptionsStage extends MyStage {
         };
 
         muti = new MyLabel(game,"Némítás", new Label.LabelStyle(game.getMyAssetManager().getFont(trebuc), Color.WHITE)) {
+            @Override
+            public void init() {
+                setFontScale(0.4f);
+                setAlignment(0);
+                setTouchable(null);
+            }
+        };
+
+        skini = new MyLabel(game,"Kinézet", new Label.LabelStyle(game.getMyAssetManager().getFont(trebuc), Color.WHITE)) {
             @Override
             public void init() {
                 setFontScale(0.4f);
@@ -183,9 +213,11 @@ public class OptionsStage extends MyStage {
         blankTitle.setSize(420,100);
         blankBack.setSize(400,90);
         blank.setSize(getViewport().getWorldWidth(), getViewport().getWorldHeight());
+        demoAirplane.setSize(demoAirplane.getWidth()*0.2f, demoAirplane.getHeight()*0.2f);
+        blankPlane.setSize(demoAirplane.getWidth() + 240, demoAirplane.getHeight() + 120);
 
         /**Positions**/
-        blankDif.setPosition(getViewport().getWorldWidth() / 2 - blankDif.getWidth() - 35, getViewport().getWorldHeight() * 0.62f);
+        blankDif.setPosition(getViewport().getWorldWidth() / 2 - blankDif.getWidth() - 35, getViewport().getWorldHeight() * 0.575f);
         blankMute.setPosition(getViewport().getWorldWidth()/2 + 35, blankDif.getY());
         arrowLeft.setPosition(blankDif.getX() + 25,blankDif.getY() + 25);
         arrowRigth.setPosition(blankDif.getX() + blankDif.getWidth() - 25 - arrowRigth.getWidth(),arrowLeft.getY());
@@ -195,6 +227,11 @@ public class OptionsStage extends MyStage {
         back.setPosition(20,20);
         blankTitle.setPosition(getViewport().getWorldWidth()/2-blankTitle.getWidth()/2,getViewport().getWorldHeight()-blankTitle.getHeight());
         title.setPosition(blankTitle.getX() + blankTitle.getWidth()/2 - title.getWidth()/2, blankTitle.getY() - 20);
+        demoAirplane.setPosition(getViewport().getWorldWidth()/2-demoAirplane.getWidth()/2,getViewport().getWorldHeight()*0.25f);
+        blankPlane.setPosition(demoAirplane.getX() - 120, demoAirplane.getY() - 30);
+        arrowLeft2.setPosition(blankPlane.getX() + 25,demoAirplane.getY()+demoAirplane.getHeight()/2-arrowLeft2.getHeight()/2);
+        arrowRigth2.setPosition(blankPlane.getX() + blankPlane.getWidth() - 25 - arrowRigth2.getWidth(),arrowLeft2.getY());
+        skini.setPosition(blankPlane.getX() + blankPlane.getWidth()/2-skini.getWidth()/2, blankPlane.getY()+blankPlane.getHeight()-skini.getHeight()*0.85f);
     }
 
     private void addListeners()
@@ -226,6 +263,11 @@ public class OptionsStage extends MyStage {
         addActor(title);
         addActor(speaker);
         addActor(muti);
+        addActor(blankPlane);
+        addActor(demoAirplane);
+        addActor(arrowLeft2);
+        addActor(arrowRigth2);
+        addActor(skini);
     }
 
     private float alpha = 0;
@@ -244,6 +286,7 @@ public class OptionsStage extends MyStage {
         blankDif.setAlpha(alpha/2);
         blankMute.setAlpha(alpha/2);
         blankBack.setAlpha(alpha/2);
+        blankPlane.setAlpha(alpha/2);
         blankTitle.setAlpha(alpha*0.7f);
         arrowLeft.setAlpha(alpha);
         arrowRigth.setAlpha(alpha);
@@ -270,6 +313,7 @@ public class OptionsStage extends MyStage {
                 game.getMyAssetManager().getMusic(WIND_SOUND).stop();
             }
         }
+        demoAirplane.setTexture(id);
         fadeIn();
     }
 }
