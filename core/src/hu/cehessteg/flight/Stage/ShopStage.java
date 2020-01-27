@@ -169,7 +169,7 @@ public class ShopStage extends MyStage {
             public void init() {
                 super.init();
                 setSize(getWidth()*0.8f, getHeight()*0.8f);
-                setPosition(getViewport().getWorldWidth()*0.65f, getViewport().getWorldHeight()/2-this.getHeight()*0.55f);
+                setPosition(getViewport().getWorldWidth()*0.65f, getViewport().getWorldHeight()/2-this.getHeight()*0.6f);
             }
         };
 

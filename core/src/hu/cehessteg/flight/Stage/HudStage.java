@@ -37,6 +37,7 @@ public class HudStage extends MyStage {
     OneSpriteStaticActor pause;
 
     public static float planeY;
+    public static boolean isRotateBack;
     private float pElapsed;
 
     private Coin coin;
@@ -125,6 +126,19 @@ public class HudStage extends MyStage {
             public void drag(InputEvent event, float x, float y, int pointer) {
                 super.drag(event, x, y, pointer);
                 planeY = y;
+                isRotateBack = false;
+            }
+
+            @Override
+            public void dragStop(InputEvent event, float x, float y, int pointer) {
+                super.dragStop(event, x, y, pointer);
+                isRotateBack = true;
+            }
+
+            @Override
+            public void dragStart(InputEvent event, float x, float y, int pointer) {
+                super.dragStart(event, x, y, pointer);
+                isRotateBack = false;
             }
         });
 

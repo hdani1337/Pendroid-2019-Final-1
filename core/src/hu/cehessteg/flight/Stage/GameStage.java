@@ -264,6 +264,8 @@ public class GameStage extends MyStage {
             airplane.setRotation(((airplane.getY() / getViewport().getWorldHeight()) - 0.5f) * 90);
             prevY = HudStage.planeY;
         }
+
+        airplane.setRotateBack(HudStage.isRotateBack);
     }
 
     private void playerShoot()

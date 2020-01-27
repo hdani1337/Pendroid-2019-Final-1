@@ -87,12 +87,23 @@ public class Airplane extends OneSpriteStaticActor {
         rotateBack();
     }
 
+    public boolean isRotateBack;
+
     private void rotateBack()
     {
-        if(getRotation() < -2 || getRotation() > 2)
-        {
-            if(getRotation() > 2) setRotation(getRotation() - 2);
-            else if (getRotation() < 2) setRotation(getRotation() + 2);
+        if(isRotateBack) {
+            if (getRotation() < -2 || getRotation() > 2) {
+                if (getRotation() > 2) setRotation(getRotation() - 2);
+                else if (getRotation() < 2) setRotation(getRotation() + 2);
+            }
+            else {
+                setRotation(0);
+                isRotateBack = false;
+            }
         }
+    }
+
+    public void setRotateBack(boolean rotateBack) {
+        isRotateBack = rotateBack;
     }
 }
