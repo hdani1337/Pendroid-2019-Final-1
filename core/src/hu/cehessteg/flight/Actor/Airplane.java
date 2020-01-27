@@ -6,15 +6,19 @@ import hu.cehessteg.flight.Stage.HudStage;
 import hu.csanyzeg.master.MyBaseClasses.Assets.AssetList;
 import hu.csanyzeg.master.MyBaseClasses.Game.MyGame;
 import hu.csanyzeg.master.MyBaseClasses.Scene2D.OneSpriteStaticActor;
+import hu.csanyzeg.master.MyBaseClasses.SimpleWorld.MyCircle;
+import hu.csanyzeg.master.MyBaseClasses.SimpleWorld.MyRectangle;
 
 public class Airplane extends OneSpriteStaticActor {
 
     public static final String AIRPLANE_TEXTURE = "planes/vadaszgep.png";
+    public static final String TERRAIN_TEXTURE = "planes/vadaszgep_terep.png";
 
     public static AssetList assetList = new AssetList();
     static
     {
         assetList.addTexture(AIRPLANE_TEXTURE);
+        assetList.addTexture(TERRAIN_TEXTURE);
     }
 
     public byte hp;//Életerő
@@ -22,12 +26,39 @@ public class Airplane extends OneSpriteStaticActor {
     public int level;
     public int remainingBombs;
     private static MyGame game;
+    private MyRectangle myRectangle;
 
     public Airplane(MyGame game) {
         super(game, AIRPLANE_TEXTURE);
         this.game = game;
-        addBaseCollisionRectangleShape();
+        setHitbox();
         baseValues();
+        setTexture();
+    }
+
+    private void setHitbox(){
+        myRectangle = new MyRectangle(1450,150);
+        myRectangle.setOffsetX(300);
+        myRectangle.setOffsetY(175);
+        addCollisionShape("hitbox", myRectangle);
+    }
+
+    private void setTexture(){
+        if(game!=null){
+            if(game instanceof FlightGame){
+                switch (((FlightGame)game).getSkinID()){
+                    case 1:{
+                        sprite.setTexture(game.getMyAssetManager().getTexture(AIRPLANE_TEXTURE));
+                        break;
+                    }
+
+                    case 2:{
+                        sprite.setTexture(game.getMyAssetManager().getTexture(TERRAIN_TEXTURE));
+                        break;
+                    }
+                }
+            }
+        }
     }
 
     private void baseValues()

@@ -15,6 +15,7 @@ public class FlightGame extends MyGame{
 
 	public long penz;
 	public int difficulty;
+	public int skinID;
 	public boolean muted;
 	public Preferences gameSave;
 
@@ -33,12 +34,14 @@ public class FlightGame extends MyGame{
 			gameSave.putLong("coins", 0);
 			gameSave.putBoolean("muted", false);
 			gameSave.putInteger("planeLevel", 1);
+			gameSave.putInteger("skinID", 1);
 			gameSave.putInteger("difficulty", 1);
 			gameSave.flush();
 		}
 
 		penz = gameSave.getLong("coins");
 		difficulty = gameSave.getInteger("difficulty");
+		skinID = gameSave.getInteger("skinID");
 		muted = gameSave.getBoolean("muted");
 
 	}
@@ -49,6 +52,16 @@ public class FlightGame extends MyGame{
 
 	public void setPenz(long penz) {
 		this.penz = penz;
+	}
+
+	public int getSkinID() {
+		return skinID;
+	}
+
+	public void setSkinID(int skinID) {
+		this.skinID = skinID;
+		gameSave.putInteger("skinID", skinID);
+		gameSave.flush();
 	}
 
 	public int getDifficulty() {

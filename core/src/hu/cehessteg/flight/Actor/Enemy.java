@@ -7,6 +7,8 @@ import hu.cehessteg.flight.FlightGame;
 import hu.csanyzeg.master.MyBaseClasses.Assets.AssetList;
 import hu.csanyzeg.master.MyBaseClasses.Game.MyGame;
 import hu.csanyzeg.master.MyBaseClasses.Scene2D.OneSpriteStaticActor;
+import hu.csanyzeg.master.MyBaseClasses.SimpleWorld.MyCircle;
+import hu.csanyzeg.master.MyBaseClasses.SimpleWorld.MyRectangle;
 
 import static hu.cehessteg.flight.Stage.GameStage.isAct;
 
@@ -22,6 +24,7 @@ public class Enemy extends OneSpriteStaticActor {
 
     private Viewport viewport;
     public byte hp;
+    private MyRectangle myRectangle;
 
     public Enemy(MyGame game, Viewport viewport) {
         super(game, ENEMY_TEXTURE);
@@ -29,7 +32,14 @@ public class Enemy extends OneSpriteStaticActor {
         this.setZIndex(2);
         this.setColor(Color.RED);
         this.hp = 100;
-        addBaseCollisionRectangleShape();
+        setHitbox();
+    }
+
+    private void setHitbox(){
+        myRectangle = new MyRectangle(1500,150);
+        myRectangle.setOffsetX(400);
+        myRectangle.setOffsetY(175);
+        addCollisionShape("hitbox", myRectangle);
     }
 
     @Override
