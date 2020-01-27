@@ -6,6 +6,11 @@ import hu.csanyzeg.master.MyBaseClasses.Game.MyGame;
 import hu.csanyzeg.master.MyBaseClasses.Scene2D.MyScreen;
 
 public class InfoScreen extends MyScreen {
+    public static AssetList assetList = new AssetList();
+    static {
+        AssetList.collectAssetDescriptor(InfoStage.class, assetList);
+    }
+
     public InfoScreen(MyGame game) {
         super(game);
     }
@@ -17,8 +22,7 @@ public class InfoScreen extends MyScreen {
 
     @Override
     public AssetList getAssetList() {
-        AssetList assetList = new AssetList();
-        assetList.collectAssetDescriptor(InfoStage.class, assetList);
+
         return assetList;
     }
 
