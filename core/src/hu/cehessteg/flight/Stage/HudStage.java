@@ -49,7 +49,6 @@ public class HudStage extends MyStage {
         setSizesAndPositions();
         addListeners();
         addActors();
-        //addBackButtonScreenBackByStackPopListener();
         planeY = getViewport().getWorldHeight()/2;
         pElapsed = elapsedTime;
 

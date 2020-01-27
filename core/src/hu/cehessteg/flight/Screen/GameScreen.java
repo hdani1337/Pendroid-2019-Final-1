@@ -13,6 +13,14 @@ public class GameScreen extends MyScreen {
         super(game);
     }
 
+    public static AssetList assetList = new AssetList();
+    static {
+        AssetList.collectAssetDescriptor(GameStage.class, assetList);
+        AssetList.collectAssetDescriptor(HudStage.class, assetList);
+        AssetList.collectAssetDescriptor(PauseStage.class, assetList);
+        AssetList.collectAssetDescriptor(GameOverStage.class,assetList);
+    }
+
     @Override
     protected void afterAssetsLoaded() {
         addStage(new GameStage(game),1,false);
@@ -23,11 +31,6 @@ public class GameScreen extends MyScreen {
 
     @Override
     public AssetList getAssetList() {
-        AssetList assetList = new AssetList();
-        assetList.collectAssetDescriptor(GameStage.class, assetList);
-        assetList.collectAssetDescriptor(HudStage.class, assetList);
-        assetList.collectAssetDescriptor(PauseStage.class, assetList);
-        assetList.collectAssetDescriptor(GameOverStage.class,assetList);
         return assetList;
     }
 

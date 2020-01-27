@@ -61,7 +61,7 @@ public class GameOverStage extends MyStage {
                         super.clicked(event, x, y);
                         if(getScreen() != null)
                             if(getScreen() instanceof GameScreen)
-                                game.setScreen(new GameScreen(game), false);
+                                game.setScreenWithPreloadAssets(GameScreen.class, new MyPreLoadingStage(game));
 
                         if(game instanceof FlightGame)
                             ((FlightGame) game).saveCoins();
@@ -85,7 +85,7 @@ public class GameOverStage extends MyStage {
                         super.clicked(event, x, y);
                         if(game instanceof FlightGame)
                             ((FlightGame) game).saveCoins();
-                        game.setScreenBackByStackPop();
+                        game.setScreenBackByStackPopWithPreloadAssets(new MyPreLoadingStage(game));
                     }
                 });
             }
@@ -95,7 +95,7 @@ public class GameOverStage extends MyStage {
         black.setAlpha(0);
         black.setSize(getViewport().getWorldWidth(),getViewport().getWorldHeight());
 
-        addBackButtonScreenBackByStackPopListener();
+        addBackButtonScreenBackByStackPopListenerWithPreloadedAssets(new MyPreLoadingStage(game));
     }
 
     private boolean addedActors;

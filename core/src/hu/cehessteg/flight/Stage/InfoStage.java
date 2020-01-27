@@ -194,7 +194,7 @@ public class InfoStage extends MyStage {
                     @Override
                     public void clicked(InputEvent event, float x, float y) {
                         super.clicked(event, x, y);
-                        game.setScreenBackByStackPop();
+                        game.setScreenBackByStackPopWithPreloadAssets(new MyPreLoadingStage(game));
                     }
                 });
             }
@@ -240,17 +240,10 @@ public class InfoStage extends MyStage {
         davidLabelTitle.setPosition((davidLabel.getX()+davidLabel.getWidth()/2)-davidLabelTitle.getWidth()/2,davidLabel.getY()-45);
 
         infoText.setPosition(getViewport().getWorldWidth()/2-infoText.getWidth()/2,getViewport().getWorldHeight()/2-infoText.getHeight()/1.5f);
-
-
-
     }
-
-
 
     void addActors()
     {
-
-
         addActor(sky);
         for (int i = 0; i < clouds.size(); i++) addActor(clouds.get(i));
         addActor(black);

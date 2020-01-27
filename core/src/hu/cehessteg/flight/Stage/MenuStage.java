@@ -101,7 +101,7 @@ public class MenuStage extends MyStage {
                     @Override
                     public void clicked(InputEvent event,float x,float y){
                         super.clicked(event,x,y);
-                        game.setScreen(new GameScreen(game));
+                        game.setScreenWithPreloadAssets(GameScreen.class, new MyPreLoadingStage(game));
                     }
 
                 });
@@ -115,7 +115,7 @@ public class MenuStage extends MyStage {
                     @Override
                     public void clicked(InputEvent event,float x,float y){
                         super.clicked(event,x,y);
-                        game.setScreen(new ShopScreen(game));
+                        game.setScreenWithPreloadAssets(ShopScreen.class, new MyPreLoadingStage(game));
                     }
 
                 });
@@ -129,7 +129,7 @@ public class MenuStage extends MyStage {
                     @Override
                     public void clicked(InputEvent event,float x,float y){
                         super.clicked(event,x,y);
-                        game.setScreenWithPreloadAssets(InfoScreen.class, new MyPreLoadingStage(game, false));
+                        game.setScreenWithPreloadAssets(InfoScreen.class, new MyPreLoadingStage(game));
                     }
 
                 });
@@ -156,7 +156,7 @@ public class MenuStage extends MyStage {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 super.clicked(event, x, y);
-                game.setScreen(new OptionsScreen(game));
+                game.setScreenWithPreloadAssets(OptionsScreen.class, new MyPreLoadingStage(game));
             }
         });
     }

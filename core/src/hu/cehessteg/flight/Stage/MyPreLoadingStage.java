@@ -16,16 +16,11 @@ public class MyPreLoadingStage extends hu.csanyzeg.master.MyBaseClasses.Assets.L
     static
     {
         assetList = new AssetList();
-        assetList.addTexture(Sky.SKY_TEXTURE).protect = true;
         assetList.addTexture(CSAPAT_TEXTURE).protect = true;
     }
 
-    private boolean first;
-
-    public MyPreLoadingStage(MyGame game, boolean first) {
+    public MyPreLoadingStage(MyGame game) {
         super(new ResponseViewport(900), game);
-        this.first = first;
-
         addActor(new OneSpriteStaticActor(game, CSAPAT_TEXTURE) {
             @Override
             public void init() {
@@ -41,11 +36,6 @@ public class MyPreLoadingStage extends hu.csanyzeg.master.MyBaseClasses.Assets.L
         });
     }
 
-    public void setFirst(boolean first)
-    {
-        this.first = first;
-    }
-
     @Override
     public AssetList getAssetList() {
         return assetList;
@@ -54,17 +44,5 @@ public class MyPreLoadingStage extends hu.csanyzeg.master.MyBaseClasses.Assets.L
     @Override
     public void act(float delta) {
         super.act(delta);
-        if(first)
-        {
-            for (Actor actor : getActors()){
-                actor.setVisible(false);
-            }
-        }
-        else
-        {
-            for (Actor actor : getActors()){
-                actor.setVisible(true);
-            }
-        }
     }
 }

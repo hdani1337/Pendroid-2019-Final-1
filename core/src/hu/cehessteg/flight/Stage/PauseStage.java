@@ -93,7 +93,7 @@ public class PauseStage extends MyStage {
                 super.clicked(event, x, y);
                 if(game instanceof FlightGame)
                     ((FlightGame) game).saveCoins();
-                game.setScreenBackByStackPop();
+                game.setScreenBackByStackPopWithPreloadAssets(new MyPreLoadingStage(game));
             }
         });
     }
