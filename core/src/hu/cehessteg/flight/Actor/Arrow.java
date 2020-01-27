@@ -49,7 +49,7 @@ public class Arrow extends OneSpriteStaticActor {
 
                         } else if (hash.equals(OptionsStage.NYILJOBB_TEXUTE)) {
 
-                            if (hash.equals(OptionsStage.NYILBAL_TEXUTE)) {
+                            if(arrowMode == ArrowModes.DIFFICULTY) {
                                 if (((FlightGame) game).getDifficulty() != 3) {
                                     ((FlightGame) game).setDifficulty(((FlightGame) game).getDifficulty() + 1);
                                 } else ((FlightGame) game).setDifficulty(3);
