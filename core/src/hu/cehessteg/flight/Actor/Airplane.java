@@ -28,6 +28,8 @@ public class Airplane extends OneSpriteStaticActor {
     public int remainingBombs;
     private static MyGame game;
     private MyRectangle myRectangle;
+    private MyRectangle myRectangle2;
+    private MyRectangle myRectangle3;
 
     public Airplane(MyGame game) {
         super(game, AIRPLANE_TEXTURE);
@@ -41,7 +43,15 @@ public class Airplane extends OneSpriteStaticActor {
         myRectangle = new MyRectangle(1450,150);
         myRectangle.setOffsetX(300);
         myRectangle.setOffsetY(175);
+        myRectangle2 = new MyRectangle(400,120);
+        myRectangle2.setOffsetX(1200);
+        myRectangle2.setOffsetY(320);
+        myRectangle3 = new MyRectangle(650,75);
+        myRectangle3.setOffsetX(820);
+        myRectangle3.setOffsetY(90);
         addCollisionShape("hitbox", myRectangle);
+        addCollisionShape("hitbox2", myRectangle2);
+        addCollisionShape("hitbox3", myRectangle3);
     }
 
     private void setTexture(){
