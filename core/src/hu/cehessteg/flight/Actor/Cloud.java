@@ -40,6 +40,7 @@ public class Cloud extends OneSpriteStaticActor {
     @Override
     public void act(float delta) {
         super.act(delta);
+        //MELYIK STAGEN HOGYAN MOZOGJON
         if(getStage() != null){
             if(getStage() instanceof GameStage) {
                 if (isAct)

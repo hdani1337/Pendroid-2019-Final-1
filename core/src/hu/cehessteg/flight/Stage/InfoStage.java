@@ -98,14 +98,50 @@ public class InfoStage extends MyStage {
 
     void assignment()
     {
+        pictures();//KÉPEK
+        blackBack = new OneSpriteStaticActor(game,BLANK_TEXTURE);
+        names();//NEVEK
+        titles();//TITULUSOK
+
+        infoText = new MyLabel(game, "Az alkalmazás egy repülős játékot foglal magába, ahol le kell győzni az ellenséget!\nA repülőt bal oldalon lehet irányítani, a géppel lőni pedig jobb oldalon fent tudunk.\nBombázni is van lehetőség, azt pedig jobb oldalon alul tudjuk aktiválni!\nLehetőség van újítani a repülőt a Bolt menüpont alatt!\nAz első szinten nincsen fegyver, így az ellenség kikerülésével tudunk érmét szerezni!", new Label.LabelStyle(game.getMyAssetManager().getFont(trebuc), Color.WHITE)) {
+            @Override
+            public void init() {
+                setFontScale(0.33f);
+
+            }
+        };
+
+        background();//ÉGBOLT ÉS FELHŐK
+
+        back = new MyLabel(game, "Vissza a menübe", new Label.LabelStyle(game.getMyAssetManager().getFont(trebuc), Color.WHITE)) {
+            @Override
+            public void init() {
+                setFontScale(0.4f);
+                setAlignment(Align.bottomLeft);
+                setPosition(30, 20);
+                addListener(new ClickListener()
+                {
+                    @Override
+                    public void clicked(InputEvent event, float x, float y) {
+                        super.clicked(event, x, y);
+                        game.setScreenBackByStackPopWithPreloadAssets(new MyPreLoadingStage(game));
+                    }
+                });
+            }
+        };
+    }
+
+    void pictures()
+    {
         zoli = new OneSpriteStaticActor(game,ZOLI_KEP);
         bence = new OneSpriteStaticActor(game,BENCE_KEP);
         dani = new OneSpriteStaticActor(game,DANI_KEP);
         david = new OneSpriteStaticActor(game,DAVID_KEP);
         logo = new OneSpriteStaticActor(game,LOGO);
+    }
 
-        blackBack = new OneSpriteStaticActor(game,BLANK_TEXTURE);
-
+    void names()
+    {
         zoliLabel = new MyLabel(game, "Miklós Zoltán", new Label.LabelStyle(game.getMyAssetManager().getFont(trebuc), Color.WHITE)) {
             @Override
             public void init() {
@@ -131,8 +167,10 @@ public class InfoStage extends MyStage {
                 setFontScale(0.4f);
             }
         };
+    }
 
-
+    void titles()
+    {
         zoliLabelTitle = new MyLabel(game, "Szoftverfejlesztő", new Label.LabelStyle(game.getMyAssetManager().getFont(trebuc), Color.WHITE)) {
             @Override
             public void init() {
@@ -157,17 +195,10 @@ public class InfoStage extends MyStage {
                 setFontScale(0.4f);
             }
         };
+    }
 
-
-
-        infoText = new MyLabel(game, "Az alkalmazás egy repülős játékot foglal magába, ahol le kell győzni az ellenséget!\nA repülőt bal oldalon lehet irányítani, a géppel lőni pedig jobb oldalon fent tudunk.\nBombázni is van lehetőség, azt pedig jobb oldalon alul tudjuk aktiválni!\nLehetőség van újítani a repülőt a Bolt menüpont alatt!\nAz első szinten nincsen fegyver, így az ellenség kikerülésével tudunk érmét szerezni!", new Label.LabelStyle(game.getMyAssetManager().getFont(trebuc), Color.WHITE)) {
-            @Override
-            public void init() {
-                setFontScale(0.33f);
-
-            }
-        };
-
+    void background()
+    {
         clouds = new ArrayList<>();
         for (int i = 0; i < 18; i++) clouds.add(new Cloud(game, getViewport()));
 
@@ -184,23 +215,6 @@ public class InfoStage extends MyStage {
             public void init() {
                 super.init();
                 setSize(getViewport().getWorldWidth(), getViewport().getWorldHeight());
-            }
-        };
-
-        back = new MyLabel(game, "Vissza a menübe", new Label.LabelStyle(game.getMyAssetManager().getFont(trebuc), Color.WHITE)) {
-            @Override
-            public void init() {
-                setFontScale(0.4f);
-                setAlignment(Align.bottomLeft);
-                setPosition(30, 20);
-                addListener(new ClickListener()
-                {
-                    @Override
-                    public void clicked(InputEvent event, float x, float y) {
-                        super.clicked(event, x, y);
-                        game.setScreenBackByStackPopWithPreloadAssets(new MyPreLoadingStage(game));
-                    }
-                });
             }
         };
     }

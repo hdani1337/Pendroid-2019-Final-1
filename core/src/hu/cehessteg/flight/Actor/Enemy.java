@@ -24,6 +24,8 @@ public class Enemy extends OneSpriteStaticActor {
 
     private Viewport viewport;
     public byte hp;
+
+    //HITBOXOK
     private MyRectangle myRectangle;
     private MyRectangle myRectangle2;
     private MyRectangle myRectangle3;
@@ -41,12 +43,15 @@ public class Enemy extends OneSpriteStaticActor {
         myRectangle = new MyRectangle(1500,150);
         myRectangle.setOffsetX(430);
         myRectangle.setOffsetY(175);
+
         myRectangle2 = new MyRectangle(400,120);
         myRectangle2.setOffsetX(800);
         myRectangle2.setOffsetY(320);
+
         myRectangle3 = new MyRectangle(650,75);
         myRectangle3.setOffsetX(820);
         myRectangle3.setOffsetY(90);
+
         addCollisionShape("hitbox", myRectangle);
         addCollisionShape("hitbox2", myRectangle2);
         addCollisionShape("hitbox3", myRectangle3);

@@ -90,11 +90,6 @@ public class FlightGame extends MyGame{
 		gameSave.flush();
 	}
 
-	public Preferences getGameSave()
-	{
-		return gameSave;
-	}
-
 	public void resetSave(){
 		gameSave.putBoolean("boot", true);
 		gameSave.putLong("coins", 0);

@@ -45,41 +45,51 @@ public class OptionsStage extends MyStage {
         assetList.collectAssetDescriptor(Trash.class, assetList);
     }
 
-    private Sky sky;
+    //HÁTTEREK
+    private OneSpriteStaticActor blank;//STAGE
+    private OneSpriteStaticActor blankTrash;//KUKA
+    private OneSpriteStaticActor blankPlane;//REPCSI
+    private OneSpriteStaticActor blankMute;//NÉMÍTÁS
+    private OneSpriteStaticActor blankDif;//NEHÉZSÉG
+    private OneSpriteStaticActor blankBack;//VISSZA
+    private OneSpriteStaticActor blankTitle;//CÍM
+
+    //LABELEK
+    private MyLabel difi;//NEHÉZSÉGI FOKOZAT CÍM
+    private MyLabel muti;//NÉMÍTÁS CÍM
+    private MyLabel skini;//KINÉZET CÍM
+    private MyLabel trashi;//KUKA CÍM
+    private MyLabel difiLabel;//KIVÁLASZTOTT NEHÉZSÉGI FOKOZAT
+    private MyLabel title;//BEÁLLÍTÁSOK CÍM
+    private MyLabel back;//VISSZA
+
+    private Sky sky;//ÉGBOLT
+
+    //NEHÉZSÉGI FOKOZAT NYILAI
     private Arrow arrowLeft;
     private Arrow arrowRigth;
+
+    //KINÉZET NYILAI
     private Arrow arrowLeft2;
     private Arrow arrowRigth2;
-    private MyLabel difi;
-    private MyLabel muti;
-    private MyLabel skini;
-    private MyLabel trashi;
-    private MyLabel difiLabel;
-    private OneSpriteStaticActor blank;
-    private OneSpriteStaticActor blankTrash;
-    private OneSpriteStaticActor blankPlane;
-    private OneSpriteStaticActor blankMute;
-    private OneSpriteStaticActor blankDif;
-    private OneSpriteStaticActor blankBack;
-    private OneSpriteStaticActor blankTitle;
-    private MyLabel title;
-    private MyLabel back;
-    private ArrayList<Cloud> clouds;
-    private Speaker speaker;
-    private Trash trash;
 
-    private Airplane demoAirplane;
-    public int id;
-    public int maxId;
+    private ArrayList<Cloud> clouds;//FELHŐ
+    private Speaker speaker;//HANGSZÓRÓ
+    private Trash trash;//KUKA
+
+    private Airplane demoAirplane;//DEMO REPCSI
+    public int id;//KINÉZET ID-JA
+    public int maxId;//MAXIMIMUM VÁLASZTHATÓ ID
 
     public OptionsStage(MyGame game) {
         super(new ResponseViewport(900), game);
-        addBackButtonScreenBackByStackPopListener();
-        assignment();
-        setSizesAndPositions();
-        addListeners();
-        addActors();
+        addBackButtonScreenBackByStackPopListener();//VISSZA ÉS ESC GOMBNÁL VISSZALÉPÉS
+        assignment();//ÉRTÉKEK HOZZÁRENDELÉSE A VÁLTOZÓKHOZ
+        setSizesAndPositions();//MÉRETEK ÉS POZÍCIÓK BEÁLLÍTÁSA
+        addListeners();//LISTENEREK HOZZÁADÁSA
+        addActors();//ACTOROK HOZZÁADÁSA
 
+        //MAXIMUM VÁLASZTHATÓ ID MEGÁLLAPÍTÁSA
         if(game instanceof FlightGame){
             if(!((FlightGame)game).isMuted()){
                 game.getMyAssetManager().getMusic(WIND_SOUND).play();
@@ -268,30 +278,40 @@ public class OptionsStage extends MyStage {
 
     private void addActors()
     {
+        //ÉGBOLT ÉS FELHŐK
         addActor(sky);
         for (Cloud c : clouds) addActor(c);
+
+        //HÁTTEREK
         addActor(blank);
         addActor(blankMute);
         addActor(blankTitle);
         addActor(blankDif);
         addActor(blankTrash);
+        addActor(blankPlane);
+        addActor(blankTitle);
+
+        //NEHÉZSÉG NYILAK
         addActor(arrowLeft);
         addActor(arrowRigth);
+
+        //KINÉZET NYILAK
+        addActor(arrowLeft2);
+        addActor(arrowRigth2);
+
+        //LABELEK
         addActor(difi);
         addActor(difiLabel);
         addActor(blankBack);
         addActor(back);
-        addActor(blankTitle);
         addActor(title);
-        addActor(speaker);
-        addActor(muti);
-        addActor(blankPlane);
-        addActor(demoAirplane);
-        addActor(arrowLeft2);
-        addActor(arrowRigth2);
         addActor(skini);
         addActor(trashi);
-        addActor(trash);
+        addActor(muti);
+
+        addActor(speaker);//HANGSZÓRÓ
+        addActor(demoAirplane);//DEMOREPCSI
+        addActor(trash);//KUKA
     }
 
     private float alpha = 0;
@@ -306,6 +326,7 @@ public class OptionsStage extends MyStage {
 
     private void setAlphas()
     {
+        //HÁTTEREK
         blank.setAlpha(alpha * 0.4f);
         blankDif.setAlpha(alpha/2);
         blankMute.setAlpha(alpha/2);
@@ -313,12 +334,17 @@ public class OptionsStage extends MyStage {
         blankPlane.setAlpha(alpha/2);
         blankTrash.setAlpha(alpha/2);
         blankTitle.setAlpha(alpha*0.7f);
+
+        //NYILAK
         arrowLeft.setAlpha(alpha);
         arrowRigth.setAlpha(alpha);
         arrowRigth2.setAlpha(alpha);
         arrowRigth2.setAlpha(alpha);
-        demoAirplane.setAlpha(alpha);
-        speaker.setAlpha(alpha);
+
+        demoAirplane.setAlpha(alpha);//DEMOREPCSI
+        speaker.setAlpha(alpha);//HANGSZÓRÓ
+
+        //LABELEK
         difi.setColor(1,1,1,alpha);
         difiLabel.setColor(difiLabel.getColor().r,difiLabel.getColor().g,difiLabel.getColor().b,alpha);
         back.setColor(1,1,1,alpha);
@@ -332,6 +358,7 @@ public class OptionsStage extends MyStage {
     public void act(float delta) {
         super.act(delta);
         if(game instanceof FlightGame) {
+            //HA RÁKATTINTUNK A HANGSZÓRÓRA EGYBŐL INDULJON ÚJRA A HANG VAGY NÉMULJON EL
             if (!((FlightGame) game).isMuted()) {
                 if(!game.getMyAssetManager().getMusic(WIND_SOUND).isPlaying())
                     game.getMyAssetManager().getMusic(WIND_SOUND).play();
@@ -342,7 +369,7 @@ public class OptionsStage extends MyStage {
                 game.getMyAssetManager().getMusic(WIND_SOUND).stop();
             }
         }
-        demoAirplane.setTexture(id);
-        fadeIn();
+        demoAirplane.setTexture(id);//REPÜLŐ KINÉZETÉNEK BEÁLLÍTÁSA
+        fadeIn();//ÁTTŰNÉS
     }
 }

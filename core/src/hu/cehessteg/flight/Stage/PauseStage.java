@@ -123,11 +123,14 @@ public class PauseStage extends MyStage {
         super.act(delta);
 
         if (!isAct && !isDead){
+            //HA NEM MEGY A JÁTÉKMENEK ÉS NEM VESZTETT A JÁTÉKOS
             if(!addedActors){
+                //HA MÉG NEM ADTUK HOZZÁ AZ ACTOROKAT A STAGEHEZ AKKOR ADJUK HOZZÁ, TÖBBSZÖR NE
                 addActors();
                 addedActors = true;
             }
 
+            //ÁTTŰNÉSSEL BEJÖNNEK A GOMBOK
             if(alpha < 0.95)
             {
                 black.setAlpha(alpha * 0.4f);
@@ -139,6 +142,7 @@ public class PauseStage extends MyStage {
         }
         else
         {
+            //HA FOLYTATÓDIK A JÁTÉKMENET, AKKOR ÁTTŰNÉSSEL KIMENNEK A GOMBOK
             if(alpha > 0)
             {
                 black.setAlpha(alpha * 0.4f);
@@ -147,6 +151,7 @@ public class PauseStage extends MyStage {
                 text.setColor(1,1,1,alpha);
                 alpha -= 0.05;
             }else {
+                //HA KIMENTEK A GOMBOK EL IS TÁVOLÍTJUK ŐKET
                 alpha = 0;
                 black.remove();
                 resume.remove();

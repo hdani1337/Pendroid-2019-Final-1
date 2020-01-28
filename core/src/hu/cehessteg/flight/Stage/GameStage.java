@@ -42,21 +42,26 @@ public class GameStage extends MyStage {
         assetList.addFont(trebuc, trebuc, 30, Color.WHITE, AssetList.CHARS);
     }
 
-    private Airplane airplane;
-    private Sky sky;
+    private Airplane airplane;//REPCSI
+    private Sky sky;//ÉGBOLT
+
+    //STATIKUS VÁLTOZÓK
     public static boolean isAct;
     public static boolean isShoot;
     public static boolean isBomb;
     public static boolean isDead;
+
+    //LISTÁK, NEVEIK GONDOLOM EGYÉRTELMŰEK
     private ArrayList<Cloud> clouds;
     private ArrayList<Bullet> bullets;
     private ArrayList<Bomb> bombs;
     private ArrayList<Enemy> enemies;
     private ArrayList<Health> enemyHPs;
-    private Health playerHP;
+
+    private Health playerHP;//JÁTÉKOS ÉLETJELZŐ CSÍKJA
 
     public GameStage(MyGame game) {
-        super(new ResponseViewport(900), game);//Ha lesz Box2D, akkor 900 helyett mondjuk 9 lesz
+        super(new ResponseViewport(900), game);
         assignment();
         setSizesAndPositions();
         addActors();
@@ -73,16 +78,22 @@ public class GameStage extends MyStage {
         isAct = true;
         isShoot = false;
         isDead = false;
+
         sky = new Sky(game);
         airplane = new Airplane(game);
+
         clouds = new ArrayList<>();
         enemies = new ArrayList<>();
         enemyHPs = new ArrayList<>();
         bullets = new ArrayList<>();
         bombs = new ArrayList<>();
-        for (int i = 0; i < 18; i++) clouds.add(new Cloud(game, getViewport()));
+
+        for (int i = 0; i < 18; i++)
+            clouds.add(new Cloud(game, getViewport()));
+
         if(game instanceof FlightGame)
             for (int i = 0; i < ((FlightGame)game).getDifficulty()*2; i++) enemies.add(new Enemy(game, getViewport()));
+
         setHpLabels();
     }
 

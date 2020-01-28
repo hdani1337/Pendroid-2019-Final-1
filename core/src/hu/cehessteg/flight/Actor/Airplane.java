@@ -27,10 +27,11 @@ public class Airplane extends OneSpriteStaticActor {
     }
 
     public byte hp;//Életerő
-    public byte fuel;//Üzemanyag
-    public int level;
-    public int remainingBombs;
+    public int level;//Szint
+    public int remainingBombs;//Hátramaradó bombák száma
     private static MyGame game;
+
+    //HITBOXOK
     private MyRectangle myRectangle;
     private MyRectangle myRectangle2;
     private MyRectangle myRectangle3;
@@ -47,12 +48,15 @@ public class Airplane extends OneSpriteStaticActor {
         myRectangle = new MyRectangle(1450,150);
         myRectangle.setOffsetX(300);
         myRectangle.setOffsetY(175);
+
         myRectangle2 = new MyRectangle(400,120);
         myRectangle2.setOffsetX(1200);
         myRectangle2.setOffsetY(320);
+
         myRectangle3 = new MyRectangle(650,75);
         myRectangle3.setOffsetX(820);
         myRectangle3.setOffsetY(90);
+
         addCollisionShape("hitbox", myRectangle);
         addCollisionShape("hitbox2", myRectangle2);
         addCollisionShape("hitbox3", myRectangle3);
@@ -83,7 +87,7 @@ public class Airplane extends OneSpriteStaticActor {
                     }
 
                     case 5:{
-
+                        //IDE JÖN AZ UTOLSÓ SKIN
                     }
                 }
             }
@@ -115,7 +119,6 @@ public class Airplane extends OneSpriteStaticActor {
     private void baseValues()
     {
         hp = 100;
-        fuel = 100;
 
         if(game != null)
             if(game instanceof FlightGame)

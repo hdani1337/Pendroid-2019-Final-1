@@ -150,7 +150,6 @@ public class ShopStage extends MyStage {
                         @Override
                         public void clicked(InputEvent event, float x, float y) {
                             super.clicked(event, x, y);
-
                             if (((FlightGame) game).getPenz() >= (((FlightGame) game).getPlaneLevel()) * 25) { //pénz check
                                 ((FlightGame) game).setPenz(((FlightGame) game).getPenz() - (((FlightGame) game).getPlaneLevel()) * 25); // pénz levétel
                                 ((FlightGame) game).setPlaneLevel(((FlightGame) game).getPlaneLevel() + 1); // szint up
@@ -158,7 +157,6 @@ public class ShopStage extends MyStage {
                                 lvlcost.setText("Jelenlegi szint: " + ((FlightGame) game).getPlaneLevel() + "\nFejlesztés ára: " + (((FlightGame) game).getPlaneLevel()) * 25);
 
                             }
-
                         }
                     });
                 }
@@ -264,7 +262,7 @@ public class ShopStage extends MyStage {
         addActor(lvlcost);//KÖVETKEZŐ SZINT ÁRA
         addActor(arlista);//ÁRLISTA
         addActor(coin);//PÉNZKIJELZŐ
-        addActor(currentLevel);
+        addActor(currentLevel);//SZINTKIJELZŐ
     }
 
     private float alpha = 0;
@@ -279,12 +277,16 @@ public class ShopStage extends MyStage {
 
     private void setAlphas()
     {
+        //HÁTTEREK
         black.setAlpha(alpha * 0.4f);
         blackMenu.setAlpha(alpha/2);
         blackShopTitle.setAlpha(alpha/2);
         blackUp.setAlpha(alpha/2);
-        arlista.setAlpha(alpha);
-        coin.setAlpha(alpha);
+
+        arlista.setAlpha(alpha);//ÁRLISTA
+        coin.setAlpha(alpha);//PÉNZKIJELZŐ
+
+        //LABELEK
         shopTitle.setColor(1,1,1,alpha);
         text.setColor(1,1,1,alpha);
         lvlup.setColor(1,1,1,alpha);
