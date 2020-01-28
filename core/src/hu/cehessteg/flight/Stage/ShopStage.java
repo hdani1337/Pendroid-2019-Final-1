@@ -128,6 +128,7 @@ public class ShopStage extends MyStage {
                                     setPosition(getViewport().getWorldWidth()/2 - lvlcost.getWidth(), getViewport().getWorldHeight()/2-lvlcost.getHeight()/2);
                                     setText("Elérted a maximális szintet!");
                                     lvlup.setText("");
+                                    lvlup.setTouchable(null);
                                     blackUp.setAlpha(0);
                                 }
                             }

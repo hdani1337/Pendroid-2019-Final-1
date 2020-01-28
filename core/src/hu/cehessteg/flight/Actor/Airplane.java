@@ -14,12 +14,16 @@ public class Airplane extends OneSpriteStaticActor {
 
     public static final String AIRPLANE_TEXTURE = "planes/vadaszgep.png";
     public static final String TERRAIN_TEXTURE = "planes/vadaszgep_terep.png";
+    public static final String BLACKANDWHITE_TEXTURE = "planes/vadaszgep_szurke.png";
+    public static final String TIGER_TEXTURE = "planes/vadaszgep_tigris.png";
 
     public static AssetList assetList = new AssetList();
     static
     {
         assetList.addTexture(AIRPLANE_TEXTURE);
         assetList.addTexture(TERRAIN_TEXTURE);
+        assetList.addTexture(BLACKANDWHITE_TEXTURE);
+        assetList.addTexture(TIGER_TEXTURE);
     }
 
     public byte hp;//Életerő
@@ -69,11 +73,13 @@ public class Airplane extends OneSpriteStaticActor {
                     }
 
                     case 3:{
-
+                        sprite.setTexture(game.getMyAssetManager().getTexture(BLACKANDWHITE_TEXTURE));
+                        break;
                     }
 
                     case 4:{
-
+                        sprite.setTexture(game.getMyAssetManager().getTexture(TIGER_TEXTURE));
+                        break;
                     }
 
                     case 5:{
@@ -92,6 +98,14 @@ public class Airplane extends OneSpriteStaticActor {
             }
             case 2:{
                 sprite.setTexture(game.getMyAssetManager().getTexture(TERRAIN_TEXTURE));
+                break;
+            }
+            case 3:{
+                sprite.setTexture(game.getMyAssetManager().getTexture(BLACKANDWHITE_TEXTURE));
+                break;
+            }
+            case 4:{
+                sprite.setTexture(game.getMyAssetManager().getTexture(TIGER_TEXTURE));
                 break;
             }
         }
