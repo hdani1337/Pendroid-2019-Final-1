@@ -61,7 +61,7 @@ public class GameOverStage extends MyStage {
                         super.clicked(event, x, y);
                         if(getScreen() != null)
                             if(getScreen() instanceof GameScreen)
-                                game.setScreenWithPreloadAssets(GameScreen.class, new MyPreLoadingStage(game));
+                                game.setScreenWithPreloadAssets(GameScreen.class,false, new MyPreLoadingStage(game));
 
                         if(game instanceof FlightGame)
                             ((FlightGame) game).saveCoins();
