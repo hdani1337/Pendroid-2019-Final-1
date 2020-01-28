@@ -29,6 +29,7 @@ public class PauseStage extends MyStage {
 
     private MyLabel resume;
     private MyLabel menu;
+    private MyLabel text;
     private OneSpriteStaticActor black;
 
     public PauseStage(MyGame game) {
@@ -36,11 +37,19 @@ public class PauseStage extends MyStage {
         assignment();
         setPositions();
         addListeners();
-        addActors();
     }
 
     private void assignment()
     {
+        text = new MyLabel(game, "Megállítva", new Label.LabelStyle(game.getMyAssetManager().getFont(trebuc), Color.WHITE)) {
+            @Override
+            public void init() {
+                setAlignment(0);
+                setColor(1,1,1,0);
+                setPosition(getViewport().getWorldWidth()/2-this.getWidth()/2, getViewport().getWorldHeight()*0.6f);
+            }
+        };
+
         resume = new MyLabel(game,"Folytatás", new Label.LabelStyle(game.getMyAssetManager().getFont(trebuc), Color.WHITE)) {
             @Override
             public void init() {
@@ -73,8 +82,8 @@ public class PauseStage extends MyStage {
         black.setPosition(0,0);
         black.setSize(getViewport().getWorldWidth(), getViewport().getWorldHeight());
 
-        resume.setPosition(getViewport().getWorldWidth()/2-resume.getWidth()/2, getViewport().getWorldHeight()/2);
-        menu.setPosition(getViewport().getWorldWidth()/2-menu.getWidth()/2, resume.getY() - resume.getHeight()*1.5f);
+        resume.setPosition(getViewport().getWorldWidth()/2-resume.getWidth()/2, getViewport().getWorldHeight()*0.35f);
+        menu.setPosition(getViewport().getWorldWidth()/2-menu.getWidth()/2, getViewport().getWorldHeight()*0.2f);
     }
 
     private void addListeners()
@@ -101,6 +110,7 @@ public class PauseStage extends MyStage {
     private void addActors()
     {
         addActor(black);
+        addActor(text);
         addActor(resume);
         addActor(menu);
     }
@@ -114,9 +124,7 @@ public class PauseStage extends MyStage {
 
         if (!isAct && !isDead){
             if(!addedActors){
-                addActor(black);
-                addActor(resume);
-                addActor(menu);
+                addActors();
                 addedActors = true;
             }
 
@@ -125,6 +133,7 @@ public class PauseStage extends MyStage {
                 black.setAlpha(alpha * 0.4f);
                 resume.setColor(1,1,1,alpha);
                 menu.setColor(1,1,1,alpha);
+                text.setColor(1,1,1,alpha);
                 alpha += 0.05;
             }else alpha = 1;
         }
@@ -135,12 +144,14 @@ public class PauseStage extends MyStage {
                 black.setAlpha(alpha * 0.4f);
                 resume.setColor(1,1,1,alpha);
                 menu.setColor(1,1,1,alpha);
+                text.setColor(1,1,1,alpha);
                 alpha -= 0.05;
             }else {
                 alpha = 0;
                 black.remove();
                 resume.remove();
                 menu.remove();
+                text.remove();
                 addedActors = false;
             }
         }

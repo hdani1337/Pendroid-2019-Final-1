@@ -19,15 +19,17 @@ import hu.csanyzeg.master.MyBaseClasses.Scene2D.ResponseViewport;
 import hu.csanyzeg.master.MyBaseClasses.UI.MyLabel;
 
 import static hu.cehessteg.flight.Stage.GameOverStage.BLANK_TEXTURE;
-import static hu.cehessteg.flight.Stage.MenuStage.EXIT_RING;
 import static hu.cehessteg.flight.Stage.MenuStage.trebuc;
 
 public class HudStage extends MyStage {
+
+    public static final String PAUSE_TEXTURE = "menu/pause.png";
+
     public static AssetList assetList = new AssetList();
     static {
         assetList.addFont(trebuc, trebuc, 100, Color.WHITE, AssetList.CHARS);
         assetList.addTexture(BLANK_TEXTURE);
-        assetList.addTexture(EXIT_RING);
+        assetList.addTexture(PAUSE_TEXTURE);
         assetList.collectAssetDescriptor(Coin.class, assetList);
     }
 
@@ -65,7 +67,7 @@ public class HudStage extends MyStage {
         PositionController = new OneSpriteStaticActor(game, BLANK_TEXTURE);
         ShootingController = new OneSpriteStaticActor(game, BLANK_TEXTURE);
         BombingController = new OneSpriteStaticActor(game, BLANK_TEXTURE);
-        pause = new OneSpriteStaticActor(game, EXIT_RING);
+        pause = new OneSpriteStaticActor(game, PAUSE_TEXTURE);
         coin = new Coin(game);
         if(game instanceof FlightGame){
             if(((FlightGame) game).getPlaneLevel() >= 5) increment = 0;
