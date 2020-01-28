@@ -1,8 +1,5 @@
 package hu.cehessteg.flight.Stage;
 
-import com.badlogic.gdx.scenes.scene2d.Actor;
-
-import hu.cehessteg.flight.Actor.Sky;
 import hu.csanyzeg.master.MyBaseClasses.Assets.AssetList;
 import hu.csanyzeg.master.MyBaseClasses.Game.MyGame;
 import hu.csanyzeg.master.MyBaseClasses.Scene2D.OneSpriteStaticActor;

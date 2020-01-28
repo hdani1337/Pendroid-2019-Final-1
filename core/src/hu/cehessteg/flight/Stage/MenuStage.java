@@ -1,7 +1,6 @@
 package hu.cehessteg.flight.Stage;
 
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.scenes.scene2d.InputEvent;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
@@ -14,7 +13,6 @@ import hu.cehessteg.flight.Actor.Sky;
 import hu.cehessteg.flight.FlightGame;
 import hu.cehessteg.flight.Screen.GameScreen;
 import hu.cehessteg.flight.Screen.InfoScreen;
-import hu.cehessteg.flight.Screen.MenuScreen;
 import hu.cehessteg.flight.Screen.OptionsScreen;
 import hu.cehessteg.flight.Screen.ShopScreen;
 import hu.csanyzeg.master.MyBaseClasses.Assets.AssetList;

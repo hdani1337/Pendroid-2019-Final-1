@@ -7,7 +7,6 @@ import hu.cehessteg.flight.FlightGame;
 import hu.csanyzeg.master.MyBaseClasses.Assets.AssetList;
 import hu.csanyzeg.master.MyBaseClasses.Game.MyGame;
 import hu.csanyzeg.master.MyBaseClasses.Scene2D.OneSpriteStaticActor;
-import hu.csanyzeg.master.MyBaseClasses.SimpleWorld.MyCircle;
 import hu.csanyzeg.master.MyBaseClasses.SimpleWorld.MyRectangle;
 
 import static hu.cehessteg.flight.Stage.GameStage.isAct;

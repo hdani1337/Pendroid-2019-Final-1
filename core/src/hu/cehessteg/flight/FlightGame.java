@@ -4,8 +4,6 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Preferences;
 
 import hu.cehessteg.flight.Screen.IntroScreen;
-import hu.cehessteg.flight.Screen.MenuScreen;
-import hu.cehessteg.flight.Screen.ShopScreen;
 import hu.cehessteg.flight.Stage.MyLoadingStage;
 import hu.csanyzeg.master.MyBaseClasses.Game.MyGame;
 

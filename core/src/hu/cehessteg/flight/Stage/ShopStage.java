@@ -13,7 +13,6 @@ import hu.cehessteg.flight.Actor.Cloud;
 import hu.cehessteg.flight.Actor.Coin;
 import hu.cehessteg.flight.Actor.Sky;
 import hu.cehessteg.flight.FlightGame;
-import hu.cehessteg.flight.Screen.GameScreen;
 import hu.csanyzeg.master.MyBaseClasses.Assets.AssetList;
 import hu.csanyzeg.master.MyBaseClasses.Game.MyGame;
 import hu.csanyzeg.master.MyBaseClasses.Scene2D.MyStage;
@@ -21,7 +20,6 @@ import hu.csanyzeg.master.MyBaseClasses.Scene2D.OneSpriteStaticActor;
 import hu.csanyzeg.master.MyBaseClasses.Scene2D.ResponseViewport;
 import hu.csanyzeg.master.MyBaseClasses.UI.MyLabel;
 
-import static hu.cehessteg.flight.Stage.GameStage.isAct;
 import static hu.cehessteg.flight.Stage.MenuStage.trebuc;
 
 public class ShopStage extends MyStage {
