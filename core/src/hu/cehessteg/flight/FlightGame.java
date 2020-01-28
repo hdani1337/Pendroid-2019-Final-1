@@ -28,22 +28,11 @@ public class FlightGame extends MyGame{
 
 		gameSave = Gdx.app.getPreferences("FlightGameSave");
 
-		if(!gameSave.contains("boot"))//ha még nem volt elindítva
-		{
-			gameSave.putBoolean("boot", true);
-			gameSave.putLong("coins", 0);
-			gameSave.putBoolean("muted", false);
-			gameSave.putInteger("planeLevel", 1);
-			gameSave.putInteger("skinID", 1);
-			gameSave.putInteger("difficulty", 1);
-			gameSave.flush();
+		if(!gameSave.contains("boot")){//ha még nem volt elindítva
+			resetSave();
 		}
 
-		penz = gameSave.getLong("coins");
-		difficulty = gameSave.getInteger("difficulty");
-		skinID = gameSave.getInteger("skinID");
-		muted = gameSave.getBoolean("muted");
-
+		baseValues();
 	}
 
 	public long getPenz() {
@@ -103,5 +92,22 @@ public class FlightGame extends MyGame{
 	public Preferences getGameSave()
 	{
 		return gameSave;
+	}
+
+	public void resetSave(){
+		gameSave.putBoolean("boot", true);
+		gameSave.putLong("coins", 0);
+		gameSave.putBoolean("muted", false);
+		gameSave.putInteger("planeLevel", 1);
+		gameSave.putInteger("skinID", 1);
+		gameSave.putInteger("difficulty", 1);
+		gameSave.flush();
+	}
+
+	public void baseValues(){
+		penz = gameSave.getLong("coins");
+		difficulty = gameSave.getInteger("difficulty");
+		skinID = gameSave.getInteger("skinID");
+		muted = gameSave.getBoolean("muted");
 	}
 }

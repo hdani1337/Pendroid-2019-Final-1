@@ -33,7 +33,7 @@ public class Speaker extends OneSpriteStaticActor {
         System.out.println(((FlightGame) game).isMuted());
     }
 
-    private void setTexture()
+    public void setTexture()
     {
         if(game != null) {
             if (game instanceof FlightGame) {

@@ -13,6 +13,7 @@ import hu.cehessteg.flight.Actor.Arrow;
 import hu.cehessteg.flight.Actor.Cloud;
 import hu.cehessteg.flight.Actor.Sky;
 import hu.cehessteg.flight.Actor.Speaker;
+import hu.cehessteg.flight.Actor.Trash;
 import hu.cehessteg.flight.FlightGame;
 import hu.csanyzeg.master.MyBaseClasses.Assets.AssetList;
 import hu.csanyzeg.master.MyBaseClasses.Game.MyGame;
@@ -41,6 +42,7 @@ public class OptionsStage extends MyStage {
         assetList.collectAssetDescriptor(Sky.class, assetList);
         assetList.collectAssetDescriptor(Cloud.class, assetList);
         assetList.collectAssetDescriptor(Speaker.class, assetList);
+        assetList.collectAssetDescriptor(Trash.class, assetList);
     }
 
     private Sky sky;
@@ -51,8 +53,10 @@ public class OptionsStage extends MyStage {
     private MyLabel difi;
     private MyLabel muti;
     private MyLabel skini;
+    private MyLabel trashi;
     private MyLabel difiLabel;
     private OneSpriteStaticActor blank;
+    private OneSpriteStaticActor blankTrash;
     private OneSpriteStaticActor blankPlane;
     private OneSpriteStaticActor blankMute;
     private OneSpriteStaticActor blankDif;
@@ -62,6 +66,7 @@ public class OptionsStage extends MyStage {
     private MyLabel back;
     private ArrayList<Cloud> clouds;
     private Speaker speaker;
+    private Trash trash;
 
     private Airplane demoAirplane;
     public int id;
@@ -97,6 +102,7 @@ public class OptionsStage extends MyStage {
         for (int i = 0; i < 10; i++) clouds.add(new Cloud(game, getViewport()));
 
         blank = new OneSpriteStaticActor(game, BLANK_TEXTURE);
+        blankTrash = new OneSpriteStaticActor(game, BLANK_TEXTURE);
         blankPlane = new OneSpriteStaticActor(game, BLANK_TEXTURE);
         blankMute = new OneSpriteStaticActor(game, BLANK_TEXTURE);
         blankDif = new OneSpriteStaticActor(game, BLANK_TEXTURE);
@@ -108,6 +114,8 @@ public class OptionsStage extends MyStage {
         arrowRigth2 = new Arrow(game, NYILJOBB_TEXUTE, this, Arrow.ArrowModes.SKIN);
 
         speaker = new Speaker(game, this);
+
+        trash = new Trash(game, speaker);
 
         demoAirplane = new Airplane(game);
 
@@ -146,6 +154,15 @@ public class OptionsStage extends MyStage {
         };
 
         skini = new MyLabel(game,"Kinézet", new Label.LabelStyle(game.getMyAssetManager().getFont(trebuc), Color.WHITE)) {
+            @Override
+            public void init() {
+                setFontScale(0.4f);
+                setAlignment(0);
+                setTouchable(null);
+            }
+        };
+
+        trashi = new MyLabel(game,"Adatok törlése", new Label.LabelStyle(game.getMyAssetManager().getFont(trebuc), Color.WHITE)) {
             @Override
             public void init() {
                 setFontScale(0.4f);
@@ -212,6 +229,7 @@ public class OptionsStage extends MyStage {
         blankMute.setSize(400,200);
         blankTitle.setSize(420,100);
         blankBack.setSize(400,90);
+        blankTrash.setSize(400,175);
         blank.setSize(getViewport().getWorldWidth(), getViewport().getWorldHeight());
         demoAirplane.setSize(demoAirplane.getWidth()*0.2f, demoAirplane.getHeight()*0.2f);
         blankPlane.setSize(demoAirplane.getWidth() + 240, demoAirplane.getHeight() + 120);
@@ -227,11 +245,14 @@ public class OptionsStage extends MyStage {
         back.setPosition(20,20);
         blankTitle.setPosition(getViewport().getWorldWidth()/2-blankTitle.getWidth()/2,getViewport().getWorldHeight()-blankTitle.getHeight());
         title.setPosition(blankTitle.getX() + blankTitle.getWidth()/2 - title.getWidth()/2, blankTitle.getY() - 20);
-        demoAirplane.setPosition(getViewport().getWorldWidth()/2-demoAirplane.getWidth()/2,getViewport().getWorldHeight()*0.25f);
+        demoAirplane.setPosition(getViewport().getWorldWidth()/2-demoAirplane.getWidth()/2,getViewport().getWorldHeight()*0.26f);
         blankPlane.setPosition(demoAirplane.getX() - 120, demoAirplane.getY() - 30);
         arrowLeft2.setPosition(blankPlane.getX() + 25,demoAirplane.getY()+demoAirplane.getHeight()/2-arrowLeft2.getHeight()/2);
         arrowRigth2.setPosition(blankPlane.getX() + blankPlane.getWidth() - 25 - arrowRigth2.getWidth(),arrowLeft2.getY());
         skini.setPosition(blankPlane.getX() + blankPlane.getWidth()/2-skini.getWidth()/2, blankPlane.getY()+blankPlane.getHeight()-skini.getHeight()*0.85f);
+        blankTrash.setPosition(getViewport().getWorldWidth()/2-blankTrash.getWidth()/2,0);
+        trashi.setPosition(getViewport().getWorldWidth()/2-trashi.getWidth()/2, blankTrash.getY() + blankTrash.getHeight() - trashi.getHeight()*0.85f);
+        trash.setPosition(getViewport().getWorldWidth()/2-trash.getWidth()/2,blankTrash.getY()+10);
     }
 
     private void addListeners()
@@ -253,6 +274,7 @@ public class OptionsStage extends MyStage {
         addActor(blankMute);
         addActor(blankTitle);
         addActor(blankDif);
+        addActor(blankTrash);
         addActor(arrowLeft);
         addActor(arrowRigth);
         addActor(difi);
@@ -268,6 +290,8 @@ public class OptionsStage extends MyStage {
         addActor(arrowLeft2);
         addActor(arrowRigth2);
         addActor(skini);
+        addActor(trashi);
+        addActor(trash);
     }
 
     private float alpha = 0;
@@ -287,6 +311,7 @@ public class OptionsStage extends MyStage {
         blankMute.setAlpha(alpha/2);
         blankBack.setAlpha(alpha/2);
         blankPlane.setAlpha(alpha/2);
+        blankTrash.setAlpha(alpha/2);
         blankTitle.setAlpha(alpha*0.7f);
         arrowLeft.setAlpha(alpha);
         arrowRigth.setAlpha(alpha);
