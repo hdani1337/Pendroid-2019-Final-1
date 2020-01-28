@@ -8,6 +8,7 @@ import com.badlogic.gdx.utils.Align;
 
 import java.util.ArrayList;
 
+import hu.cehessteg.flight.Actor.Arrow;
 import hu.cehessteg.flight.Actor.Cloud;
 import hu.cehessteg.flight.Actor.Coin;
 import hu.cehessteg.flight.Actor.Sky;
@@ -58,6 +59,9 @@ public class ShopStage extends MyStage {
     //-----PÉNZKIJELZŐ-----
     Coin coin;
 
+    //-----SZINTJELZŐ-----
+    Arrow currentLevel;
+
     public ShopStage(MyGame game) {
         super(new ResponseViewport(900), game);
         background();
@@ -80,6 +84,8 @@ public class ShopStage extends MyStage {
 
     private void assignment(){
         coin = new Coin(game);
+
+        currentLevel = new Arrow(game, OptionsStage.NYILJOBB_TEXUTE, null, Arrow.ArrowModes.NULL);
 
         shopTitle = new MyLabel(game,"Bolt", new Label.LabelStyle(game.getMyAssetManager().getFont(trebuc), Color.WHITE)) {
             @Override
@@ -108,6 +114,27 @@ public class ShopStage extends MyStage {
                 setPosition(getViewport().getWorldWidth()*0.25f, getViewport().getWorldHeight()*0.44f);
                 setTouchable(null);
             }
+
+            @Override
+            public void act(float delta) {
+                super.act(delta);
+                if(game != null){
+                    if(game instanceof FlightGame){
+                        if((((FlightGame) game).getPlaneLevel()) == 10){
+                            if(getY() != getViewport().getWorldHeight()/2-this.getHeight()/2){
+                                if(getX() != getViewport().getWorldWidth()/2 - this.getWidth()){
+                                    setFontScale(0.45f);
+                                    setAlignment(0);
+                                    setPosition(getViewport().getWorldWidth()/2 - lvlcost.getWidth(), getViewport().getWorldHeight()/2-lvlcost.getHeight()/2);
+                                    setText("Elérted a maximális szintet!");
+                                    lvlup.setText("");
+                                    blackUp.setAlpha(0);
+                                }
+                            }
+                        }
+                    }
+                }
+            }
         };
 
         lvlup = new MyLabel(game, "Szint fejlesztése", new Label.LabelStyle(game.getMyAssetManager().getFont(trebuc), Color.WHITE)) {
@@ -133,13 +160,6 @@ public class ShopStage extends MyStage {
 
                         }
                     });
-                }
-                else {
-                    lvlcost.setText("Elérted a maximális szintet!");
-                    lvlcost.setFontScale(0.45f);
-                    lvlcost.setAlignment(0);
-                    lvlcost.setPosition(getViewport().getWorldWidth()/2 - lvlcost.getWidth(), getViewport().getWorldHeight()/2-lvlcost.getHeight()/2);
-                    setText("");
                 }
             }
         };
@@ -170,6 +190,8 @@ public class ShopStage extends MyStage {
                 super.init();
                 setSize(getWidth()*0.8f, getHeight()*0.8f);
                 setPosition(getViewport().getWorldWidth()*0.65f, getViewport().getWorldHeight()/2-this.getHeight()*0.6f);
+                currentLevel.setSize(currentLevel.getWidth()*0.7f, currentLevel.getHeight()*0.7f);
+                currentLevel.setX(this.getX() - currentLevel.getWidth()*0.55f);
             }
         };
 
@@ -241,6 +263,7 @@ public class ShopStage extends MyStage {
         addActor(lvlcost);//KÖVETKEZŐ SZINT ÁRA
         addActor(arlista);//ÁRLISTA
         addActor(coin);//PÉNZKIJELZŐ
+        addActor(currentLevel);
     }
 
     private float alpha = 0;
@@ -268,9 +291,20 @@ public class ShopStage extends MyStage {
         lvlcost.setColor(1,1,1,alpha);
     }
 
+    private void setCurrentLevelPosition(){
+        if(game != null){
+            if(game instanceof FlightGame){
+                if(currentLevel.getY() != arlista.getY() + arlista.getHeight() - 50 - (45*((FlightGame)game).getPlaneLevel())) {
+                    currentLevel.setY(arlista.getY() + arlista.getHeight() - 50 - (45 * ((FlightGame) game).getPlaneLevel()));
+                }
+            }
+        }
+    }
+
     @Override
     public void act(float delta) {
         super.act(delta);
         fadeIn();
+        setCurrentLevelPosition();
     }
 }
