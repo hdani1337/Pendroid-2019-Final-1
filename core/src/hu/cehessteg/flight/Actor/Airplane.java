@@ -7,7 +7,10 @@ import hu.cehessteg.flight.Stage.OptionsStage;
 import hu.csanyzeg.master.MyBaseClasses.Assets.AssetList;
 import hu.csanyzeg.master.MyBaseClasses.Game.MyGame;
 import hu.csanyzeg.master.MyBaseClasses.Scene2D.OneSpriteStaticActor;
+import hu.csanyzeg.master.MyBaseClasses.Scene2D.ResponseViewport;
 import hu.csanyzeg.master.MyBaseClasses.SimpleWorld.MyRectangle;
+
+import static hu.cehessteg.flight.Stage.GameStage.isAct;
 
 public class Airplane extends OneSpriteStaticActor {
 
@@ -25,9 +28,10 @@ public class Airplane extends OneSpriteStaticActor {
         assetList.addTexture(TIGER_TEXTURE);
     }
 
-    public byte hp;//Életerő
+    public int hp;//Életerő
     public int level;//Szint
     public int remainingBombs;//Hátramaradó bombák száma
+    public boolean friendly;
     private static MyGame game;
 
     //HITBOXOK
@@ -41,6 +45,7 @@ public class Airplane extends OneSpriteStaticActor {
         setHitbox();
         baseValues();
         setTexture();
+        setSize(getWidth()*0.2f, getHeight()*0.2f);
     }
 
     private void setHitbox(){
@@ -117,7 +122,7 @@ public class Airplane extends OneSpriteStaticActor {
 
     private void baseValues()
     {
-        hp = 100;
+        friendly = true;
 
         if(game != null)
             if(game instanceof FlightGame)
@@ -127,6 +132,8 @@ public class Airplane extends OneSpriteStaticActor {
             remainingBombs = 24;
         else if (level >= 6)
             remainingBombs = 12;
+
+        hp = 100 + (level-1)*15;
 
         HudStage.remainingBombs = this.remainingBombs;
     }
@@ -172,6 +179,9 @@ public class Airplane extends OneSpriteStaticActor {
             if (!(getStage() instanceof OptionsStage)) {
                 rotateBack();
             }
+            if(friendly){
+                friendlyMode();
+            }
         }
     }
 
@@ -193,5 +203,25 @@ public class Airplane extends OneSpriteStaticActor {
 
     public void setRotateBack(boolean rotateBack) {
         isRotateBack = rotateBack;
+    }
+
+    public void setFriendlyMode(boolean friendlyMode){
+        this.friendly = friendlyMode;
+        replace();
+    }
+
+    private void friendlyMode(){
+        if(isAct){
+            if(friendly) {
+                if (getX() <= new ResponseViewport(900).getWorldWidth()) {
+                    setX(getX() + 10);
+                } else replace();
+            }
+        }
+    }
+
+    public void replace(){
+        setX((float)(-1*new Random().nextInt(1200))-300-getWidth());
+        setY((float) (900-getHeight()-(new Random().nextInt(500))+150));
     }
 }

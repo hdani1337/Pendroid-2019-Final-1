@@ -61,6 +61,7 @@ public class GameStage extends MyStage {
     private ArrayList<Enemy> enemies;
     private ArrayList<Health> enemyHPs;
     private ArrayList<House> houses;
+    private ArrayList<Airplane> friends;
 
     private Health playerHP;//JÁTÉKOS ÉLETJELZŐ CSÍKJA
 
@@ -86,6 +87,7 @@ public class GameStage extends MyStage {
 
         sky = new Sky(game);
         airplane = new Airplane(game);
+        airplane.setFriendlyMode(false);
 
         clouds = new ArrayList<>();
         enemies = new ArrayList<>();
@@ -93,9 +95,16 @@ public class GameStage extends MyStage {
         bullets = new ArrayList<>();
         bombs = new ArrayList<>();
         houses = new ArrayList<>();
+        friends = new ArrayList<>();
 
         for (int i = 0; i < 18; i++)
             clouds.add(new Cloud(game, getViewport()));
+
+        for (int i = 0; i < 2; i++) {
+            friends.add(new Airplane(game));
+            friends.get(i).setTexture(i+2);
+            friends.get(i).setFriendlyMode(true);
+        }
 
         if(game instanceof FlightGame)
             for (int i = 0; i < ((FlightGame)game).getDifficulty()*2; i++) enemies.add(new Enemy(game, getViewport()));
@@ -124,7 +133,7 @@ public class GameStage extends MyStage {
                     super.act(delta);
                 setX(enemy.getX() + enemy.getWidth()/2 - 100);
                 setY(enemy.getY() + enemy.getHeight()*0.9f);
-                setHealth(enemy.hp);
+                setHealth(enemy.hp, false);
                 }
             });
         }
@@ -135,7 +144,7 @@ public class GameStage extends MyStage {
                 super.act(delta);
                 setX(airplane.getX() + airplane.getWidth()/2 - 100);
                 setY(airplane.getY() + airplane.getHeight()*0.9f);
-                setHealth(airplane.hp);
+                setHealth(airplane.hp, true);
             }
         };
     }
@@ -144,7 +153,6 @@ public class GameStage extends MyStage {
     {
         /**SIZES**/
         sky.setSize(getViewport().getWorldWidth(),getViewport().getWorldHeight());
-        airplane.setSize(airplane.getWidth()*0.2f, airplane.getHeight()*0.2f);
         for (Enemy enemy : enemies) enemy.setSize(enemy.getWidth()*0.2f,enemy.getHeight()*0.2f);
 
         /**POSITIONS**/
@@ -163,6 +171,7 @@ public class GameStage extends MyStage {
         playerHP.setZIndex(8);
         for (Enemy enemy : enemies) addActor(enemy);
         for (Health enemyHP : enemyHPs) addActor(enemyHP);
+        for (Airplane friend : friends) addActor(friend);
 
         addedExplosion = false;
     }
@@ -208,6 +217,9 @@ public class GameStage extends MyStage {
             playerOverlapsHouse();//Ha a játékos nekimegy egy háznak
             playerShoot();//A játékos lő
             playerBomb();//A játékos bombázik
+            friendFrontOfEnemy();//Barát az ellenféllel egyvonalban van
+            friendOverlapsBomb();//Barátot eltalálja a bomba
+            friendOverlapsPlayer();//Barát ütközik a játékossal
             repeatMusic();//A zene ismétlése kicsit cselesen
         }
         else{
@@ -254,7 +266,7 @@ public class GameStage extends MyStage {
                         addActor(new Explosion(game, enemy));
                         enemy.replace();
                         if (game instanceof FlightGame)
-                            ((FlightGame) game).setPenz(((FlightGame) game).getPenz() + 2);
+                            ((FlightGame) game).setPenz(((FlightGame) game).getPenz() + 3);
                     }
                 }
             }
@@ -272,7 +284,7 @@ public class GameStage extends MyStage {
                     addActor(new Explosion(game, enemy));
                     enemy.replace();
                     if (game instanceof FlightGame)
-                        ((FlightGame) game).setPenz(((FlightGame) game).getPenz() + 2);
+                        ((FlightGame) game).setPenz(((FlightGame) game).getPenz() + 5);
                 }
             }
         }
@@ -315,7 +327,48 @@ public class GameStage extends MyStage {
                 addActor(new Explosion(game, enemy));
                 enemy.replace();
                 if (game instanceof FlightGame)
-                    ((FlightGame) game).setPenz(((FlightGame) game).getPenz() + 2);
+                    ((FlightGame) game).setPenz(((FlightGame) game).getPenz() + 3);
+            }
+        }
+    }
+
+    private float pElapsed;
+
+    private void friendFrontOfEnemy(){
+        for (Airplane friend : friends){
+            for (Enemy enemy : enemies){
+                if(friend.getY() >= enemy.getY() && friend.getY() <= enemy.getY()+enemy.getHeight()*0.6f){
+                    if(elapsedTime > pElapsed + 0.2f) {
+                        friend.shoot(this);
+                        pElapsed = elapsedTime;
+                    }
+                }
+            }
+        }
+    }
+
+    private void friendOverlapsBomb(){
+        for (Airplane friend : friends){
+            for (Bomb bomb : bombs){
+                if(overlaps(friend, bomb)){
+                    if (game instanceof FlightGame)
+                        ((FlightGame) game).setPenz(((FlightGame) game).getPenz() - 2);
+                    addActor(new Explosion(game, friend));
+                    friend.replace();
+                    bomb.remove();
+                }
+            }
+        }
+    }
+
+    private void friendOverlapsPlayer(){
+        for (Airplane friend : friends){
+            if(overlaps(friend, airplane)){
+                if (game instanceof FlightGame)
+                    ((FlightGame) game).setPenz(((FlightGame) game).getPenz() - 2);
+                addActor(new Explosion(game, friend));
+                friend.replace();
+                airplane.hp -= Math.random() * 20;
             }
         }
     }

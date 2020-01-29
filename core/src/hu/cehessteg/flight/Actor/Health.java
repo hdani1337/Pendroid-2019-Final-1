@@ -1,5 +1,6 @@
 package hu.cehessteg.flight.Actor;
 
+import hu.cehessteg.flight.FlightGame;
 import hu.csanyzeg.master.MyBaseClasses.Assets.AssetList;
 import hu.csanyzeg.master.MyBaseClasses.Game.MyGame;
 import hu.csanyzeg.master.MyBaseClasses.Scene2D.MyGroup;
@@ -34,7 +35,7 @@ public class Health extends MyGroup {
     }
 
     private void setSizes() {
-        zold.setSize(200, 10);
+        zold.setSize(100, 10);
         piros.setSize(0, 10);
     }
 
@@ -44,8 +45,15 @@ public class Health extends MyGroup {
         addActor(piros);
     }
 
-    public void setHealth(int hp){
-        piros.setWidth(2 * Math.abs(hp - 100));
-        piros.setX(zold.getX() + zold.getWidth() - piros.getWidth());
+    public void setHealth(int hp, boolean senderIsPlane){
+        if(senderIsPlane){
+            piros.setWidth(Math.abs(hp - (100 + (((FlightGame)game).getPlaneLevel()-1)*15)));
+            zold.setWidth(100 + (((FlightGame)game).getPlaneLevel()-1)*15);
+            piros.setX(zold.getX() + zold.getWidth() - piros.getWidth());
+        }
+        else {
+            piros.setWidth(Math.abs(hp - 100));
+            piros.setX(zold.getX() + zold.getWidth() - piros.getWidth());
+        }
     }
 }
