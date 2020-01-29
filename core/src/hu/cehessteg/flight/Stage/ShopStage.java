@@ -283,6 +283,7 @@ public class ShopStage extends MyStage {
 
         arlista.setAlpha(alpha);//ÁRLISTA
         coin.setAlpha(alpha);//PÉNZKIJELZŐ
+        currentLevel.setAlpha(alpha);//SZINTKIJELZŐ
 
         //LABELEK
         shopTitle.setColor(1,1,1,alpha);

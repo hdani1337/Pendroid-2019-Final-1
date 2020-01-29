@@ -343,6 +343,7 @@ public class OptionsStage extends MyStage {
 
         demoAirplane.setAlpha(alpha);//DEMOREPCSI
         speaker.setAlpha(alpha);//HANGSZÓRÓ
+        trash.setAlpha(alpha);//KUKA
 
         //LABELEK
         difi.setColor(1,1,1,alpha);
@@ -351,6 +352,7 @@ public class OptionsStage extends MyStage {
         muti.setColor(1,1,1,alpha);
         title.setColor(1,1,1,alpha);
         skini.setColor(1,1,1,alpha);
+        trashi.setColor(1,1,1,alpha);
     }
 
 
