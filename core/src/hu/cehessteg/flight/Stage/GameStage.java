@@ -14,6 +14,7 @@ import hu.cehessteg.flight.Actor.Enemy;
 import hu.cehessteg.flight.Actor.Explosion;
 import hu.cehessteg.flight.Actor.Health;
 import hu.cehessteg.flight.Actor.House;
+import hu.cehessteg.flight.Actor.Shelter;
 import hu.cehessteg.flight.Actor.Sky;
 import hu.cehessteg.flight.FlightGame;
 import hu.csanyzeg.master.MyBaseClasses.Assets.AssetList;
@@ -41,6 +42,7 @@ public class GameStage extends MyStage {
         assetList.collectAssetDescriptor(Bomb.class,assetList);
         assetList.collectAssetDescriptor(Health.class,assetList);
         assetList.collectAssetDescriptor(House.class,assetList);
+        assetList.collectAssetDescriptor(Shelter.class,assetList);
         assetList.addMusic(WIND_SOUND);
         assetList.addFont(trebuc, trebuc, 30, Color.WHITE, AssetList.CHARS);
     }
@@ -62,6 +64,7 @@ public class GameStage extends MyStage {
     private ArrayList<Health> enemyHPs;
     private ArrayList<House> houses;
     private ArrayList<Airplane> friends;
+    private ArrayList<Shelter> shelters;
 
     private Health playerHP;//JÁTÉKOS ÉLETJELZŐ CSÍKJA
 
@@ -96,6 +99,7 @@ public class GameStage extends MyStage {
         bombs = new ArrayList<>();
         houses = new ArrayList<>();
         friends = new ArrayList<>();
+        shelters = new ArrayList<>();
 
         for (int i = 0; i < 18; i++)
             clouds.add(new Cloud(game, getViewport()));
@@ -120,6 +124,14 @@ public class GameStage extends MyStage {
                 super.onTick(sender, correction);
                 houses.add(new House(game, tempStage));
                 addActor(houses.get(houses.size()-1));
+            }
+        }));
+        addTimer(new TickTimer(2.1f, true, new TickTimerListener(){
+            @Override
+            public void onTick(Timer sender, float correction) {
+                super.onTick(sender, correction);
+                shelters.add(new Shelter(game, tempStage));
+                addActor(shelters.get(shelters.size()-1));
             }
         }));
     }
@@ -205,9 +217,16 @@ public class GameStage extends MyStage {
         houses.remove(house);
     }
 
+    public void removeShelter(Shelter shelter){
+        shelters.remove(shelter);
+    }
+
     @Override
     public void act(float delta) {
         super.act(delta);
+        /**
+         * ÜTKŐZÉSVIZSGÁLATOK
+         * */
         if (isAct) {//Az isAct változó false lesz, ha a játékos veszít, így ezek nem futnak le feleslegesen
             movePlayer();//A repülő mozgatása
             playerOverlapsEnemy();//Ha a játékos nekimegy az ellenfélnek
@@ -221,6 +240,8 @@ public class GameStage extends MyStage {
             friendOverlapsBomb();//Barátot eltalálja a bomba
             friendOverlapsPlayer();//Barát ütközik a játékossal
             repeatMusic();//A zene ismétlése kicsit cselesen
+            bombOverlapsShelter();//Bombával eltaláljuk a katonai bunkert
+            playerOverlapsShelter();//Játékos eltalálja a katonai bunkert
         }
         else{
             if(game instanceof FlightGame) {
@@ -301,6 +322,35 @@ public class GameStage extends MyStage {
                     house.remove();
                     break;
                 }
+            }
+        }
+    }
+
+    private void bombOverlapsShelter(){
+        for (Bomb bomb : bombs){
+            for (Shelter shelter : shelters){
+                if(overlaps(bomb, shelter)){
+                    addActor(new Explosion(game, shelter));
+                    bomb.remove();
+                    if (game instanceof FlightGame)
+                        ((FlightGame) game).setPenz(((FlightGame) game).getPenz() + 3);
+                    shelter.remove();
+                    break;
+                }
+            }
+        }
+    }
+
+    private void playerOverlapsShelter(){
+        for (Shelter shelter : shelters){
+            if(overlaps(airplane, shelter)){
+                addActor(new Explosion(game, shelter));
+                airplane.hp -= Math.random()*30;
+                addActor(new Explosion(game, shelter));
+                if (game instanceof FlightGame)
+                    ((FlightGame) game).setPenz(((FlightGame) game).getPenz() + 2);
+                shelter.remove();
+                break;
             }
         }
     }
