@@ -13,12 +13,16 @@ import hu.cehessteg.flight.Actor.Cloud;
 import hu.cehessteg.flight.Actor.Enemy;
 import hu.cehessteg.flight.Actor.Explosion;
 import hu.cehessteg.flight.Actor.Health;
+import hu.cehessteg.flight.Actor.House;
 import hu.cehessteg.flight.Actor.Sky;
 import hu.cehessteg.flight.FlightGame;
 import hu.csanyzeg.master.MyBaseClasses.Assets.AssetList;
 import hu.csanyzeg.master.MyBaseClasses.Game.MyGame;
 import hu.csanyzeg.master.MyBaseClasses.Scene2D.MyStage;
 import hu.csanyzeg.master.MyBaseClasses.Scene2D.ResponseViewport;
+import hu.csanyzeg.master.MyBaseClasses.Timers.TickTimer;
+import hu.csanyzeg.master.MyBaseClasses.Timers.TickTimerListener;
+import hu.csanyzeg.master.MyBaseClasses.Timers.Timer;
 
 import static hu.cehessteg.flight.Stage.MenuStage.trebuc;
 import static hu.cehessteg.flight.Stage.OptionsStage.WIND_SOUND;
@@ -36,6 +40,7 @@ public class GameStage extends MyStage {
         assetList.collectAssetDescriptor(Explosion.class,assetList);
         assetList.collectAssetDescriptor(Bomb.class,assetList);
         assetList.collectAssetDescriptor(Health.class,assetList);
+        assetList.collectAssetDescriptor(House.class,assetList);
         assetList.addMusic(WIND_SOUND);
         assetList.addFont(trebuc, trebuc, 30, Color.WHITE, AssetList.CHARS);
     }
@@ -55,6 +60,7 @@ public class GameStage extends MyStage {
     private ArrayList<Bomb> bombs;
     private ArrayList<Enemy> enemies;
     private ArrayList<Health> enemyHPs;
+    private ArrayList<House> houses;
 
     private Health playerHP;//JÁTÉKOS ÉLETJELZŐ CSÍKJA
 
@@ -63,6 +69,7 @@ public class GameStage extends MyStage {
         assignment();
         setSizesAndPositions();
         addActors();
+        addTimers();
 
         if(game instanceof FlightGame){
             if(!((FlightGame)game).isMuted()){
@@ -85,6 +92,7 @@ public class GameStage extends MyStage {
         enemyHPs = new ArrayList<>();
         bullets = new ArrayList<>();
         bombs = new ArrayList<>();
+        houses = new ArrayList<>();
 
         for (int i = 0; i < 18; i++)
             clouds.add(new Cloud(game, getViewport()));
@@ -93,6 +101,18 @@ public class GameStage extends MyStage {
             for (int i = 0; i < ((FlightGame)game).getDifficulty()*2; i++) enemies.add(new Enemy(game, getViewport()));
 
         setHpLabels();
+    }
+
+    private void addTimers(){
+        final GameStage tempStage = this;
+        addTimer(new TickTimer(1.4f, true, new TickTimerListener(){
+            @Override
+            public void onTick(Timer sender, float correction) {
+                super.onTick(sender, correction);
+                houses.add(new House(game, tempStage));
+                addActor(houses.get(houses.size()-1));
+            }
+        }));
     }
 
     private void setHpLabels()
@@ -172,6 +192,10 @@ public class GameStage extends MyStage {
         bombs.remove(bomb);
     }
 
+    public void removeHouse(House house){
+        houses.remove(house);
+    }
+
     @Override
     public void act(float delta) {
         super.act(delta);
@@ -180,6 +204,8 @@ public class GameStage extends MyStage {
             playerOverlapsEnemy();//Ha a játékos nekimegy az ellenfélnek
             bulletOverlapsEnemy();//Megnézzük, melyik golyó találta el az ellenfelet
             bombOverlapsEnemy();//Megnézzük, melyik bomba találja el az ellenfelet
+            bombOverlapsHouse();//Megnézzük, melyik bomba találja el a házat
+            playerOverlapsHouse();//Ha a játékos nekimegy egy háznak
             playerShoot();//A játékos lő
             playerBomb();//A játékos bombázik
             repeatMusic();//A zene ismétlése kicsit cselesen
@@ -248,6 +274,35 @@ public class GameStage extends MyStage {
                     if (game instanceof FlightGame)
                         ((FlightGame) game).setPenz(((FlightGame) game).getPenz() + 2);
                 }
+            }
+        }
+    }
+
+    private void bombOverlapsHouse(){
+        for (Bomb bomb : bombs){
+            for (House house : houses){
+                if(overlaps(bomb, house)){
+                    addActor(new Explosion(game, house));
+                    bomb.remove();
+                    if (game instanceof FlightGame)
+                        ((FlightGame) game).setPenz(((FlightGame) game).getPenz() - 2);
+                    house.remove();
+                    break;
+                }
+            }
+        }
+    }
+
+    private void playerOverlapsHouse(){
+        for (House house : houses){
+            if(overlaps(airplane, house)){
+                addActor(new Explosion(game, house));
+                airplane.hp -= Math.random()*50;
+                addActor(new Explosion(game, house));
+                if (game instanceof FlightGame)
+                    ((FlightGame) game).setPenz(((FlightGame) game).getPenz() - 2);
+                house.remove();
+                break;
             }
         }
     }

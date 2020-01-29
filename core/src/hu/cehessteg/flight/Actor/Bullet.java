@@ -30,6 +30,7 @@ public class Bullet extends OneSpriteStaticActor {
 
         stage.addBullet(this);
 
+        setOrigin(getWidth()/2,getHeight()/2);
         setRotation(airplane.getRotation());
         setPosition(airplane.getX()+airplane.getWidth()*0.65f, airplane.getY()+7);
 

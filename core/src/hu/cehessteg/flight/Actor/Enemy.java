@@ -74,6 +74,6 @@ public class Enemy extends OneSpriteStaticActor {
     {
         hp = 100;
         setX((float) Math.random() * 750 + 2000);
-        setY((float) Math.random() * (viewport.getWorldHeight() - getHeight()));
+        setY((float) Math.random() * (viewport.getWorldHeight() - getHeight()-150)+150);
     }
 }
