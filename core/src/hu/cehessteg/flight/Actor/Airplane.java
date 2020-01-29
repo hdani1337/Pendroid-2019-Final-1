@@ -1,5 +1,7 @@
 package hu.cehessteg.flight.Actor;
 
+import java.util.Random;
+
 import hu.cehessteg.flight.FlightGame;
 import hu.cehessteg.flight.Stage.GameStage;
 import hu.cehessteg.flight.Stage.HudStage;
@@ -222,6 +224,6 @@ public class Airplane extends OneSpriteStaticActor {
 
     public void replace(){
         setX((float)(-1*new Random().nextInt(1200))-300-getWidth());
-        setY((float) (900-getHeight()-(new Random().nextInt(500))+150));
+        setY((900-getHeight()-(new Random().nextInt(500))+150));
     }
 }
