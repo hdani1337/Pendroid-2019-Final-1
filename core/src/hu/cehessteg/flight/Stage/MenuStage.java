@@ -29,15 +29,13 @@ public class MenuStage extends MyStage {
     public static String trebuc = "other/trebuc.ttf";
     public static AssetList assetList = new AssetList();
     public static final String MENU_HATTER = "menu/menu.png";
-    public static final String EXIT_PIROS = "menu/exitPiros.png";
-    public static final String EXIT_RING = "menu/exit.png";
+    public static final String EXIT = "menu/exit.png";
     public static final String OPTIONS_TEXTURE = "menu/options.png";
     public static final String AIRPLANE_SOUND = "sounds/airplane.mp3";
     static {
         assetList.addFont(trebuc, trebuc, 120, Color.WHITE, AssetList.CHARS);
         assetList.addTexture(MENU_HATTER);
-        assetList.addTexture(EXIT_PIROS);
-        assetList.addTexture(EXIT_RING);
+        assetList.addTexture(EXIT);
         assetList.addTexture(OPTIONS_TEXTURE);
         assetList.addMusic(AIRPLANE_SOUND);
         assetList.collectAssetDescriptor(Cloud.class, assetList);
@@ -48,7 +46,6 @@ public class MenuStage extends MyStage {
     private MyLabel legicsata;
     private MyLabel infostage;
     private OneSpriteStaticActor menuHatter;
-    private OneSpriteStaticActor exitPiros;
     private OneSpriteStaticActor exitRing;
     private OneSpriteStaticActor options;
     private Sky sky;
@@ -85,19 +82,8 @@ public class MenuStage extends MyStage {
         //BEÁLLÍTÁSOK GOMB
         options = new OneSpriteStaticActor(game,OPTIONS_TEXTURE);
 
-        /**
-         * Dávid különszedte a gombot és a peremét azért, hogy a peremet a háttérre rakja de lusta vagyok egyberakni őket
-         * */
-        exitPiros = new OneSpriteStaticActor(game,EXIT_PIROS);
-        exitRing = new OneSpriteStaticActor(game,EXIT_RING){
-            @Override
-            public void init() {
-                super.init();
-                setTouchable(null);
-                /**
-                 * !MINDEN LEGYEN KÜLÖN ACTOR, NE EGY STATIKUS KÉPEN LEGYEN MINDEN!
-                 * **/
-            }
+        //KILÉPÉS GOMB
+        exitRing = new OneSpriteStaticActor(game,EXIT){
         };
 
         //JÁTÉK INDÍTÁSA GOMB
@@ -109,7 +95,9 @@ public class MenuStage extends MyStage {
                     @Override
                     public void clicked(InputEvent event,float x,float y){
                         super.clicked(event,x,y);
-                        game.setScreenWithPreloadAssets(GameScreen.class, new MyPreLoadingStage(game));
+                        if(x > 135 && x < 365 && y > 40 && y < 105) {
+                            game.setScreenWithPreloadAssets(GameScreen.class, new MyPreLoadingStage(game));
+                        }
                     }
 
                 });
@@ -125,7 +113,9 @@ public class MenuStage extends MyStage {
                     @Override
                     public void clicked(InputEvent event,float x,float y){
                         super.clicked(event,x,y);
-                        game.setScreenWithPreloadAssets(ShopScreen.class, new MyPreLoadingStage(game));
+                        if(y < 100 && y > 40) {
+                            game.setScreenWithPreloadAssets(ShopScreen.class, new MyPreLoadingStage(game));
+                        }
                     }
 
                 });
@@ -141,13 +131,19 @@ public class MenuStage extends MyStage {
                     @Override
                     public void clicked(InputEvent event,float x,float y){
                         super.clicked(event,x,y);
-                        game.setScreenWithPreloadAssets(InfoScreen.class, new MyPreLoadingStage(game));
+                        if(x < 400 && x > 160) {
+                            game.setScreenWithPreloadAssets(InfoScreen.class, new MyPreLoadingStage(game));
+                        }
                     }
 
                 });
-
             }
         };
+
+        /**
+         * LEGKÖZELEBB NE RAKJATOK LABELRE LISTENERT, MIVEL HA KICSINYÍTJÜK A SZÖVEGET
+         * A SZÖVEGDOBOZ NEM MÉRETEZŐDIK HOZZÁ EZÉRT EGYMÁSBA IS LÓGHATNAK ÉS BUGOS LESZ
+         * **/
 
         //ÉGBOLT
         sky = new Sky(game) {
@@ -161,7 +157,7 @@ public class MenuStage extends MyStage {
 
     void addListeners(){
         //KILÉPÉS LISTENER
-        exitPiros.addListener(new ClickListener(){
+        exitRing.addListener(new ClickListener(){
 
             public void clicked(InputEvent event,float x, float y){
                 super.clicked(event,x,y);
@@ -210,8 +206,7 @@ public class MenuStage extends MyStage {
     void setPositions(){
         //ZINDEXEK
         menuHatter.setZIndex(1000);
-        exitRing.setZIndex(1002);
-        exitPiros.setZIndex(1001);
+        exitRing.setZIndex(1010);
         legicsata.setZIndex(1001);
         options.setZIndex(1001);
         shop.setZIndex(1001);
@@ -230,7 +225,6 @@ public class MenuStage extends MyStage {
 
         //EXIT GOMB
         exitRing.setPosition(infostage.getX() + (infostage.getWidth() * 0.8f),infostage.getY());
-        exitPiros.setPosition(exitRing.getX() + exitRing.getWidth() * 0.155f, exitRing.getY() + exitRing.getHeight() * 0.18f);
         check21by9AspectRatio();
 
         //BEÁLLÍTÁSOK GOMB
@@ -247,7 +241,6 @@ public class MenuStage extends MyStage {
             shop.setX(shop.getX() * increment * 0.98f);
             infostage.setX(infostage.getX() * increment);
             exitRing.setX(exitRing.getX() * increment * 1.1f);
-            exitPiros.setX(exitPiros.getX() * increment * 1.1f);
         }
     }
 
@@ -265,11 +258,10 @@ public class MenuStage extends MyStage {
 
     void addActors() {
         addActor(menuHatter);
-        addActor(exitPiros);
-        addActor(exitRing);
         addActor(shop);
         addActor(legicsata);
         addActor(infostage);
+        addActor(exitRing);
         addActor(options);
     }
 
@@ -289,7 +281,6 @@ public class MenuStage extends MyStage {
         shop.setColor(1,1,1, alpha);
         legicsata.setColor(1,1,1, alpha);
         infostage.setColor(1,1,1, alpha);
-        exitPiros.setAlpha(alpha);
         exitRing.setAlpha(alpha);
         options.setAlpha(alpha);
     }
