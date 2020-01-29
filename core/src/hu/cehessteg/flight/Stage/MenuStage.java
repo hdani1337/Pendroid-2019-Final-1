@@ -221,6 +221,7 @@ public class MenuStage extends MyStage {
         menuHatter.setPosition(getViewport().getWorldWidth()/2-this.getWidth()/1.5f,0);
 
         if(getViewport().getWorldWidth() > 1800) menuHatter.setX(0);//Ha a képarány nagyobb 18:9-nél, akkor 0-ra rakom a piltafülkét, hogy kiérjen a világ széléig
+        if(getViewport().getWorldWidth() < 1300) menuHatter.setX(-menuHatter.getWidth()*0.225f);//Ha a képarány 4:3 vagy az alatt van, akkor hátrébb rakom a pilótafülkét, hogy kiférjenek a menügombok
 
         //LABELEK
         legicsata.setPosition( menuHatter.getX()+menuHatter.getWidth()/1.99f,menuHatter.getHeight()*0.25f);
