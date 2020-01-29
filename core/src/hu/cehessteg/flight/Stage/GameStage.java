@@ -239,6 +239,7 @@ public class GameStage extends MyStage {
             friendFrontOfEnemy();//Barát az ellenféllel egyvonalban van
             friendOverlapsBomb();//Barátot eltalálja a bomba
             friendOverlapsPlayer();//Barát ütközik a játékossal
+            friendOverlapsEnemy();//Barát ütközik az ellenféllel
             repeatMusic();//A zene ismétlése kicsit cselesen
             bombOverlapsShelter();//Bombával eltaláljuk a katonai bunkert
             playerOverlapsShelter();//Játékos eltalálja a katonai bunkert
@@ -406,6 +407,20 @@ public class GameStage extends MyStage {
                     addActor(new Explosion(game, friend));
                     friend.replace();
                     bomb.remove();
+                }
+            }
+        }
+    }
+
+    private void friendOverlapsEnemy(){
+        for (Airplane friend : friends){
+            for (Enemy enemy : enemies){
+                if(overlaps(friend, enemy)){
+                    if (game instanceof FlightGame)
+                        ((FlightGame) game).setPenz(((FlightGame) game).getPenz() + 2);
+                    addActor(new Explosion(game, friend));
+                    friend.replace();
+                    enemy.replace();
                 }
             }
         }

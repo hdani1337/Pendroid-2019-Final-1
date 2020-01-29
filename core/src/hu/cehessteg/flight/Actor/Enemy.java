@@ -33,7 +33,6 @@ public class Enemy extends OneSpriteStaticActor {
         super(game, ENEMY_TEXTURE);
         this.viewport = viewport;
         this.setZIndex(2);
-        this.setColor(Color.RED);
         this.hp = 100;
         setHitbox();
     }

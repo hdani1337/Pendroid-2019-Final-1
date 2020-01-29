@@ -20,6 +20,7 @@ public class Airplane extends OneSpriteStaticActor {
     public static final String TERRAIN_TEXTURE = "planes/vadaszgep_terep.png";
     public static final String BLACKANDWHITE_TEXTURE = "planes/vadaszgep_szurke.png";
     public static final String TIGER_TEXTURE = "planes/vadaszgep_tigris.png";
+    public static final String CYBORG_TEXTURE = "planes/vadaszgep_kek.png";
 
     public static AssetList assetList = new AssetList();
     static
@@ -28,6 +29,7 @@ public class Airplane extends OneSpriteStaticActor {
         assetList.addTexture(TERRAIN_TEXTURE);
         assetList.addTexture(BLACKANDWHITE_TEXTURE);
         assetList.addTexture(TIGER_TEXTURE);
+        assetList.addTexture(CYBORG_TEXTURE);
     }
 
     public int hp;//Életerő
@@ -71,31 +73,7 @@ public class Airplane extends OneSpriteStaticActor {
     private void setTexture(){
         if(game!=null){
             if(game instanceof FlightGame){
-                switch (((FlightGame)game).getSkinID()){
-                    case 1:{
-                        sprite.setTexture(game.getMyAssetManager().getTexture(AIRPLANE_TEXTURE));
-                        break;
-                    }
-
-                    case 2:{
-                        sprite.setTexture(game.getMyAssetManager().getTexture(TERRAIN_TEXTURE));
-                        break;
-                    }
-
-                    case 3:{
-                        sprite.setTexture(game.getMyAssetManager().getTexture(BLACKANDWHITE_TEXTURE));
-                        break;
-                    }
-
-                    case 4:{
-                        sprite.setTexture(game.getMyAssetManager().getTexture(TIGER_TEXTURE));
-                        break;
-                    }
-
-                    case 5:{
-                        //IDE JÖN AZ UTOLSÓ SKIN
-                    }
-                }
+                setTexture(((FlightGame)game).getSkinID());
             }
         }
     }
@@ -116,6 +94,10 @@ public class Airplane extends OneSpriteStaticActor {
             }
             case 4:{
                 sprite.setTexture(game.getMyAssetManager().getTexture(TIGER_TEXTURE));
+                break;
+            }
+            case 5:{
+                sprite.setTexture(game.getMyAssetManager().getTexture(CYBORG_TEXTURE));
                 break;
             }
         }

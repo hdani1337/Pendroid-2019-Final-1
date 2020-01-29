@@ -241,7 +241,6 @@ public class OptionsStage extends MyStage {
         blankBack.setSize(400,90);
         blankTrash.setSize(400,175);
         blank.setSize(getViewport().getWorldWidth(), getViewport().getWorldHeight());
-        demoAirplane.setSize(demoAirplane.getWidth()*0.2f, demoAirplane.getHeight()*0.2f);
         blankPlane.setSize(demoAirplane.getWidth() + 240, demoAirplane.getHeight() + 120);
 
         /**Positions**/
