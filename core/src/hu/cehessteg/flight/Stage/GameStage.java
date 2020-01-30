@@ -14,6 +14,7 @@ import hu.cehessteg.flight.Actor.Enemy;
 import hu.cehessteg.flight.Actor.Explosion;
 import hu.cehessteg.flight.Actor.Health;
 import hu.cehessteg.flight.Actor.House;
+import hu.cehessteg.flight.Actor.PlusPoint;
 import hu.cehessteg.flight.Actor.Shelter;
 import hu.cehessteg.flight.Actor.Sky;
 import hu.cehessteg.flight.FlightGame;
@@ -265,6 +266,7 @@ public class GameStage extends MyStage {
                 Explosion explosion = new Explosion(game, null);
                 explosion.setPosition(airplane.getX(), airplane.getY() + airplane.getHeight() / 2 - explosion.getHeight() / 2);
                 addActor(explosion);
+                addActor(new PlusPoint(game,airplane,"-5"));
                 airplane.setVisible(false);
                 playerHP.setVisible(false);
                 addedExplosion = true;
@@ -286,6 +288,7 @@ public class GameStage extends MyStage {
                     bullet.remove();
                     if (enemy.hp <= 0) {
                         addActor(new Explosion(game, enemy));
+                        addActor(new PlusPoint(game,enemy,"+3"));
                         enemy.replace();
                         if (game instanceof FlightGame)
                             ((FlightGame) game).setPenz(((FlightGame) game).getPenz() + 3);
@@ -304,6 +307,7 @@ public class GameStage extends MyStage {
                     enemy.hp = 0;
                     bomb.remove();
                     addActor(new Explosion(game, enemy));
+                    addActor(new PlusPoint(game,enemy,"+5"));
                     enemy.replace();
                     if (game instanceof FlightGame)
                         ((FlightGame) game).setPenz(((FlightGame) game).getPenz() + 5);
@@ -317,9 +321,10 @@ public class GameStage extends MyStage {
             for (House house : houses){
                 if(overlaps(bomb, house)){
                     addActor(new Explosion(game, house));
+                    addActor(new PlusPoint(game,house,"-5"));
                     bomb.remove();
                     if (game instanceof FlightGame)
-                        ((FlightGame) game).setPenz(((FlightGame) game).getPenz() - 2);
+                        ((FlightGame) game).setPenz(((FlightGame) game).getPenz() - 5);
                     house.remove();
                     break;
                 }
@@ -332,6 +337,7 @@ public class GameStage extends MyStage {
             for (Shelter shelter : shelters){
                 if(overlaps(bomb, shelter)){
                     addActor(new Explosion(game, shelter));
+                    addActor(new PlusPoint(game,shelter,"+3"));
                     bomb.remove();
                     if (game instanceof FlightGame)
                         ((FlightGame) game).setPenz(((FlightGame) game).getPenz() + 3);
@@ -348,6 +354,7 @@ public class GameStage extends MyStage {
                 addActor(new Explosion(game, shelter));
                 airplane.hp -= Math.random()*30;
                 addActor(new Explosion(game, shelter));
+                addActor(new PlusPoint(game,shelter,"+2"));
                 if (game instanceof FlightGame)
                     ((FlightGame) game).setPenz(((FlightGame) game).getPenz() + 2);
                 shelter.remove();
@@ -362,6 +369,7 @@ public class GameStage extends MyStage {
                 addActor(new Explosion(game, house));
                 airplane.hp -= Math.random()*50;
                 addActor(new Explosion(game, house));
+                addActor(new PlusPoint(game,house,"-2"));
                 if (game instanceof FlightGame)
                     ((FlightGame) game).setPenz(((FlightGame) game).getPenz() - 2);
                 house.remove();
@@ -376,6 +384,7 @@ public class GameStage extends MyStage {
             if (overlaps(airplane, enemy)) {
                 airplane.hp -= Math.random() * 20;
                 addActor(new Explosion(game, enemy));
+                addActor(new PlusPoint(game,enemy,"+3"));
                 enemy.replace();
                 if (game instanceof FlightGame)
                     ((FlightGame) game).setPenz(((FlightGame) game).getPenz() + 3);
@@ -403,8 +412,9 @@ public class GameStage extends MyStage {
             for (Bomb bomb : bombs){
                 if(overlaps(friend, bomb)){
                     if (game instanceof FlightGame)
-                        ((FlightGame) game).setPenz(((FlightGame) game).getPenz() - 2);
+                        ((FlightGame) game).setPenz(((FlightGame) game).getPenz() - 5);
                     addActor(new Explosion(game, friend));
+                    addActor(new PlusPoint(game,friend,"-5"));
                     friend.replace();
                     bomb.remove();
                 }
@@ -419,6 +429,7 @@ public class GameStage extends MyStage {
                     if (game instanceof FlightGame)
                         ((FlightGame) game).setPenz(((FlightGame) game).getPenz() + 2);
                     addActor(new Explosion(game, friend));
+                    addActor(new PlusPoint(game,enemy,"+2"));
                     friend.replace();
                     enemy.replace();
                 }
@@ -432,6 +443,7 @@ public class GameStage extends MyStage {
                 if (game instanceof FlightGame)
                     ((FlightGame) game).setPenz(((FlightGame) game).getPenz() - 2);
                 addActor(new Explosion(game, friend));
+                addActor(new PlusPoint(game,friend,"-2"));
                 friend.replace();
                 airplane.hp -= Math.random() * 20;
             }
