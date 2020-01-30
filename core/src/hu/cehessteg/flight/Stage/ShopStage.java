@@ -122,8 +122,8 @@ public class ShopStage extends MyStage {
                             if(getY() != getViewport().getWorldHeight()/2-this.getHeight()/2){
                                 if(getX() != getViewport().getWorldWidth()/2 - this.getWidth()){
                                     setFontScale(0.45f);
-                                    setAlignment(0);
-                                    setPosition(getViewport().getWorldWidth()/2 - lvlcost.getWidth(), getViewport().getWorldHeight()/2-lvlcost.getHeight()/2);
+                                    setAlignment(Align.left);
+                                    setPosition(getViewport().getWorldWidth()*0.05f, getViewport().getWorldHeight()/2-lvlcost.getHeight()/2);
                                     setText("Elérted a maximális szintet!");
                                     lvlup.setText("");
                                     lvlup.setTouchable(null);
@@ -148,11 +148,11 @@ public class ShopStage extends MyStage {
                         @Override
                         public void clicked(InputEvent event, float x, float y) {
                             super.clicked(event, x, y);
-                            if (((FlightGame) game).getPenz() >= (((FlightGame) game).getPlaneLevel()) * 25) { //pénz check
-                                ((FlightGame) game).setPenz(((FlightGame) game).getPenz() - (((FlightGame) game).getPlaneLevel()) * 25); // pénz levétel
+                            if (((FlightGame) game).getPenz() >= getPriceForLevel(((FlightGame) game).getPlaneLevel())) { //pénz check
+                                ((FlightGame) game).setPenz(((FlightGame) game).getPenz() - getPriceForLevel(((FlightGame) game).getPlaneLevel())); // pénz levétel
                                 ((FlightGame) game).setPlaneLevel(((FlightGame) game).getPlaneLevel() + 1); // szint up
                                 ((FlightGame) game).saveCoins(); //pénz mentése
-                                lvlcost.setText("Jelenlegi szint: " + ((FlightGame) game).getPlaneLevel() + "\nFejlesztés ára: " + (((FlightGame) game).getPlaneLevel()) * 25);
+                                lvlcost.setText("Jelenlegi szint: " + ((FlightGame) game).getPlaneLevel() + "\nFejlesztés ára: " + getPriceForLevel(((FlightGame) game).getPlaneLevel()));
 
                             }
                         }
@@ -301,6 +301,14 @@ public class ShopStage extends MyStage {
                 }
             }
         }
+    }
+
+    private int getPriceForLevel(int level){
+        int sum = 0;
+        for (int i = 1; i < level; i++){
+            sum = sum+(level*level)*25;
+        }
+        return sum;
     }
 
     @Override
