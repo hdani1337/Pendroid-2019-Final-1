@@ -153,7 +153,7 @@ public class ShopStage extends MyStage {
             @Override
             public void clicked(InputEvent event, float x, float y) {
                 super.clicked(event, x, y);
-                if (((FlightGame) game).getPenz() >= getPriceForLevel(((FlightGame) game).getPlaneLevel())+1) { //pénz check
+                if (((FlightGame) game).getPenz() >= getPriceForLevel(((FlightGame) game).getPlaneLevel()+1)) { //pénz check
                     ((FlightGame) game).setPenz(((FlightGame) game).getPenz() - getPriceForLevel(((FlightGame) game).getPlaneLevel()+1)); // pénz levétel
                     ((FlightGame) game).setPlaneLevel(((FlightGame) game).getPlaneLevel() + 1); // szint up
                     ((FlightGame) game).saveCoins(); //pénz mentése
