@@ -26,18 +26,19 @@ import static hu.cehessteg.flight.Stage.OptionsStage.WIND_SOUND;
 public class ShopStage extends MyStage {
     public static final String BLANK_TEXTURE = "other/black.png";
     public static final String PRICES_TEXTURE = "other/arlista.png";
+    public static final String LEVELUP_TEXTURE = "menu/fejlesztes.png";
     public static final String CASH_SOUND = "sounds/cash.mp3";
     public static AssetList assetList = new AssetList();
     static {
         assetList.addTexture(BLANK_TEXTURE);
         assetList.addMusic(WIND_SOUND);
         assetList.addSound(CASH_SOUND);
+        assetList.addTexture(LEVELUP_TEXTURE);
         assetList.addFont(trebuc, trebuc, 120, Color.WHITE, AssetList.CHARS);
     }
 
     //-----LABELEK-----
     MyLabel text;
-    MyLabel lvlup;
     MyLabel menu;
     MyLabel lvlcost;
     MyLabel shopTitle;
@@ -47,7 +48,6 @@ public class ShopStage extends MyStage {
     OneSpriteStaticActor black;
     OneSpriteStaticActor blackMenu;
     OneSpriteStaticActor blackShopTitle;
-    OneSpriteStaticActor blackUp;
     //------------------------
 
     //-----ÁRLISTA-----
@@ -62,6 +62,9 @@ public class ShopStage extends MyStage {
 
     //-----SZINTJELZŐ-----
     Arrow currentLevel;
+
+    //-----SZINTFEJLESZTŐ-----
+    OneSpriteStaticActor up;
 
     public ShopStage(MyGame game) {
         super(new ResponseViewport(900), game);
@@ -115,7 +118,7 @@ public class ShopStage extends MyStage {
         lvlcost = new MyLabel(game, "Jelenlegi szint: " + ((FlightGame) game).getPlaneLevel() + "\nFejlesztés ára: " + (getPriceForLevel(((FlightGame) game).getPlaneLevel()+1)) ,new Label.LabelStyle(game.getMyAssetManager().getFont(trebuc), Color.WHITE)) {
             @Override
             public void init() {
-                setAlignment(Align.bottomLeft);
+                setAlignment(Align.center);
                 setFontScale(0.3f);
                 setColor(1,1,1,0);
                 setPosition(getViewport().getWorldWidth()*0.25f, getViewport().getWorldHeight()*0.44f);
@@ -134,9 +137,8 @@ public class ShopStage extends MyStage {
                                     setAlignment(Align.left);
                                     setPosition(getViewport().getWorldWidth()*0.05f, getViewport().getWorldHeight()/2-lvlcost.getHeight()/2);
                                     setText("Elérted a maximális szintet!");
-                                    lvlup.setText("");
-                                    lvlup.setTouchable(null);
-                                    blackUp.setAlpha(0);
+                                    up.setTouchable(null);
+                                    up.setVisible(false);
                                 }
                             }
                         }
@@ -145,32 +147,38 @@ public class ShopStage extends MyStage {
             }
         };
 
-        lvlup = new MyLabel(game, "Szint fejlesztése", new Label.LabelStyle(game.getMyAssetManager().getFont(trebuc), Color.WHITE)) {
+        up = new OneSpriteStaticActor(game, LEVELUP_TEXTURE);
+
+        if(((FlightGame) game).getPlaneLevel() < 10) up.addListener(new ClickListener() {
+            @Override
+            public void clicked(InputEvent event, float x, float y) {
+                super.clicked(event, x, y);
+                if (((FlightGame) game).getPenz() >= getPriceForLevel(((FlightGame) game).getPlaneLevel())+1) { //pénz check
+                    ((FlightGame) game).setPenz(((FlightGame) game).getPenz() - getPriceForLevel(((FlightGame) game).getPlaneLevel()+1)); // pénz levétel
+                    ((FlightGame) game).setPlaneLevel(((FlightGame) game).getPlaneLevel() + 1); // szint up
+                    ((FlightGame) game).saveCoins(); //pénz mentése
+                    lvlcost.setText("Jelenlegi szint: " + ((FlightGame) game).getPlaneLevel() + "\nFejlesztés ára: " + getPriceForLevel(((FlightGame) game).getPlaneLevel()+1));
+                    if(game instanceof FlightGame) {
+                        if (!((FlightGame) game).isMuted()) {
+                            game.getMyAssetManager().getSound(CASH_SOUND).play();
+                        }
+                    }
+                }
+            }
+        });
+
+        up.setSize(up.getWidth()*0.75f,up.getHeight()*0.75f);
+        up.setPosition(getViewport().getWorldWidth()*0.65f/2-up.getWidth()/2,getViewport().getWorldHeight()*0.55f);
+        lvlcost.setPosition(getViewport().getWorldWidth()*0.65f/2-lvlcost.getWidth()/2, up.getY()-lvlcost.getHeight()*0.65f);
+
+        arlista = new OneSpriteStaticActor(game, PRICES_TEXTURE){
             @Override
             public void init() {
-                setAlignment(Align.bottomLeft);
-                setFontScale(0.4f);
-                setColor(1,1,1,0);
-                setPosition(getViewport().getWorldWidth()*0.23f, getViewport().getWorldHeight()*0.55f);
-                if(((FlightGame) game).getPlaneLevel() < 10) {
-                    addListener(new ClickListener() {
-                        @Override
-                        public void clicked(InputEvent event, float x, float y) {
-                            super.clicked(event, x, y);
-                            if (((FlightGame) game).getPenz() >= getPriceForLevel(((FlightGame) game).getPlaneLevel())+1) { //pénz check
-                                ((FlightGame) game).setPenz(((FlightGame) game).getPenz() - getPriceForLevel(((FlightGame) game).getPlaneLevel()+1)); // pénz levétel
-                                ((FlightGame) game).setPlaneLevel(((FlightGame) game).getPlaneLevel() + 1); // szint up
-                                ((FlightGame) game).saveCoins(); //pénz mentése
-                                lvlcost.setText("Jelenlegi szint: " + ((FlightGame) game).getPlaneLevel() + "\nFejlesztés ára: " + getPriceForLevel(((FlightGame) game).getPlaneLevel()+1));
-                                if(game instanceof FlightGame) {
-                                    if (!((FlightGame) game).isMuted()) {
-                                        game.getMyAssetManager().getSound(CASH_SOUND).play();
-                                    }
-                                }
-                            }
-                        }
-                    });
-                }
+                super.init();
+                setSize(getWidth()*0.8f, getHeight()*0.8f);
+                setPosition(getViewport().getWorldWidth()*0.65f, getViewport().getWorldHeight()/2-this.getHeight()*0.6f);
+                currentLevel.setSize(currentLevel.getWidth()*0.7f, currentLevel.getHeight()*0.7f);
+                currentLevel.setX(this.getX() - currentLevel.getWidth()*0.55f);
             }
         };
 
@@ -191,17 +199,6 @@ public class ShopStage extends MyStage {
                         game.setScreenBackByStackPopWithPreloadAssets(new MyPreLoadingStage(game));
                     }
                 });
-            }
-        };
-
-        arlista = new OneSpriteStaticActor(game, PRICES_TEXTURE){
-            @Override
-            public void init() {
-                super.init();
-                setSize(getWidth()*0.8f, getHeight()*0.8f);
-                setPosition(getViewport().getWorldWidth()*0.65f, getViewport().getWorldHeight()/2-this.getHeight()*0.6f);
-                currentLevel.setSize(currentLevel.getWidth()*0.7f, currentLevel.getHeight()*0.7f);
-                currentLevel.setX(this.getX() - currentLevel.getWidth()*0.55f);
             }
         };
 
@@ -236,15 +233,6 @@ public class ShopStage extends MyStage {
                 text.setY(this.getY() - text.getHeight() * 0.7f);
             }
         };
-
-        blackUp = new OneSpriteStaticActor(game, BLANK_TEXTURE){
-            @Override
-            public void init() {
-                super.init();
-                setPosition(lvlup.getX() - 10, lvlup.getY() - 10);
-                setSize(370,80);
-            }
-        };
     }
 
     private void addActors()
@@ -257,10 +245,9 @@ public class ShopStage extends MyStage {
         addActor(text);//LEÍRÁS A BOLTRÓL
 
         //-----HA MÁR ELÉRTE A 10-ES SZINTET AKKOR NEM ADOM HOZZÁ A FEJLESZTÉST-----
-        if(((FlightGame) game).getPlaneLevel() < 10) {
-            addActor(blackUp);
-            addActor(lvlup);
-        }
+        //if(((FlightGame) game).getPlaneLevel() < 10) {
+            addActor(up);
+        //}
 
         //-----VISSZA A MENÜBE ÉS A HÁTTERE-----
         addActor(blackMenu);
@@ -292,16 +279,15 @@ public class ShopStage extends MyStage {
         black.setAlpha(alpha * 0.4f);
         blackMenu.setAlpha(alpha/2);
         blackShopTitle.setAlpha(alpha/2);
-        blackUp.setAlpha(alpha/2);
 
         arlista.setAlpha(alpha);//ÁRLISTA
         coin.setAlpha(alpha);//PÉNZKIJELZŐ
         currentLevel.setAlpha(alpha);//SZINTKIJELZŐ
+        up.setAlpha(alpha);//LEVELUP
 
         //LABELEK
         shopTitle.setColor(1,1,1,alpha);
         text.setColor(1,1,1,alpha);
-        lvlup.setColor(1,1,1,alpha);
         menu.setColor(1,1,1,alpha);
         lvlcost.setColor(1,1,1,alpha);
     }
