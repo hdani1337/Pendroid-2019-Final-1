@@ -8,7 +8,9 @@ import com.badlogic.gdx.scenes.scene2d.utils.DragListener;
 import com.badlogic.gdx.utils.Align;
 
 import hu.cehessteg.flight.Actor.Bomb;
+import hu.cehessteg.flight.Actor.BombButton;
 import hu.cehessteg.flight.Actor.Coin;
+import hu.cehessteg.flight.Actor.ShootButton;
 import hu.cehessteg.flight.FlightGame;
 import hu.csanyzeg.master.MyBaseClasses.Assets.AssetList;
 import hu.csanyzeg.master.MyBaseClasses.Game.MyGame;
@@ -31,17 +33,18 @@ public class HudStage extends MyStage {
         assetList.addTexture(BLANK_TEXTURE);
         assetList.addTexture(PAUSE_TEXTURE);
         assetList.collectAssetDescriptor(Coin.class, assetList);
+        assetList.collectAssetDescriptor(ShootButton.class, assetList);
+        assetList.collectAssetDescriptor(BombButton.class, assetList);
     }
 
     OneSpriteStaticActor PositionController;
-    OneSpriteStaticActor ShootingController;
-    OneSpriteStaticActor BombingController;
+    ShootButton ShootingController;
+    BombButton BombingController;
     OneSpriteStaticActor pause;
 
     public static float planeY;
     public static float planeX = 250;
     public static boolean isRotateBack;
-    private float pElapsed;
 
     private Coin coin;
     private MyGroup bombGroup;
@@ -53,7 +56,6 @@ public class HudStage extends MyStage {
         addListeners();
         addActors();
         planeY = getViewport().getWorldHeight()/2;
-        pElapsed = elapsedTime;
 
         /**PÉNZ ELÉRÉSE A GAMEBŐL
          * TUDOM HOGY NEM SZABADNA CASTOLNI DE MŰKÖDIK!!
@@ -66,8 +68,8 @@ public class HudStage extends MyStage {
     private void assignment()
     {
         PositionController = new OneSpriteStaticActor(game, BLANK_TEXTURE);
-        ShootingController = new OneSpriteStaticActor(game, BLANK_TEXTURE);
-        BombingController = new OneSpriteStaticActor(game, BLANK_TEXTURE);
+        ShootingController = new ShootButton(game);
+        BombingController = new BombButton(game);
         pause = new OneSpriteStaticActor(game, PAUSE_TEXTURE);
         coin = new Coin(game);
         if(game instanceof FlightGame){
@@ -145,32 +147,6 @@ public class HudStage extends MyStage {
             }
         });
 
-        ShootingController.addListener(new ClickListener()
-        {
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                super.clicked(event, x, y);
-
-                if(elapsedTime > pElapsed + increment) {
-                    GameStage.isShoot = true;
-                    pElapsed = elapsedTime;
-                }
-            }
-        });
-
-        BombingController.addListener(new ClickListener()
-        {
-            @Override
-            public void clicked(InputEvent event, float x, float y) {
-                super.clicked(event, x, y);
-
-                if(elapsedTime > pElapsed + increment) {
-                    GameStage.isBomb = true;
-                    pElapsed = elapsedTime;
-                }
-            }
-        });
-
         pause.addListener(new ClickListener(){
             @Override
             public void clicked(InputEvent event, float x, float y) {
@@ -183,17 +159,17 @@ public class HudStage extends MyStage {
     private void setSizesAndPositions()
     {
         PositionController.setSize(getViewport().getWorldWidth()/2, getViewport().getWorldHeight());
-        PositionController.setAlpha(0.05f);
+        PositionController.setAlpha(0.01f);
 
-        ShootingController.setSize(getViewport().getWorldWidth()/2, getViewport().getWorldHeight()/2);
-        ShootingController.setX(PositionController.getX() + PositionController.getWidth());
-        ShootingController.setY(getViewport().getWorldHeight()/2);
-        ShootingController.setAlpha(0.05f);
+        ShootingController.setSize(ShootingController.getWidth()/2, ShootingController.getHeight()/2);
+        ShootingController.setX(getViewport().getWorldWidth()-ShootingController.getWidth());
+        ShootingController.setY(0);
+        ShootingController.setAlpha(1);
 
-        BombingController.setSize(getViewport().getWorldWidth()/2, getViewport().getWorldHeight()/2);
-        BombingController.setX(PositionController.getX() + PositionController.getWidth());
+        BombingController.setSize(BombingController.getWidth()/2, BombingController.getHeight()/2);
+        BombingController.setX(getViewport().getWorldWidth()-ShootingController.getWidth()*2);
         BombingController.setY(0);
-        BombingController.setAlpha(0.05f);
+        BombingController.setAlpha(1);
 
         pause.setPosition(getViewport().getWorldWidth()-pause.getWidth(), getViewport().getWorldHeight()-pause.getHeight());
         if(bombGroup != null) bombGroup.setPosition(0, getViewport().getWorldHeight()-50);
@@ -202,10 +178,10 @@ public class HudStage extends MyStage {
     private void addActors()
     {
         addActor(PositionController);
-        addActor(ShootingController);
-        addActor(BombingController);
         addActor(pause);
         addActor(coin);
+        addActor(ShootingController);
+        addActor(BombingController);
         if(bombGroup != null) addActor(bombGroup);
     }
 }
