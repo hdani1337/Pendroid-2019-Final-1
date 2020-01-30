@@ -34,7 +34,7 @@ public class Airplane extends OneSpriteStaticActor {
 
     public int hp;//Életerő
     public int level;//Szint
-    public int remainingBombs;//Hátramaradó bombák száma
+    public static int remainingBombs;//Hátramaradó bombák száma
     public boolean friendly;
     private static MyGame game;
 

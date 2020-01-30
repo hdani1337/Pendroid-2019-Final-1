@@ -21,14 +21,17 @@ import hu.csanyzeg.master.MyBaseClasses.Scene2D.ResponseViewport;
 import hu.csanyzeg.master.MyBaseClasses.UI.MyLabel;
 
 import static hu.cehessteg.flight.Stage.MenuStage.trebuc;
+import static hu.cehessteg.flight.Stage.OptionsStage.WIND_SOUND;
 
 public class ShopStage extends MyStage {
     public static final String BLANK_TEXTURE = "other/black.png";
     public static final String PRICES_TEXTURE = "other/arlista.png";
+    public static final String CASH_SOUND = "sounds/cash.mp3";
     public static AssetList assetList = new AssetList();
     static {
         assetList.addTexture(BLANK_TEXTURE);
-        assetList.addTexture(PRICES_TEXTURE);
+        assetList.addMusic(WIND_SOUND);
+        assetList.addSound(CASH_SOUND);
         assetList.addFont(trebuc, trebuc, 120, Color.WHITE, AssetList.CHARS);
     }
 
@@ -66,6 +69,12 @@ public class ShopStage extends MyStage {
         assignment();
         textBackgrounds();
         addActors();
+
+        if(game instanceof FlightGame){
+            if(!((FlightGame)game).isMuted()){
+                game.getMyAssetManager().getMusic(WIND_SOUND).play();
+            }
+        }
     }
 
     private void background(){
@@ -103,7 +112,7 @@ public class ShopStage extends MyStage {
             }
         };
 
-        lvlcost = new MyLabel(game, "Jelenlegi szint: " + ((FlightGame) game).getPlaneLevel() + "\nFejlesztés ára: " + (((FlightGame)game).getPlaneLevel()) * 25 ,new Label.LabelStyle(game.getMyAssetManager().getFont(trebuc), Color.WHITE)) {
+        lvlcost = new MyLabel(game, "Jelenlegi szint: " + ((FlightGame) game).getPlaneLevel() + "\nFejlesztés ára: " + (getPriceForLevel(((FlightGame) game).getPlaneLevel()+1)) ,new Label.LabelStyle(game.getMyAssetManager().getFont(trebuc), Color.WHITE)) {
             @Override
             public void init() {
                 setAlignment(Align.bottomLeft);
@@ -148,12 +157,16 @@ public class ShopStage extends MyStage {
                         @Override
                         public void clicked(InputEvent event, float x, float y) {
                             super.clicked(event, x, y);
-                            if (((FlightGame) game).getPenz() >= getPriceForLevel(((FlightGame) game).getPlaneLevel())) { //pénz check
-                                ((FlightGame) game).setPenz(((FlightGame) game).getPenz() - getPriceForLevel(((FlightGame) game).getPlaneLevel())); // pénz levétel
+                            if (((FlightGame) game).getPenz() >= getPriceForLevel(((FlightGame) game).getPlaneLevel())+1) { //pénz check
+                                ((FlightGame) game).setPenz(((FlightGame) game).getPenz() - getPriceForLevel(((FlightGame) game).getPlaneLevel()+1)); // pénz levétel
                                 ((FlightGame) game).setPlaneLevel(((FlightGame) game).getPlaneLevel() + 1); // szint up
                                 ((FlightGame) game).saveCoins(); //pénz mentése
-                                lvlcost.setText("Jelenlegi szint: " + ((FlightGame) game).getPlaneLevel() + "\nFejlesztés ára: " + getPriceForLevel(((FlightGame) game).getPlaneLevel()));
-
+                                lvlcost.setText("Jelenlegi szint: " + ((FlightGame) game).getPlaneLevel() + "\nFejlesztés ára: " + getPriceForLevel(((FlightGame) game).getPlaneLevel()+1));
+                                if(game instanceof FlightGame) {
+                                    if (!((FlightGame) game).isMuted()) {
+                                        game.getMyAssetManager().getSound(CASH_SOUND).play();
+                                    }
+                                }
                             }
                         }
                     });
@@ -306,7 +319,7 @@ public class ShopStage extends MyStage {
     private int getPriceForLevel(int level){
         int sum = 0;
         for (int i = 1; i < level; i++){
-            sum = sum+(level*level)*25;
+            sum = sum+(i*i)*25;
         }
         return sum;
     }

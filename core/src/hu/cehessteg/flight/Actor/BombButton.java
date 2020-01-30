@@ -64,7 +64,7 @@ public class BombButton extends OneSpriteStaticActor {
     private static String isReady(MyGame game){
         if(game != null){
             if(game instanceof FlightGame){
-                if(((FlightGame)game).getPlaneLevel() >= 2) return BOMB_READY;
+                if(((FlightGame)game).getPlaneLevel() >= 6) return BOMB_READY;
                 else return BOMB_DISABLED;
             }
             else return "";

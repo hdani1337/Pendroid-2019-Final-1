@@ -369,8 +369,8 @@ public class OptionsStage extends MyStage {
             else{
                 game.getMyAssetManager().getMusic(WIND_SOUND).stop();
             }
+            demoAirplane.setTexture(((FlightGame)game).getSkinID());//REPÜLŐ KINÉZETÉNEK BEÁLLÍTÁSA
         }
-        demoAirplane.setTexture(id);//REPÜLŐ KINÉZETÉNEK BEÁLLÍTÁSA
         fadeIn();//ÁTTŰNÉS
     }
 }
