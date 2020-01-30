@@ -224,7 +224,7 @@ public class InfoStage extends MyStage {
         zoliLabelTitle.setFontScale(0.3f);
         benceLabelTitle.setFontScale(0.3f);
         daniLabelTitle.setFontScale(0.3f);
-        davidLabelTitle.setFontScale(0.3f);
+        davidLabelTitle.setFontScale(0.30f);
 
         zoliLabel.setAlignment(0);
         benceLabel.setAlignment(0);
