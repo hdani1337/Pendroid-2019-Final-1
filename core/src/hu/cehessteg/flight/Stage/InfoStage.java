@@ -12,6 +12,7 @@ import java.util.ArrayList;
 
 import hu.cehessteg.flight.Actor.Cloud;
 import hu.cehessteg.flight.Actor.Sky;
+import hu.cehessteg.flight.Actor.Tutorial;
 import hu.cehessteg.flight.FlightGame;
 import hu.csanyzeg.master.MyBaseClasses.Assets.AssetList;
 import hu.csanyzeg.master.MyBaseClasses.Game.MyGame;
@@ -36,6 +37,7 @@ public class InfoStage extends MyStage {
     static {
         assetList.collectAssetDescriptor(Sky.class, assetList);
         assetList.collectAssetDescriptor(Cloud.class, assetList);
+        assetList.collectAssetDescriptor(Tutorial.class, assetList);
         assetList.addTexture(ZOLI_KEP);
         assetList.addTexture(BENCE_KEP);
         assetList.addTexture(DANI_KEP);
@@ -82,6 +84,8 @@ public class InfoStage extends MyStage {
     private MyLabel back;
     private OneSpriteStaticActor blackBack;
 
+    private Tutorial tutorial;
+
     public InfoStage(MyGame game) {
         super(new ResponseViewport(900),game);
         assignment();
@@ -98,6 +102,8 @@ public class InfoStage extends MyStage {
 
     void assignment()
     {
+        tutorial = new Tutorial(game);
+
         pictures();//KÉPEK
         blackBack = new OneSpriteStaticActor(game,BLANK_TEXTURE);
         names();//NEVEK
@@ -137,7 +143,20 @@ public class InfoStage extends MyStage {
         bence = new OneSpriteStaticActor(game,BENCE_KEP);
         dani = new OneSpriteStaticActor(game,DANI_KEP);
         david = new OneSpriteStaticActor(game,DAVID_KEP);
-        logo = new OneSpriteStaticActor(game,LOGO);
+        logo = new OneSpriteStaticActor(game,LOGO){
+            @Override
+            public void init() {
+                super.init();
+                addListener(new ClickListener(){
+                    @Override
+                    public void clicked(InputEvent event, float x, float y) {
+                        super.clicked(event, x, y);
+                        tutorial.clicked();
+                        System.out.println("asdsadsad");
+                    }
+                });
+            }
+        };
     }
 
     void names()
@@ -260,6 +279,8 @@ public class InfoStage extends MyStage {
         infoText.setPosition(getViewport().getWorldWidth()/2-infoText.getWidth()/2,getViewport().getWorldHeight()/2-infoText.getHeight()/1.5f);
 
         blackBack.setSize(back.getWidth()*0.48f, back.getHeight()*0.65f);
+
+        tutorial.setPosition(logo.getX()-tutorial.getWidth(),getViewport().getWorldHeight()/2-tutorial.getHeight()/2);
     }
 
     void addActors()
@@ -272,7 +293,6 @@ public class InfoStage extends MyStage {
         addActor(bence);
         addActor(dani);
         addActor(david);
-        addActor(logo);
 
         addActor(zoliLabel);
         addActor(benceLabel);
@@ -288,6 +308,9 @@ public class InfoStage extends MyStage {
 
         addActor(blackBack);
         addActor(back);
+
+        addActor(tutorial);
+        addActor(logo);
     }
 
 
