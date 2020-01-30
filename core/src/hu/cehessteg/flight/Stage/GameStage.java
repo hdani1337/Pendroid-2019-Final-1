@@ -12,6 +12,7 @@ import hu.cehessteg.flight.Actor.Bullet;
 import hu.cehessteg.flight.Actor.Cloud;
 import hu.cehessteg.flight.Actor.Enemy;
 import hu.cehessteg.flight.Actor.Explosion;
+import hu.cehessteg.flight.Actor.Fuel;
 import hu.cehessteg.flight.Actor.Health;
 import hu.cehessteg.flight.Actor.House;
 import hu.cehessteg.flight.Actor.PlusPoint;
@@ -50,6 +51,7 @@ public class GameStage extends MyStage {
 
     private Airplane airplane;//REPCSI
     private Sky sky;//ÉGBOLT
+    private Fuel fuel;//ÜZEMANYAG
 
     //STATIKUS VÁLTOZÓK
     public static boolean isAct;
@@ -92,6 +94,7 @@ public class GameStage extends MyStage {
         sky = new Sky(game);
         airplane = new Airplane(game);
         airplane.setFriendlyMode(false);
+        fuel = new Fuel(game);
 
         clouds = new ArrayList<>();
         enemies = new ArrayList<>();
@@ -185,6 +188,7 @@ public class GameStage extends MyStage {
         for (Enemy enemy : enemies) addActor(enemy);
         for (Health enemyHP : enemyHPs) addActor(enemyHP);
         for (Airplane friend : friends) addActor(friend);
+        addActor(fuel);
 
         addedExplosion = false;
     }
@@ -244,6 +248,7 @@ public class GameStage extends MyStage {
             repeatMusic();//A zene ismétlése kicsit cselesen
             bombOverlapsShelter();//Bombával eltaláljuk a katonai bunkert
             playerOverlapsShelter();//Játékos eltalálja a katonai bunkert
+            playerOverlapsFuel();//Játékos eltalálja a katonai bunkert
         }
         else{
             if(game instanceof FlightGame) {
@@ -447,6 +452,16 @@ public class GameStage extends MyStage {
                 friend.replace();
                 airplane.hp -= Math.random() * 20;
             }
+        }
+    }
+
+    private void playerOverlapsFuel(){
+        if(overlaps(airplane, fuel)){
+            fuel.replace();
+            if(100 + (airplane.level-1)*15 >= airplane.hp+20) {
+                airplane.hp += 20;
+            }
+            else airplane.hp = 100 + (airplane.level-1)*15;
         }
     }
 
