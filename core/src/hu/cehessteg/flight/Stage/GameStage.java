@@ -451,12 +451,18 @@ public class GameStage extends MyStage {
     }
 
     private float prevY;//A játékos előző pozíciója
+    private float prevX;//A játékos előző pozíciója
     private void movePlayer()
     {
         if(prevY != HudStage.planeY) {
             airplane.setY(HudStage.planeY - airplane.getHeight() / 2);
-            airplane.setRotation(((airplane.getY() / getViewport().getWorldHeight()) - 0.5f) * 90);
+            airplane.setRotation((((airplane.getY()+airplane.getHeight()/2) / getViewport().getWorldHeight()) - 0.5f) * 60);
             prevY = HudStage.planeY;
+        }
+
+        if(prevX != HudStage.planeX) {
+            airplane.setX(HudStage.planeX - airplane.getWidth()/2);
+            prevX = HudStage.planeX;
         }
 
         airplane.setRotateBack(HudStage.isRotateBack);

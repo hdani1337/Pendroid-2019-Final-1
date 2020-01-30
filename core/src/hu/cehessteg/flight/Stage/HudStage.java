@@ -39,6 +39,7 @@ public class HudStage extends MyStage {
     OneSpriteStaticActor pause;
 
     public static float planeY;
+    public static float planeX = 250;
     public static boolean isRotateBack;
     private float pElapsed;
 
@@ -127,6 +128,7 @@ public class HudStage extends MyStage {
             public void drag(InputEvent event, float x, float y, int pointer) {
                 super.drag(event, x, y, pointer);
                 planeY = y;
+                if(x < getViewport().getWorldWidth()*0.4f) planeX = x;
                 isRotateBack = false;
             }
 
